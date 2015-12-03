@@ -1,0 +1,588 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta name="viewport" content="width=320, user-scalable=no" />
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>Rugby</title>
+    <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="css/index.css" type="text/css" media="screen" title="no title" charset="utf-8">
+    <link rel="stylesheet" href="jquery.mobile-1.4.5.min.css" />
+    <script src="jquery.min.js" type="text/javascript"></script>
+    <script src="jquery.mobile-1.4.5.min.js"></script>
+    <script src="js/jquery.imagesloaded.min.js"></script>
+    <script src="js/imgcache.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/moment-with-locales.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+    
+    
+    <script type="text/javascript">
+    window.onerror=function(msg, url, linenumber){
+        alert('Error message: '+msg+'\nURL: '+url+'\nLine Number: '+linenumber)
+        return true
+    } 
+    </script>
+    <script src="js/jqm.autoComplete-1.5.2-min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/index.js"></script>
+    
+    
+</head>
+
+<body>
+    
+    
+    <div data-role="page" data-theme="a" id="wellcome_1">
+        <div role="main" class="ui-content">
+            <h1>My Rugby</h1>
+            <p>Bienvenidos a My Rugby.<br /> Para poder usar este App tenés<br /> que iniciar sesión con Facebook.</p>
+            <div class="sep"></div>
+            <p class="btn_1"><a href="#" id="login"><span class="ico_fbk"></span>Iniciar sesión con Facebook</a></p>
+            
+        </div>
+    </div>
+    <!-- wellcome 1 -->
+
+    <div data-role="page" data-theme="a" id="ini">
+        
+    </div>
+    <!-- ini -->
+
+
+    <div data-role="page" data-theme="a" id="wellcome_2">
+        <div role="main" class="ui-content">
+            <div class="img_perfil"><img alt="" src="images/default_profile.jpg" /></div>
+            <p><strong>BIENVENIDO!!!</strong></p>
+            <h2></h2>
+            <div class="sep"></div>
+            <p class="btn_1">
+                <a href="#partidos">OK!</a>
+            </p>
+            <p class="btn_1"><a href="#" id="logout" onclick="logout();"><span class="ico_fbk"></span>Cerrar sesión</a></p>
+        </div>
+    </div>
+    <!-- wellcome 2 -->
+
+
+    <div data-role="page" data-theme="a" id="partidos">
+        
+        <div data-role="panel" class="panel" data-position-fixed="true"  >
+            <div class="perfil">
+                <h2></h2>
+                <div class="data">
+                    <div class="puntos">
+                        <p>Puntos</p>
+                        <p class="value">0</p>
+                    </div>
+                    <div class="img"><div class="img_perfil"><img alt="" src="images/default_profile.jpg" /></div></div>
+                    <div class="puntos">
+                        <p>Partidos</p>
+                        <p class="value">0</p>
+                    </div>
+                </div>
+            </div>
+            <ul data-role="listview">
+                <li><a href="#partidos" id="get_partidos"><span class="ico-partidos"></span> Partidos</a></li>
+                <li><a href="#nuevo_partido"><span class="ico-nuevo_partidos"></span> Nuevo Partido</a></li>
+                <li><a href="#partidos" id="get_mis_partidos"><span class="ico-mis_partidos"></span> Mis Partidos</a></li>
+                <!--li><a href="#configuracion"><span class="ico-configuracion"></span> Configuración</a></li-->
+                <li><a onclick="showConfirmSalir(); return false;" href="#" clase="ico-close"><span class="ico-salir"></span> Salir</a></li>
+            </ul>
+        </div>
+        
+        <div data-role="header" data-position="fixed"  data-tap-toggle="false">
+            <a href="#"  class="navicon">Menu</a>
+            <h1>My Rugby</h1>
+            <div class="search_bar">
+                <div class="type">
+                    <span class="select">
+                        <span class="arrow"></span>
+                        <span class="ico ico-user"></span>
+                    </span>
+                    <a href="#by_usuario" data-role="none">Por usuario</a>
+                    <a href="#by_equipo" data-role="none">Por Equipo</a>
+                </div>
+                <div class="input">
+                    <input id="search" type="text" placeholder="Buscá por usuario..." />
+                </div>
+                <div class="button">
+                    <button type="button">Search</button>
+                </div>
+            </div>
+        </div>
+        <div role="main" class="ui-content">
+            <div id="partidos_list">
+            </div>
+            <a id="loadmore" href="#" data-role="none">Ver más</a>
+        </div>
+        <div  data-role="footer" data-position="fixed">
+            <a href="#nuevo_partido" class="whistle"></a>
+        </div>
+        
+    </div>
+    <!-- partidos -->
+    
+    
+    <div data-role="page" data-theme="a" id="nuevo_partido">
+        
+        <div data-role="panel" class="panel" data-position-fixed="true" >
+            <div class="perfil">
+                <h2></h2>
+                <div class="data">
+                    <div class="puntos">
+                        <p>Puntos</p>
+                        <p class="value">0</p>
+                    </div>
+                    <div class="img"><div class="img_perfil"><img alt="" src="images/default_profile.jpg" /></div></div>
+                    <div class="puntos">
+                        <p>Partidos</p>
+                        <p class="value">0</p>
+                    </div>
+                </div>
+            </div>
+            <ul data-role="listview">
+                <li><a href="#partidos" id="get_partidos"><span class="ico-partidos"></span> Partidos</a></li>
+                <li><a href="#nuevo_partido"><span class="ico-nuevo_partidos"></span> Nuevo Partido</a></li>
+                <li><a href="#partidos" id="get_mis_partidos"><span class="ico-mis_partidos"></span> Mis Partidos</a></li>
+                <!--li><a href="#configuracion"><span class="ico-configuracion"></span> Configuración</a></li-->
+                <li><a onclick="showConfirmSalir(); return false;" href="#" clase="ico-close"><span class="ico-salir"></span> Salir</a></li>
+            </ul>
+        </div>
+        
+        <div data-role="header" data-position="fixed">
+            <a href="#" data-icon="bars" data-iconpos="notext" class="navicon">Menu</a>
+            <h1>My Rugby</h1>
+        </div>
+        
+        <div role="main" class="ui-content">
+            
+            <h2>CREANDO NUEVO PARTIDO</h2>
+            
+            <p><input type="text" placeholder="Nombre Equipo" id="equipo_l"  /></p>
+            <div class="suggestions"><ul id="suggestions_l" data-role="listview" data-inset="true"></ul></div>
+        
+            <p><input type="text" placeholder="Nombre Equipo Visitante" id="equipo_v" /></p>
+            <div class="suggestions"><ul id="suggestions_v" data-role="listview" data-inset="true"></ul></div>
+    
+            <p class="last"><input type="text" placeholder="Info adicional del partido" id="info" /></p>
+            
+            
+            
+        </div>
+        
+        <div data-role="footer" data-position="fixed">
+            <p class="bottom_btn">
+                <a href="#" id="save_partido"><span class="ico-whistle"></span> EMPEZAR PARTIDO </a>
+            </p>
+        </div>
+        
+    </div>
+    <!-- nuevo partido -->
+
+
+    <div data-role="page" data-theme="a" id="eventos">
+        
+        <div data-role="panel" class="panel" data-position-fixed="true" >
+            <div class="perfil">
+                <h2></h2>
+                <div class="data">
+                    <div class="puntos">
+                        <p>Puntos</p>
+                        <p class="value">0</p>
+                    </div>
+                    <div class="img"><div class="img_perfil"><img alt="" src="images/default_profile.jpg" /></div></div>
+                    <div class="puntos">
+                        <p>Partidos</p>
+                        <p class="value">0</p>
+                    </div>
+                </div>
+            </div>
+            <ul data-role="listview">
+                <li><a href="#partidos" id="get_partidos"><span class="ico-partidos"></span> Partidos</a></li>
+                <li><a href="#nuevo_partido"><span class="ico-nuevo_partidos"></span> Nuevo Partido</a></li>
+                <li><a href="#partidos" id="get_mis_partidos"><span class="ico-mis_partidos"></span> Mis Partidos</a></li>
+                <!--li><a href="#configuracion"><span class="ico-configuracion"></span> Configuración</a></li-->
+                <li><a onclick="showConfirmSalir(); return false;" href="#" clase="ico-close"><span class="ico-salir"></span> Salir</a></li>
+            </ul>
+        </div>
+        
+        <div data-role="header" data-position="fixed">
+            <a href="#" data-icon="bars" data-iconpos="notext" class="navicon">Menu</a>
+            <h1>My Rugby</h1>
+        </div>
+        
+        
+        <div role="main" class="ui-content">
+            
+            <div class="top_data">
+                <div class="partido">
+                    <div class="club_name"><p></p></div>
+                    <div class="results"><p>0 &middot; 0</p></div>
+                    <div class="club_name"><p></p></div>
+                </div>
+
+                <div class="partido_d">
+                    <p class="time"><span class="minute"></span>:<span class="second"></span></p>
+                    <p class="part"><a href="#" id="control_tiempo" data-role="none">Terminar 1T</a><span>1T</span></p>
+                </div>
+            </div>
+            
+            <div class="eventos">
+                <div class="ui-grid-b">
+                    <a href="#agregar_evento" class="ui-block-a">
+                        <span class="ico-evento ico-evento-try"></span>
+                        <span class="desc">Try</span>
+                    </a>
+                    <a href="#agregar_evento" class="ui-block-b">
+                        <span class="ico-evento ico-evento-drop"></span>
+                        <span class="desc">Drop</span>
+                    </a>
+                    <a href="#agregar_evento" class="ui-block-c">
+                        <span class="ico-evento ico-evento-cambio"></span>
+                        <span class="desc">Cambio</span>
+                    </a>
+                </div><!-- /grid-b -->
+                <div class="ui-grid-b">
+                    <a href="#agregar_evento" class="ui-block-a">
+                        <span class="ico-evento ico-evento-scrum"></span>
+                        <span class="desc">Scrum</span>
+                    </a>
+                    <a href="#agregar_evento" class="ui-block-b">
+                        <span class="ico-evento ico-evento-line"></span>
+                        <span class="desc">Line</span>
+                    </a>
+                    <a href="#agregar_evento" class="ui-block-c">
+                        <span class="ico-evento ico-evento-pass_fw"></span>
+                        <span class="desc">Pass Fw</span>
+                    </a>
+                </div><!-- /grid-b -->
+                <div class="ui-grid-b">
+                    <a href="#agregar_evento" class="ui-block-a">
+                        <span class="ico-evento ico-evento-penal"></span>
+                        <span class="desc">Penal</span>
+                    </a>
+                    <a href="#agregar_evento" class="ui-block-b">
+                        <span class="ico-evento ico-evento-knock_on"></span>
+                        <span class="desc">Knock On</span>
+                    </a>
+                    <a href="#agregar_evento" class="ui-block-c">
+                        <span class="ico-evento ico-evento-tarjeta"></span>
+                        <span class="desc">Tarjeta</span>
+                    </a>
+                </div><!-- /grid-b -->
+            </div>
+        </div>
+        
+    </div>
+    <!-- eventos -->
+
+
+    <div data-role="page" data-theme="a" id="agregar_evento">
+        
+        <div data-role="panel" class="panel" data-position-fixed="true" >
+            <div class="perfil">
+                <h2></h2>
+                <div class="data">
+                    <div class="puntos">
+                        <p>Puntos</p>
+                        <p class="value">0</p>
+                    </div>
+                    <div class="img"><div class="img_perfil"><img alt="" src="images/default_profile.jpg" /></div></div>
+                    <div class="puntos">
+                        <p>Partidos</p>
+                        <p class="value">0</p>
+                    </div>
+                </div>
+            </div>
+            <ul data-role="listview">
+                <li><a href="#partidos" id="get_partidos"><span class="ico-partidos"></span> Partidos</a></li>
+                <li><a href="#nuevo_partido"><span class="ico-nuevo_partidos"></span> Nuevo Partido</a></li>
+                <li><a href="#partidos" id="get_mis_partidos"><span class="ico-mis_partidos"></span> Mis Partidos</a></li>
+                <!--li><a href="#configuracion"><span class="ico-configuracion"></span> Configuración</a></li-->
+                <li><a onclick="showConfirmSalir(); return false;" href="#" clase="ico-close"><span class="ico-salir"></span> Salir</a></li>
+            </ul>
+        </div>
+        
+        <div data-role="header" data-position="fixed">
+            <a href="#" data-icon="bars" data-iconpos="notext" class="navicon">Menu</a>
+            <h1>My Rugby</h1>
+        </div>
+        
+        <div role="main" class="ui-content">
+            
+            <div class="top_data">
+                <div class="partido">
+                    <div class="club_name"><p>-</p></div>
+                    <div class="results"><p>0 &middot; 0</p></div>
+                    <div class="club_name"><p>-</p></div>
+                </div>
+
+                <div class="partido_d">
+                    <p class="time"><span class="minute"></span>:<span class="second"></span></p>
+                    <p class="part" id="part_time">1T</p>
+                </div>
+            </div>
+            
+            <div class="evento">
+                <span class="evento_img"></span>
+                <span class="desc">Drop</span>
+            </div>
+            
+            <div class="equipo">
+                <div class="club_name"><p>-</p></div>
+                <div class="select">
+
+                    <div data-role="fieldcontain">
+                        <select name="sel_team" id="sel_team" data-role="slider">
+                            <option value="l"></option>
+                            <option value="v"></option>
+                        </select> 
+                    </div>
+                    
+                </div>
+                <div class="club_name"><p>-</p></div>
+            </div>
+            
+            <div class="conversion">
+                <p class="titulo">¿Convertido?</p>
+                <div class="opcion"><p>No</p></div>
+                <div class="select">
+
+                    <div data-role="fieldcontain">
+                        <select name="conversion" id="conversion" data-role="slider">
+                            <option value="n"></option>
+                            <option value="s"></option>
+                        </select> 
+                    </div>
+                    
+                </div>
+                <div class="opcion"><p>Si</p></div>
+            </div>
+            
+            <div class="penal_eventos">
+                
+                <div class="ui-grid-b">
+                    <a href="#agregar_evento" class="ui-block-a">
+                        <span class="ico-evento ico-evento-palos"></span>
+                        <span class="desc">Palos</span>
+                    </a>
+                    <a href="#agregar_evento" class="ui-block-b">
+                        <span class="ico-evento ico-evento-line"></span>
+                        <span class="desc">Line</span>
+                    </a>
+                    <a href="#agregar_evento" class="ui-block-c">
+                        <span class="ico-evento ico-evento-scrum"></span>
+                        <span class="desc">Scrum</span>
+                    </a>
+                </div><!-- /grid-b -->
+
+            </div>
+            
+            <div class="minuto">
+                <a href="#" class="control c_menos"> - </a>
+                <span class="result"> 0' </span>
+                <a href="#" class="control c_mas"> + </a>
+            </div>
+            
+            <p class="bottom_2btns">
+                <a href="#eventos" class="l"> Cancelar </a>
+                <a href="#" class="r" id="marcar"> Marcar </a>
+            </p>
+            
+        </div>
+
+    </div>
+    <!-- agregar evento -->
+
+    
+    <div data-role="page" data-theme="a" id="partido_eventos">
+        
+        <div data-role="panel" class="panel" data-position-fixed="true" >
+            <div class="perfil">
+                <h2></h2>
+                <div class="data">
+                    <div class="puntos">
+                        <p>Puntos</p>
+                        <p class="value">0</p>
+                    </div>
+                    <div class="img"><div class="img_perfil"><img alt="" src="images/default_profile.jpg" /></div></div>
+                    <div class="puntos">
+                        <p>Partidos</p>
+                        <p class="value">0</p>
+                    </div>
+                </div>
+            </div>
+            <ul data-role="listview">
+                <li><a href="#partidos" id="get_partidos"><span class="ico-partidos"></span> Partidos</a></li>
+                <li><a href="#nuevo_partido"><span class="ico-nuevo_partidos"></span> Nuevo Partido</a></li>
+                <li><a href="#partidos" id="get_mis_partidos"><span class="ico-mis_partidos"></span> Mis Partidos</a></li>
+                <!--li><a href="#configuracion"><span class="ico-configuracion"></span> Configuración</a></li-->
+                <li><a onclick="showConfirmSalir(); return false;" href="#" clase="ico-close"><span class="ico-salir"></span> Salir</a></li>
+            </ul>
+        </div>
+        
+        <div data-role="header" data-position="fixed">
+            <a href="#" data-icon="bars" data-iconpos="notext" class="navicon">Menu</a>
+            <h1>My Rugby</h1>
+        </div>
+        
+        <div role="main" class="ui-content">
+            
+            <div class="top_data">
+                <div class="date"><a href="#eventos" class="back" data-role="none">Volver</a><p></p></div>
+                <div class="partido">
+                    <div class="club_name"><p></p></div>
+                    <div class="results"><p>0 &middot; 0</p></div>
+                    <div class="club_name"><p></p></div>
+                </div>
+            </div>
+            
+            <div class="timeline_1 timeline">
+                <div class="ini">
+                    <p>Comienza 1T</p>
+                    <div class="line"></div>
+                </div>
+                <div class="eventos" id="eventos_list_1">
+                    
+                </div>
+                <div class="fin">
+                    <div class="line"></div>
+                    <p>Fin del 1T</p>
+                </div>
+            </div>
+            
+            <div class="timeline_2 timeline">
+                <div class="ini">
+                    <p>Comienza 2T</p>
+                    <div class="line"></div>
+                </div>
+                <div class="eventos" id="eventos_list_2">
+                    
+                </div>
+                <div class="fin">
+                    <div class="line"></div>
+                    <p>Fin del partido</p>
+                    <p class="btn_back"><a href="#eventos" class="back" data-role="none">Volver</a></p>
+                </div>
+            </div>
+
+
+            <div class="estadisticas">
+                <h2>Estadísticas</h2>
+                <ul id="estadisticas_list">
+                    
+                </ul>
+            </div>
+
+            <div class="bottom_datos_perfil">
+                <div class="title">
+                    <p></p>
+                    <span class="arrow"></span>
+                </div>
+                <div class="datos_perfil">
+                    
+                    <div class="name">
+                        <p></p>
+                        <div class="rating">
+                            <a href="#" class="t"></a>
+                            <a href="#" class="t"></a>
+                            <a href="#" class="t"></a>
+                            <a href="#" class="f"></a>
+                            <a href="#" class="f"></a>
+                        </div>
+                    </div>
+                    <div class="img"><div class="img_perfil"><img alt="" src="images/default_profile.jpg" /></div></div>
+                    <div class="values">
+                        <p><span class="v">0</span> Partidos </p>
+                        <p><span class="v">0</span> Puntos </p>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+        
+        
+        <!--canvas para share-->
+        <canvas id="canvas_share" class="ui-content">
+            
+            <div class="top_data">
+                <div class="date"><a href="#eventos" class="back" data-role="none">Volver</a><p></p></div>
+                <div class="partido">
+                    <div class="club_name"><p></p></div>
+                    <div class="results"><p>0 &middot; 0</p></div>
+                    <div class="club_name"><p></p></div>
+                </div>
+            </div>
+            
+            <div class="timeline_1 timeline">
+                <div class="ini">
+                    <p>Comienza 1T</p>
+                    <div class="line"></div>
+                </div>
+                <div class="eventos" id="eventos_list_1">
+                    
+                </div>
+                <div class="fin">
+                    <div class="line"></div>
+                    <p>Fin del 1T</p>
+                </div>
+            </div>
+            
+            <div class="timeline_2 timeline">
+                <div class="ini">
+                    <p>Comienza 2T</p>
+                    <div class="line"></div>
+                </div>
+                <div class="eventos" id="eventos_list_2">
+                    
+                </div>
+                <div class="fin">
+                    <div class="line"></div>
+                    <p>Fin del partido</p>
+                    <p class="btn_back"><a href="#eventos" class="back" data-role="none">Volver</a></p>
+                </div>
+            </div>
+
+
+            <div class="estadisticas">
+                <h2>Estadísticas</h2>
+                <ul id="estadisticas_list">
+                    
+                </ul>
+            </div>
+
+            <div class="bottom_datos_perfil">
+                <div class="title">
+                    <p></p>
+                    <span class="arrow"></span>
+                </div>
+                <div class="datos_perfil">
+                    
+                    <div class="name">
+                        <p></p>
+                        <div class="rating">
+                            <a href="#" class="t"></a>
+                            <a href="#" class="t"></a>
+                            <a href="#" class="t"></a>
+                            <a href="#" class="f"></a>
+                            <a href="#" class="f"></a>
+                        </div>
+                    </div>
+                    <div class="img"><div class="img_perfil"><img alt="" src="images/default_profile.jpg" /></div></div>
+                    <div class="values">
+                        <p><span class="v">0</span> Partidos </p>
+                        <p><span class="v">0</span> Puntos </p>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+        
+    </canvas>
+    <!-- partido eventos -->
+
+    
+    <div id="fb-root"></div>
+
+</body>
+
+</html>

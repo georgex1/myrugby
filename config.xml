@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+    <widget xmlns = "http://www.w3.org/ns/widgets"
+        xmlns:gap   = "http://phonegap.com/ns/1.0"
+        xmlns:android   = "http://schemas.android.com/apk/res/android"
+        id        = "com.pasto.myrugby"
+        versionCode="2"
+        version   = "1.0.2">
+
+
+
+        <preference name="phonegap-version" value="cli-5.2.0" />
+
+        <name>My Rugby</name>
+        <description>App de Rugby
+        </description>
+        <author href="" email="agustin.mende@thepastoapps.com">Agustin</author>
+
+
+        <preference name="orientation" value="portrait" />
+        <preference name="target-device" value="universal" />
+        <preference name="fullscreen" value="false" />
+        <preference name="webviewbounce" value="true" />
+        <preference name="prerendered-icon" value="true" />
+        <preference name="stay-in-webview" value="true" />
+        <preference name="ios-statusbarstyle" value="default" />
+        <preference name="detect-data-types" value="true" />
+        <preference name="exit-on-suspend" value="true" />
+        <preference name="show-splash-screen-spinner" value="true" />
+        <preference name="auto-hide-splash-screen" value="true" />
+        <preference name="disable-cursor" value="true" />
+        <preference name="android-minSdkVersion" value="7" />
+        <preference name="android-targetSdkVersion" value="19" />
+        <preference name="android-installLocation" value="internalOnly" />
+        <preference name="splash-screen-duration" value="1" />
+        <preference name="load-url-timeout" value="0" />
+        <preference name="android-windowSoftInputMode" value="adjustResize" />
+        <preference name="showmessageinnotification" value="true" />
+        <preference name="defaultnotificationmessage" value="Hay Ekipo" />
+        
+        <preference name="EnableViewportScale" value="true" />
+        <preference name="MediaPlaybackRequiresUserAction" value="true" />
+        <preference name="AllowInlineMediaPlayback" value="true" />
+        <preference name="BackupWebStorage" value="cloud" />
+        <preference name="TopActivityIndicator" value="gray" />
+        <preference name="KeyboardDisplayRequiresUserAction" value="true" />
+        <preference name="HideKeyboardFormAccessoryBar" value="true" />
+        <preference name="SuppressesIncrementalRendering" value="true" />
+        <preference name="SplashScreenDelay" value="5000" />
+        <preference name="ErrorUrl" value=""/>
+        <preference name="BackgroundColor" value="0x000000"/>
+        <preference name="KeepRunning" value="true"/>
+        <preference name="DisallowOverscroll" value="true"/>
+        <preference name="LoadingDialog" value=","/> 
+        <preference name="LoadUrlTimeoutValue" value="20000" />
+        
+        <gap:platform name="android" />
+        <gap:platform name="ios" />
+        
+        <feature name="http://api.phonegap.com/1.0/media"/>
+        <feature name="http://api.phonegap.com/1.0/network"/>
+                
+                
+                
+        <gap:plugin name="cordova-plugin-whitelist" source="npm" /> 
+        <gap:plugin name="cordova-plugin-camera" source="npm" version="1.2.0" />
+        <gap:plugin name="cordova-plugin-console" source="npm" version="1.0.1" />
+        <gap:plugin name="cordova-plugin-device" source="npm" version="1.0.1" />
+        <gap:plugin name="cordova-plugin-dialogs" source="npm" version="1.1.1" />
+        <gap:plugin name="cordova-plugin-file" source="npm" version="3.0.0" />
+        <gap:plugin name="cordova-plugin-file-transfer" source="npm" version="1.3.0" />
+        <gap:plugin name="cordova-plugin-inappbrowser" source="npm" version="1.0.1" />
+        <gap:plugin name="cordova-plugin-media" source="npm" version="1.0.1" />
+        <gap:plugin name="cordova-plugin-media-capture" source="npm" version="1.0.1" />
+        <gap:plugin name="cordova-plugin-network-information" source="npm" version="1.0.1" />
+        <gap:plugin name="cordova-plugin-splashscreen" source="npm" version="2.1.0" />
+        <gap:plugin name="com.jamiestarke.webviewdebug" source="pgb" version="1.0.8" />
+        <gap:plugin name="com.verso.cordova.clipboard" source="pgb" version="0.1.0" />
+        <gap:plugin name="cordova-admob" source="npm" version="4.1.6" />
+        <gap:plugin name="de.appplant.cordova.plugin.email-composer-edited" source="pgb" version="0.8.2" />
+        <gap:plugin name="net.tunts.webintent" source="pgb" version="0.2.1" />
+        <gap:plugin name="net.yoik.cordova.plugins.screenorientation" source="pgb" version="1.1.1" />
+        <gap:plugin name="com.phonegap.plugins.pushplugin" version="2.5.0" />
+        <plugin name="org.devgeeks.canvas2imageplugin" spec="0.6.0" source="pgb" />
+        
+		
+        <gap:splash src="images/mdpi.png" gap:platform="android" gap:density="mdpi" />	
+        <gap:splash src="images/hdpi.png" gap:platform="android" gap:density="hdpi" />	
+        <gap:splash src="images/hdpi.png" gap:platform="android" gap:density="xhdpi" />
+        
+        <icon src="images/ico.png" />
+
+        <icon src="images/ico.png" gap:platform="ios" width="57" height="57" /> 
+        <icon src="images/ico.png" gap:platform="ios" width="72" height="72" /> 
+        <icon src="images/ico.png" gap:platform="ios" width="96" height="96" /> 
+        <icon src="images/ico.png" gap:platform="ios" width="144" height="144" /> 
+        
+        <icon src="images/ico_48.png" gap:platform="android" gap:density="ldpi" />	
+        <icon src="images/ico_48.png" gap:platform="android" gap:density="mdpi" />	
+        <icon src="images/ico_72.png" gap:platform="android" gap:density="hdpi" />	
+        <icon src="images/ico_96.png" gap:platform="android" gap:density="xhdpi" />
+        <icon src="images/ico.png" gap:platform="android" gap:density="xxhdpi" />
+        
+        
+        
+        <gap:plugin name="com.phonegap.plugins.facebookconnect" source="pgb" version="0.9.0"> 
+            <param name="APP_ID" value="886077731441644" />  
+            <param name="APP_NAME" value="MyRugby" />
+        </gap:plugin> 
+        
+        <allow-navigation href="*" />
+        <allow-intent href="*" />
+        <access origin="*" />
+
+        
+</widget>

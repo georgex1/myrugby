@@ -1,0 +1,1739 @@
+/* GENERAL */
+
+
+.ui-header, ui-footer {
+    overflow-x: visible !important;
+}
+
+html.ui-mobile body {
+    font-family: Roboto;
+    
+}
+
+html.ui-mobile body .ui-page, 
+html.ui-mobile body .ui-content {
+    
+}
+
+.ui-page-theme-a .sep {
+    background: url(../images/sprite.png) no-repeat -5px -33px;
+    width: 30px;
+    height: 10px;
+    overflow: hidden;
+    text-indent: -999em;
+    margin: 10px auto;
+}
+
+.ui-page-theme-a .btn_1 a {
+    border: 2px solid #000;
+    border-radius: 5px;
+    display: block;
+    width: 240px;
+    line-height: 40px;
+    color: #000;
+    margin: 0 auto;
+    text-decoration: none;
+    font-size: .9em;
+    text-align: center;
+}
+
+.ui-page-theme-a .btn_1 a:hover,
+.ui-page-theme-a .btn_1 a:visited,
+.ui-page-theme-a .btn_1 a:active {
+    color: #000;
+    text-decoration: none;
+}
+
+.ui-page-theme-a .img_perfil {
+    border: solid 6px #49ba92;
+    
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    overflow: hidden;
+    margin: 0 auto;
+    position: relative;
+    background-image: url(../images/default_profile.jpg);
+    background-size: cover;
+    background-position: center center;
+    display: block;
+    z-index: 1;
+}
+
+.ui-page-theme-a .img_perfil img {
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    position: relative;
+    left: 0;
+    top: 0;
+    border-radius: 50%;
+    z-index: 0;
+    display: block;
+    overflow: hidden;
+}
+
+/* HEADER */
+
+.ui-header {
+    background: #242834 !important;
+}
+
+html body div a.navicon {
+    
+    border: none !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+    border-color: #242834 !important;
+    
+    border-radius: 0 !important;
+    
+    position: absolute;
+    float: left;
+    z-index: 999;
+    
+    padding: 0 !important;
+    
+    background: url(../images/navicon.png) no-repeat !important;
+    
+    background-size: contain;
+    
+    overflow: hidden;
+    text-indent: -999em;
+    width: 22px !important;
+    height: 21px !important;
+    display: block;
+    
+    margin: 8px 0 0 2px !important;
+    
+}
+
+html body div a.navicon:after {
+    box-shadow: none !important;
+    border: none !important;
+    background-color:  none  !important;
+    display: none !important;
+}
+
+.ui-header h1 {
+    background: url(../images/logo_header_b.png) no-repeat;
+    background-position: center center;
+    background-size: contain;
+    text-indent: -999em;
+    overflow: hidden;
+    margin: 5px auto !important;
+    height: 2em !important;
+    padding: 0 !important;
+    position: relative;
+    z-index: 0;
+}
+
+.ui-header .search_bar {
+    background: #fff;
+    height: 80px;
+}
+
+.ui-header .search_bar .type {
+    float: left;
+    margin: 0;
+    width: 20%;
+    height: 100%;
+}
+
+.ui-header .search_bar .type span.select {
+    display: block;
+    width: 99%;
+    height: 99%;
+    position: relative;
+    overflow: hidden;
+    background: #fff;
+    cursor: pointer;
+}
+
+.ui-header .search_bar .type span span.arrow {
+    display: block;
+    background: url(../images/sprite.png) no-repeat -46px -185px;
+    width: 12px;
+    height: 10px;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    margin-top: -6px;
+}
+
+.ui-header .search_bar .type span span.ico {
+    margin: 20px 20% 0;
+    display: block;
+    width: 50%;
+    height: 40px;
+    
+    
+}
+
+.ui-header .search_bar .type span span.ico-user {
+    background: url(../images/user.png) no-repeat center center;
+    background-position: 0 0;
+    background-size: contain;
+}
+
+.ui-header .search_bar .type span span.ico-equipo {
+    background: url(../images/equipo.png) no-repeat center center;
+    background-position: 0 0;
+    background-size: contain;
+}
+
+.ui-header .search_bar .type a {
+    display: none;
+    width: 125px;
+    height: 99%;
+    position: relative;
+    overflow: hidden;
+    background: #fff;
+    color: #333;
+    line-height: 80px;
+    padding: 0 20px;
+    text-decoration: none;
+}
+
+.ui-header .search_bar .input {
+    float: left;
+    margin: 0;
+    width: 60%;
+    height: 100%;
+}
+
+.ui-header .search_bar .button {
+    float: left;
+    width: 20%;
+    height: 100%;
+    background: #49ba92;
+    position: relative;
+}
+
+.ui-header .search_bar .input .ui-input-text {
+    box-shadow: none;
+    border: none;
+    margin: 22px 0 0;
+}
+
+.ui-header .search_bar .input input {
+    box-shadow: none;
+    border: none;
+    font-size: 1em;
+}
+
+.ui-header .search_bar .button button {
+    background: url(../images/sprite.png) no-repeat;
+    background-position: -3px -108px;
+    border: none;
+    width: 50px;
+    height: 50px;
+    text-indent: -999em;
+    overflow: hidden;
+    box-shadow: none;
+    padding: 0;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -25px 0 0 -25px;
+}
+
+
+
+
+/* PANEL */
+
+.ui-page .ui-panel {
+    background-color: #242834 !important;
+    color: #fff;
+}
+
+.ui-page .ui-panel .perfil {
+    color: #fff;
+    text-shadow: none;
+}
+
+.ui-page .ui-panel .perfil h2 {
+    font-weight: normal;
+}
+
+.ui-page .ui-panel .perfil .data {
+    overflow: hidden;
+    height: 150px;
+}
+
+.ui-page .ui-panel .perfil .data .puntos {
+    width: 30%;
+    float: left;
+    font-size: .9em;
+    text-align: center;
+    margin: 20px 0 0;
+}
+
+.ui-page .ui-panel .perfil .data .puntos p {
+    margin: 0 0 10px;
+}
+
+.ui-page .ui-panel .perfil .data .puntos p.value {
+    color: #49ba92;
+    font-size: 1.2em;
+    font-weight: 700;
+}
+
+.ui-page .ui-panel .perfil .data .img {
+    width: 40%;
+    float: left;
+    height: 90px;
+    margin: 0;
+    position: relative;
+}
+
+.ui-page .ui-panel .perfil .data .img_perfil {
+    width: 80px;
+    height: 80px;
+    border: solid 4px #49ba92;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -45px 0 0 -45px;
+    overflow: hidden;
+    background-image: url(../images/default_profile.jpg);
+    background-size: cover;
+    background-position: center center;
+}
+
+
+
+.ui-page .ui-panel .ui-listview {
+    background: none;
+}
+
+.ui-page .ui-panel .ui-listview li {
+    background: none;
+    padding: 10px 0;
+}
+
+.ui-page .ui-panel .ui-listview li a.ui-btn {
+    background: none;
+    text-shadow: none;
+    color: #fff;
+    font-weight: normal;
+    font-size: 1em;
+    border: 0;
+    position: relative;
+    padding: 10px 10px 10px 100px;
+}
+
+.ui-page .ui-panel .ui-listview li a.ui-btn-active  ,
+.ui-page .ui-panel .ui-listview li a:hover  {
+    color: #49ba92;
+}
+
+.ui-page .ui-panel .ui-listview li a:before {
+    background: #49ba92;
+    width: 8px;
+    height: 100%;
+}
+
+.ui-page .ui-panel .ui-listview li a.ui-btn:after {
+    background: none;
+    display: none;
+}
+
+.ui-page .ui-panel .ui-listview li span {
+    background: url(../images/sprite.png) no-repeat;
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    margin: -20px 0 0 25px;
+}
+
+.ui-page .ui-panel .ui-listview li span.ico-partidos {
+    background-position: -202px 2px;
+}
+.ui-page .ui-panel .ui-listview li span.ico-nuevo_partidos {
+    background-position: -202px -75px;
+}
+.ui-page .ui-panel .ui-listview li span.ico-mis_partidos {
+    background-position: -202px -157px;
+}
+.ui-page .ui-panel .ui-listview li span.ico-configuracion {
+    background-position: -202px -236px;
+}
+.ui-page .ui-panel .ui-listview li span.ico-salir {
+    background-position: -202px -288px;
+}
+
+.ui-page .ui-panel .ui-listview li a.ui-btn-active span.ico-partidos ,
+.ui-page .ui-panel .ui-listview li a:hover span.ico-partidos {
+    background-position: -252px 2px;
+}
+.ui-page .ui-panel .ui-listview li a:hover span.ico-nuevo_partidos ,
+.ui-page .ui-panel .ui-listview li a.ui-btn-active span.ico-nuevo_partidos {
+    background-position: -252px -75px;
+}
+.ui-page .ui-panel .ui-listview li a:hover span.ico-mis_partidos ,
+.ui-page .ui-panel .ui-listview li a.ui-btn-active span.ico-mis_partidos {
+    background-position: -252px -157px;
+}
+.ui-page .ui-panel .ui-listview li a:hover span.ico-configuracion ,
+.ui-page .ui-panel .ui-listview li a.ui-btn-active span.ico-configuracion {
+    background-position: -252px -236px;
+}
+.ui-page .ui-panel .ui-listview li a:hover span.ico-salir ,
+.ui-page .ui-panel .ui-listview li a.ui-btn-active span.ico-salir {
+    background-position: -252px -288px;
+}
+
+
+
+/* LIST BOXS */
+
+.list_box {
+    position: relative;
+}
+
+.list_box_last {
+    margin: 0 ;
+}
+
+.list_box h4 {
+    text-align: center;
+    margin: 1em 0;
+}
+
+.list_box ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.list_box ul li {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    background: #fff;
+    box-shadow: 0 0 2px #ccc;
+    height: 90px;
+    overflow: hidden;
+}
+
+.list_box ul li a {
+    text-shadow: none;
+    color: #333 !important;
+    font-weight: normal;
+    display: block;
+    overflow: hidden;
+    text-decoration: none !important;
+}
+
+.list_box ul li a:hover {
+    background: #49ba92 !important;
+    color: #fff !important;
+}
+
+.list_box ul li .img {
+    width: 20%;
+    float: left;
+    height: 90px;
+    margin: 0;
+    position: relative;
+    display: block;
+}
+
+.list_box ul li .img .img_perfil {
+    width: 65px;
+    height: 65px;
+    border: solid 2px #49ba92;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -38px 0 0 -38px;
+    display: block;
+    overflow: hidden;
+    background-image: url(../images/default_profile.jpg);
+    background-size: cover;
+    background-position: center center;
+}
+
+.list_box ul li a:hover .img .img_perfil {
+    border: solid 2px #fff;
+}
+
+.list_box ul li .club_name {
+    width: 30%;
+    float: left;
+    height: 90px;
+    text-align: center;
+    display: table;
+    table-layout: fixed;
+}
+
+.list_box ul li .club_name p {
+    vertical-align: middle;
+    display: table-cell;
+    text-overflow: ellipsis;
+}
+
+.list_box ul li .results {
+    width: 20%;
+    float: left;
+    height: 90px;
+    text-align: center;
+    line-height: 90px;
+    font-weight: 700;
+    display: block;
+}
+
+
+#partidos #loadmore {
+    float: right;
+    text-shadow: none;
+    text-decoration: none;
+    display: block;
+    width: 160px;
+    line-height: 50px;
+    background: #49ba92;
+    color: #fff;
+    text-align: center;
+    margin: 20px 0 0;
+    border-radius: 10px;
+}
+
+
+
+@media screen and (max-width: 640px) {
+    .list_box ul li .img .img_perfil {
+        width: 45px;
+        height: 45px;
+        border: solid 2px #49ba92;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin: -30px 0 0 -30px;
+        display: block;
+        overflow: hidden;
+    }
+    .list_box ul li .club_name p {
+        font-size: .8em;
+    }
+}
+
+
+@media screen and (max-width: 480px) {
+    .list_box ul li .img .img_perfil {
+        width: 30px;
+        height: 30px;
+        border: solid 2px #49ba92;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin: -20px 0 0 -20px;
+        overflow: hidden;
+    }
+    .list_box ul li .club_name p {
+        font-size: .8em;
+    }
+}
+
+/* TOP DATA */
+
+.top_data {
+    margin: -1em -1em 0 -1em;
+}
+
+.top_data .partido {
+    overflow: hidden;
+    background: #efefef;
+}
+
+
+.top_data .partido .club_name {
+    width: 35%;
+    float: left;
+    height: 90px;
+    text-align: center;
+    display: table;
+    font-size: .8em;
+    table-layout: fixed;
+}
+
+.top_data .partido .club_name p {
+    vertical-align: middle;
+    display: table-cell;
+    text-overflow: ellipsis;
+}
+
+.top_data .partido .results {
+    width: 30%;
+    float: left;
+    height: 90px;
+    text-align: center;
+    line-height: 90px;
+    font-weight: 700;
+    display: table;
+}
+
+.top_data .partido p {
+    vertical-align: middle;
+    display: table-cell;
+    text-align: center;
+    padding: 0 20px;
+}
+
+.top_data .partido_d {
+    overflow: hidden;
+    height: 30px;
+}
+
+.top_data .partido_d .time {
+    width: 28%;
+    float: left;
+    color: #fff;
+    font-size: 1em;
+    line-height: 30px;
+    background: #242834;
+    text-align: left;
+    padding: 0 0 0 2%;
+    margin: 0;
+    text-shadow: none !important;
+}
+
+.top_data .partido_d .part {
+    width: 68%;
+    float: left;
+    color: #fff;
+    font-size: .9em;
+    line-height: 30px;
+    background: #49ba93;
+    text-align: right;
+    padding: 0 2% 0 0 ;
+    margin: 0;
+    text-shadow: none !important;
+}
+
+
+
+
+
+
+.top_data .date {
+    overflow: hidden;
+    background: #49ba92;
+    color: #fff;
+    position: relative;
+    height: 30px;
+}
+
+.top_data .date p {
+    text-align: center;
+    line-height: 30px;
+    margin: 0;
+    padding: 0;
+    text-shadow: none;
+    font-size: .9em;
+    color: #333;
+}
+
+.top_data .date a.back {
+    position: absolute;
+    left: 5px;
+    top: 5px;
+    /*background: url(../images/sprite.png) no-repeat -87px -174px;
+    width: 30px;
+    height: 30px;
+    overflow: hidden;
+    text-indent: -999em;*/
+    
+    background: #fff;
+    padding: 2px 4px;
+    color: #49ba93;
+    text-decoration: none;
+    margin: 0 20px 0 0;
+    border-radius: 4px;
+    text-shadow: none;
+}
+
+
+
+
+/* FOOTER */
+
+.ui-footer {
+    background-color: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+}
+
+.ui-footer .whistle {
+    background-color: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+    background: transparent url(../images/sprite.png) no-repeat -50px 0px;
+    width: 92px;
+    height: 90px;
+    overflow: hidden;
+    text-indent: -999em;
+    margin: 0 auto;
+    padding: 0;
+    display: block !important;
+}
+
+
+
+
+/* WELLCOME 1 */
+
+#wellcome_1 {
+    background: url(../images/bg1.jpg) no-repeat;
+    background-size: 100% 100%;
+}
+
+#wellcome_1.ui-page-active {
+    display: table;
+    height: 100% !important;
+}
+
+#wellcome_1 .ui-content {
+    display: table-cell;
+    vertical-align: middle;
+    height: 100% !important;
+}
+
+#wellcome_1 h1 {
+    background: url(../images/logo.png) no-repeat;
+    width: 105px;
+    height: 143px;
+    overflow: hidden;
+    text-indent: -999em;
+    margin: 5% auto;
+}
+
+#wellcome_1 p {
+    margin: 5% auto ;
+    text-align: center;
+}
+
+/* WELLCOME 2 */
+
+#wellcome_2 {
+    background: url(../images/bg1.jpg) no-repeat;
+    background-size: 100% 100%;
+}
+
+#wellcome_2.ui-page-active {
+    display: table;
+    height: 100% !important;
+}
+
+#wellcome_2 .ui-content {
+    display: table-cell;
+    vertical-align: middle;
+    height: 100% !important;
+}
+
+#wellcome_2 h2 {
+    margin: 5% auto ;
+    text-align: center;
+    font-size: 2em;
+    text-shadow: none;
+}
+
+#wellcome_2 p {
+    margin: 5% auto ;
+    text-align: center;
+}
+
+
+/* VER PARTIDO */
+
+
+
+#ver_partido .timeline .ini .line{
+    background: url(../images/timeline_completo.png) no-repeat top center;
+    height: 50px;
+}
+
+#ver_partido .timeline .ini p {
+    text-align: center;
+    font-size: .8em;
+    margin: 0;
+    padding: 20px 0;
+}
+
+#ver_partido .timeline .fin .line {
+    background: url(../images/timeline_completo.png) no-repeat bottom center;
+    height: 50px;
+}
+
+#ver_partido .timeline .fin p {
+    text-align: center;
+    font-size: .8em;
+    margin: 0;
+    padding: 20px 0;
+}
+
+#ver_partido .timeline .eventos {
+    background: url(../images/timeline_line.png) repeat-y center center;
+}
+
+
+
+#ver_partido .timeline .eventos .evento {
+    text-decoration: none;
+    color: #49ba92;
+    text-shadow: none;
+    font-size: .9em;
+    text-align: center;
+    margin: 0px 10px;
+    overflow: hidden;
+    position: relative;
+    min-height: 100px;
+    line-height: 100px;
+}
+
+
+
+#ver_partido .timeline .eventos .evento span.minuto_evento {
+    background: #fff;
+    border: 1px solid #000;
+    width: 44px;
+    height: 44px;
+    overflow: hidden;
+    display: block;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -22px;
+    margin-top: -22px;
+    border-radius: 50%;
+    line-height: 44px;
+    text-align: center;
+    color: #000;
+}
+
+#ver_partido .timeline .eventos .evento span.desc {
+    height: 100px;
+    line-height: 100px;
+    width: 30%;
+    display: block;
+    margin: 0;
+}
+
+
+#ver_partido .timeline .eventos .equipo_l span.desc {
+    padding-right: 70%;
+    text-align: right;
+}
+
+#ver_partido .timeline .eventos .equipo_v span.desc {
+    padding-left: 70%;
+    text-align: left;
+}
+
+#ver_partido .timeline .eventos .evento .ico {
+    background: url(../images/sprite.png) no-repeat 0 0 ;
+    width: 22px;
+    height: 30px;
+    overflow: hidden;
+    text-indent: -999em;
+    margin: 0 5%;
+    display: inline-block;
+    position: relative;
+    top: 10%;
+}
+
+#ver_partido .timeline .eventos .evento .ico-y-card {
+    background-position: -213px -308px;
+}
+
+
+
+
+
+
+/* NUEVO PARTIDO */
+
+#nuevo_partido .ui-content h2 {
+    font-size: 1em;
+    text-align: center;
+    text-shadow: none;
+    color: #999;
+}
+
+#nuevo_partido .ui-content .ui-input-text {
+    border: none;
+    background: none;
+    box-shadow: none;
+    padding: 2% 0;
+    margin: 2% 0;
+}
+
+#nuevo_partido .ui-content p.last {
+    /*margin: 1em 0 0;*/
+}
+
+
+#nuevo_partido .ui-content p.last .ui-input-text {
+    padding: 2% 0 0;
+    margin: 2% 0 0;
+}
+
+#nuevo_partido .ui-content .ui-input-text input {
+    border: none;
+    background: none;
+    box-shadow: none;
+    color: #666;
+    border-bottom: 2px solid #666;
+    border-radius: 0;
+    margin: 0;
+}
+
+#nuevo_partido .ui-content .ui-focus input {
+    color: #49ba92;
+    border-bottom: 2px solid #49ba92;
+}
+
+#nuevo_partido .bottom_btn {
+    padding: 0;
+    margin: 0;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    z-index: 9;
+}
+
+#nuevo_partido .bottom_btn span.ico-whistle {
+    background: url(../images/sprite.png) no-repeat -316px -20px;
+    width: 80px;
+    height: 54px;
+    overflow: hidden;
+    text-indent: -999em;
+    margin: 0 10px 0 0;
+    position: relative;
+    top: 20px;
+    display: inline-block;
+}
+
+#nuevo_partido  .bottom_btn a {
+    color: #fff;
+    text-shadow: none;
+    height: 90px;
+    line-height: 90px;
+    display: block;
+    text-decoration: none;
+    text-align: center;
+    background: #49ba92;
+    font-size: 1.1em;
+    text-shadow: none;
+    font-weight: normal;
+}
+
+
+
+
+#nuevo_partido .suggestions {
+    position: relative;
+    top: -40px;
+}
+
+
+#nuevo_partido .ui-panel-wrapper {
+    height: 100% !important;
+}
+
+
+
+
+
+
+/* EVENTOS */
+
+#eventos .ui-content .eventos {
+    
+    margin: 0 auto;
+}
+
+#agregar_evento .penal_eventos a,
+#eventos .ui-content .eventos a {
+    
+    text-decoration: none;
+    color: #49ba92;
+    text-shadow: none;
+    font-size: .9em;
+    text-align: center;
+    margin: 20px 0px 0;
+}
+
+#eventos .no_add a {
+    opacity: .6;
+}
+
+/*
+
+#eventos .ui-content .eventos a span.ico-evento {
+    background: url(../images/sprite.png) no-repeat -426px -9px;
+    width: 88px;
+    height: 88px;
+    overflow: hidden;
+    text-indent: -999em;
+    margin: 0 auto;
+    display: block;
+}
+
+
+#eventos .ui-content .eventos a span.ico-evento-try {
+    background-position: -426px -9px;
+}
+
+#eventos .ui-content .eventos a span.ico-evento-drop {
+    background-position: -533px -9px;
+}
+
+#eventos .ui-content .eventos a span.ico-evento-cambio {
+    background-position: -650px -6px;
+}
+
+#eventos .ui-content .eventos a span.ico-evento-scrum {
+    background-position: -423px -149px;
+}
+
+#eventos .ui-content .eventos a span.ico-evento-line {
+    background-position: -534px -149px;
+}
+
+#eventos .ui-content .eventos a span.ico-evento-pass_fw {
+    background-position: -650px -149px;
+}
+
+#eventos .ui-content .eventos a span.ico-evento-penal {
+    background-position: -423px -290px;
+}
+
+#eventos .ui-content .eventos a span.ico-evento-knock_on {
+    background-position: -533px -292px;
+}
+
+#eventos .ui-content .eventos a span.ico-evento-tarjeta {
+    background-position: -650px -292px;
+}
+*/
+
+#agregar_evento span.ico-evento,
+#eventos .ui-content .eventos a span.ico-evento {
+
+    width: 88px;
+    height: 88px;
+    overflow: hidden;
+    text-indent: -999em;
+    margin: 0 auto;
+    display: block;
+}
+
+#eventos .ui-content .eventos a span.ico-evento-try {
+    background: url(../images/eventos/try.png) no-repeat ;
+    background-size: contain;
+}
+
+#eventos .ui-content .eventos a span.ico-evento-drop {
+    background: url(../images/eventos/drop.png) no-repeat ;
+    background-size: contain;
+}
+
+#eventos .ui-content .eventos a span.ico-evento-cambio {
+    background: url(../images/eventos/cambio.png) no-repeat ;
+    background-size: contain;
+}
+
+#eventos .ui-content .eventos a span.ico-evento-scrum {
+    background: url(../images/eventos/scrum.png) no-repeat ;
+    background-size: contain;
+}
+
+#eventos .ui-content .eventos a span.ico-evento-line {
+    background: url(../images/eventos/line.png) no-repeat ;
+    background-size: contain;
+}
+
+#eventos .ui-content .eventos a span.ico-evento-pass_fw {
+    background: url(../images/eventos/pass_fw.png) no-repeat ;
+    background-size: contain;
+}
+
+
+#eventos .ui-content .eventos a span.ico-evento-penal {
+    background: url(../images/eventos/penal.png) no-repeat ;
+    background-size: contain;
+}
+
+#eventos .ui-content .eventos a span.ico-evento-palos {
+    background: url(../images/eventos/palos.png) no-repeat ;
+    background-size: contain;
+}
+
+#eventos .ui-content .eventos a span.ico-evento-knock_on {
+    background: url(../images/eventos/knock_on.png) no-repeat ;
+    background-size: contain;
+}
+
+#eventos .ui-content .eventos a span.ico-evento-tarjeta {
+    background: url(../images/eventos/tarjeta.png) no-repeat ;
+    background-size: contain;
+}
+
+#agregar_evento .penal_eventos a span.desc ,
+#eventos .ui-content .eventos a span.desc {
+    text-align: center;
+    display: block;
+    margin: 15px auto 0;
+}
+
+
+#control_tiempo {
+    background: #fff;
+    padding: 4px;
+    color: #49ba93;
+    text-decoration: none;
+    margin: 0 20px 0 0;
+    border-radius: 4px;
+    text-shadow: none;
+}
+
+
+
+
+/* AGREGAR EVENTO */
+
+#agregar_evento .ui-content .evento {
+    background: #242834;
+    margin: 0 -1em;
+    overflow: hidden;
+}
+
+
+
+#agregar_evento .ui-content .evento .evento_img {
+    /*background: url(../images/sprite.png) no-repeat -5px -248px;*/
+    width: 130px;
+    height: 130px;
+    /*overflow: hidden;
+    text-indent: -999em;*/
+    margin: 20px auto 0;
+    display: block;
+    text-align: center;
+}
+
+#agregar_evento .ui-content .evento .evento_img img {
+    height: 100%;
+}
+
+#agregar_evento .ui-content .evento .desc {
+    text-align: center;
+    display: block;
+    margin: 15px auto 0;
+    text-decoration: none;
+    color: #49ba92;
+    text-shadow: none;
+    font-size: 1.2em;
+    text-align: center;
+    margin: 20px 10px;
+}
+
+#agregar_evento .equipo, 
+#agregar_evento .conversion {
+    overflow: hidden;
+    background: #efefef;
+    margin: 0 -1em;
+}
+
+#agregar_evento .equipo p,
+#agregar_evento .conversion p {
+    vertical-align: middle;
+    display: table-cell;
+    text-align: center;
+    padding: 0 20px;
+}
+
+#agregar_evento .equipo .club_name,
+#agregar_evento .conversion .opcion {
+    width: 35%;
+    float: left;
+    height: 90px;
+    text-align: center;
+    display: table;
+    font-size: .8em;
+}
+
+#agregar_evento .equipo .select,
+#agregar_evento .conversion .select {
+    width: 30%;
+    float: left;
+    height: 90px;
+    text-align: center;
+    line-height: 90px;
+    font-weight: 700;
+    display: table;
+    padding: 0;
+}
+
+#agregar_evento .equipo .select p,
+#agregar_evento .conversion .select p {
+    padding: 0;
+}
+
+#agregar_evento .conversion p.titulo {
+    text-align: center;
+    margin: 0 auto;
+    display: block;
+}
+
+/*
+#agregar_evento .equipo .select a {
+    background: url(../images/sprite.png) no-repeat -92px -113px;
+    width: 96px;
+    height: 42px;
+    overflow: hidden;
+    text-indent: -999em;
+    margin: 0px auto;
+    display: block;
+}
+*/
+#agregar_evento .equipo .select a,
+#agregar_evento .conversion .select a {
+    background: url(../images/sprite.png) no-repeat -92px -113px;
+    width: 42px;
+    height: 42px;
+    overflow: hidden;
+    text-indent: -999em;
+    margin: -4px 0 0 -24px;
+    display: block;
+    box-shadow: none;
+    text-shadow: none;
+    border: 0;
+    border-radius: 50%;
+}
+
+#agregar_evento .equipo .select .ui-slider,
+#agregar_evento .conversion .select .ui-slider {
+    border-radius: 15px;
+    height: 32px;
+    background: #49ba92;
+}
+
+#agregar_evento .equipo .select .ui-slider-label,
+#agregar_evento .conversion .select .ui-slider-label {
+    box-shadow: none;
+    text-shadow: none;
+    
+}
+
+#agregar_evento .equipo .select .ui-btn-active,
+#agregar_evento .conversion .select .ui-btn-active {
+    background: #49ba92;
+}
+
+#agregar_evento .equipo .select .ui-field-contain,
+#agregar_evento .conversion .select .ui-field-contain {
+    margin: 15px 0 0;
+    padding: 0;
+    height: 78px;
+}
+
+
+
+#agregar_evento .penal_eventos {
+    margin: 0 -1em;
+    padding: 0 0 20px;
+    display: none;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#agregar_evento .minuto {
+    overflow: hidden;
+    background: #dbdbdb;
+    margin: 0 -1em ;
+}
+
+#agregar_evento .minuto a, 
+#agregar_evento .minuto span {
+    vertical-align: middle;
+    display: table-cell;
+    text-align: center;
+    padding: 0 ;
+    text-decoration: none;
+    font-size: 3em;
+    line-height: 90px;
+    height: 90px;
+    text-align: center;
+    font-weight: 700;
+    color: #242834;
+    float: left;
+}
+
+#agregar_evento .minuto .control {
+    width: 20%;
+    background: #b5b5b5;
+}
+
+#agregar_evento .minuto .result {
+    width: 60%;
+    height: 90px;
+}
+
+#agregar_evento .bottom_2btns {
+    overflow: hidden;
+    padding: 0;
+    margin: 0;
+    margin: 0 -1em  -1em ;
+}
+
+#agregar_evento .bottom_2btns a {
+    vertical-align: middle;
+    display: table-cell;
+    text-align: center;
+    padding: 0 ;
+    text-decoration: none;
+    font-size: 1.6em;
+    line-height: 90px;
+    height: 90px;
+    text-align: center;
+    color: #fff;
+    text-shadow: none;
+    font-weight: normal;
+}
+
+#agregar_evento .bottom_2btns .l {
+    width: 50%;
+    float: left;
+    background: #242834;
+}
+
+#agregar_evento .bottom_2btns .r {
+    width: 50%;
+    float: left;
+    height: 90px;
+    background: #49ba92;
+}
+
+
+
+
+
+
+
+/* PARTIDO EVENTOS */
+
+#partido_eventos .top_data {
+    background: #49ba92;
+}
+
+#partido_eventos .top_data .partido {
+    background: #49ba92;
+}
+
+#partido_eventos .top_data .partido p {
+    color: #fff;
+    text-shadow: none;
+}
+
+
+
+#partido_eventos .timeline .ini .line{
+    background: url(../images/timeline_completo.png) no-repeat top center;
+    height: 50px;
+}
+
+#partido_eventos .timeline .ini p {
+    text-align: center;
+    font-size: .8em;
+    margin: 0;
+    padding: 20px 0;
+}
+
+#partido_eventos .timeline .fin .line {
+    background: url(../images/timeline_completo.png) no-repeat bottom center;
+    height: 50px;
+}
+
+#partido_eventos .timeline .fin p {
+    text-align: center;
+    font-size: .8em;
+    margin: 0;
+    padding: 20px 0;
+}
+
+#partido_eventos .timeline .eventos {
+    background: url(../images/timeline_line.png) repeat-y center center;
+}
+
+
+
+#partido_eventos .timeline .eventos .evento {
+    text-decoration: none;
+    color: #49ba92;
+    text-shadow: none;
+    font-size: .9em;
+    text-align: center;
+    margin: 0px 10px;
+    overflow: hidden;
+    position: relative;
+    min-height: 100px;
+    line-height: 100px;
+}
+/*
+#partido_eventos .timeline .eventos .evento span.ico-evento {
+    background: url(../images/sprite.png) no-repeat -426px -9px;
+    width: 88px;
+    height: 88px;
+    overflow: hidden;
+    text-indent: -999em;
+    margin: 0;
+    display: block;
+    position: absolute;
+    left: 50%;
+    margin-left: -44px;
+    margin-top: -44px;
+    top: 50%;
+}
+
+
+
+
+#partido_eventos .timeline .eventos .evento span.ico-evento-try {
+    background-position: -426px -9px;
+}
+
+#partido_eventos .timeline .eventos .evento span.ico-evento-drop {
+    background-position: -533px -9px;
+}
+
+#partido_eventos .timeline .eventos .evento span.ico-evento-cambio {
+    background-position: -650px -6px;
+}
+
+#partido_eventos .timeline .eventos .evento span.ico-evento-scrum {
+    background-position: -423px -149px;
+}
+
+#partido_eventos .timeline .eventos .evento span.ico-evento-line {
+    background-position: -534px -149px;
+}
+
+#partido_eventos .timeline .eventos .evento span.ico-evento-pass_fw {
+    background-position: -650px -149px;
+}
+
+#partido_eventos .timeline .eventos .evento span.ico-evento-penal {
+    background-position: -423px -290px;
+}
+
+#partido_eventos .timeline .eventos .evento span.ico-evento-knock_on {
+    background-position: -533px -292px;
+}
+
+#partido_eventos .timeline .eventos .evento span.ico-evento-tarjeta {
+    background-position: -650px -292px;
+}*/
+
+
+#partido_eventos .timeline .eventos .evento span.ico-evento {
+    
+    width: 88px;
+    height: 88px;
+    overflow: hidden;
+    text-indent: -999em;
+    margin: 0;
+    display: block;
+    position: absolute;
+    left: 50%;
+    margin-left: -44px;
+    margin-top: -44px;
+    top: 50%;
+}
+
+
+#partido_eventos .timeline .eventos .evento span.ico-evento-try {
+    background: url(../images/eventos/try.png) no-repeat ;
+    background-size: contain;
+}
+
+#partido_eventos .timeline .eventos .evento span.ico-evento-drop {
+    background: url(../images/eventos/drop.png) no-repeat ;
+    background-size: contain;
+}
+
+#partido_eventos .timeline .eventos .evento span.ico-evento-cambio {
+    background: url(../images/eventos/cambio.png) no-repeat ;
+    background-size: contain;
+}
+
+#agregar_evento span.ico-evento-scrum,
+#partido_eventos .timeline .eventos .evento span.ico-evento-scrum {
+    background: url(../images/eventos/scrum.png) no-repeat ;
+    background-size: contain;
+}
+
+#agregar_evento span.ico-evento-line,
+#partido_eventos .timeline .eventos .evento span.ico-evento-line {
+    background: url(../images/eventos/line.png) no-repeat ;
+    background-size: contain;
+}
+
+#partido_eventos .timeline .eventos .evento span.ico-evento-pass_fw {
+    background: url(../images/eventos/pass_fw.png) no-repeat ;
+    background-size: contain;
+}
+
+#agregar_evento span.ico-evento-penal,
+#partido_eventos .timeline .eventos .evento span.ico-evento-penal {
+    background: url(../images/eventos/penal.png) no-repeat ;
+    background-size: contain;
+}
+
+
+#agregar_evento span.ico-evento-palos,
+#partido_eventos .timeline .eventos .evento span.ico-evento-palos {
+    background: url(../images/eventos/palos.png) no-repeat ;
+    background-size: contain;
+}
+
+#partido_eventos .timeline .eventos .evento span.ico-evento-knock_on {
+    background: url(../images/eventos/knock_on.png) no-repeat ;
+    background-size: contain;
+}
+
+#partido_eventos .timeline .eventos .evento span.ico-evento-tarjeta {
+    background: url(../images/eventos/tarjeta.png) no-repeat ;
+    background-size: contain;
+}
+
+#partido_eventos .timeline .eventos .evento span.ico-evento-free_kick {
+    background: url(../images/eventos/freekick.png) no-repeat ;
+    background-size: contain;
+}
+
+#partido_eventos .timeline .eventos .evento span.desc {
+    height: 100px;
+    line-height: 100px;
+    width: 30%;
+    display: block;
+    margin: 0;
+}
+
+
+#partido_eventos .timeline .eventos .equipo_l span.desc {
+    padding-right: 70%;
+    text-align: right;
+}
+
+#partido_eventos .timeline .eventos .equipo_v span.desc {
+    padding-left: 70%;
+    text-align: left;
+}
+
+
+
+
+#partido_eventos .timeline a.back {
+    
+    width: 60px;
+    background: #49ba93;
+    padding: 4px;
+    color: #fff;
+    text-decoration: none;
+    margin: 0 auto;
+    border-radius: 4px;
+    text-shadow: none;
+    display: block;
+    font-size: 1.2em;
+    text-shadow: none;
+}
+
+
+
+
+
+.ui-content .estadisticas {
+    margin: 0 -1em;
+    background: #e2e2e2;
+    overflow: hidden;
+    padding: 30px 0;
+}
+
+.ui-content .estadisticas h2 {
+    color: #49ba92;
+    text-align: center;
+    text-transform: uppercase;
+    text-shadow: none;
+    font-size: 1.1em;
+    font-weight: normal;
+    padding: 0;
+    margin: 0 0 20px;
+}
+
+.ui-content .estadisticas ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.ui-content .estadisticas ul li {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.ui-content .estadisticas ul li span {
+    color: #333;
+    text-align: center;
+    text-transform: uppercase;
+    display: block;
+    width: 20%;
+    float: left;
+    line-height: 26px;
+    font-size: .9em;
+}
+
+.ui-content .estadisticas ul li span.est {
+    width: 60%;
+}
+
+.bottom_datos_perfil {
+    margin: 0 -1em -1em;
+    overflow: hidden;
+}
+
+.bottom_datos_perfil .title {
+    background: #ba4949;
+    overflow: hidden;
+    text-shadow: none;
+    text-align: center;
+    padding: 30px 0;
+    color: #fff;
+    position: relative;
+}
+
+
+.bottom_datos_perfil .title .arrow {
+    width: 0;
+    height: 0;
+    border-left: 25px solid transparent;
+    border-right: 25px solid transparent;
+    border-bottom: 25px solid #242834;
+    margin: 0 0 0 -25px;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    
+}
+
+.bottom_datos_perfil .datos_perfil {
+    background: #242834;
+    overflow: hidden;
+    text-shadow: none;
+    text-align: center;
+    color: #fff;
+    padding: 30px 1em ;
+}
+
+
+.bottom_datos_perfil .datos_perfil .name {
+    width: 35%;
+    float: left;
+    height: 90px;
+    text-align: left;
+    display: table;
+}
+
+.bottom_datos_perfil .datos_perfil .name p {
+    padding: 10px 0;
+    margin: 0;
+}
+
+.bottom_datos_perfil .datos_perfil .name .rating {
+    
+    width: 100px;
+    height: 25px;
+    overflow: hidden;
+}
+
+.bottom_datos_perfil .datos_perfil .name .rating a {
+    display: block;
+    background: url(../images/sprite.png) no-repeat -66px -382px;
+    width: 16px;
+    height: 18px;
+    float: left;
+    margin: 0 4px 0 0;
+}
+
+.bottom_datos_perfil .datos_perfil .name .rating a.active {
+    background-position: 0px -382px;
+}
+
+.bottom_datos_perfil .datos_perfil .img {
+    width: 30%;
+    float: left;
+    height: 90px;
+    margin: 0;
+    position: relative;
+}
+
+.bottom_datos_perfil .datos_perfil .img .img_perfil {
+    width: 60px;
+    height: 60px;
+    border: solid 2px #e1e1e1;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -40px 0 0 -35px;
+    overflow: hidden;
+    background-image: url(../images/default_profile.jpg);
+    background-size: cover;
+    background-position: center center;
+}
+
+.bottom_datos_perfil .datos_perfil .values {
+    width: 35%;
+    float: left;
+    height: 90px;
+    text-align: right;
+    display: table;
+}
+
+.bottom_datos_perfil .datos_perfil .values p {
+    margin: 0;
+    padding: 15px 0 0;
+}
+
+.bottom_datos_perfil .datos_perfil .values .v {
+    color: #49ba92;
+    font-size: 1.1em;
+    font-weight: 700;
+}
+
+
+
+
+
+
+
+
+
+
