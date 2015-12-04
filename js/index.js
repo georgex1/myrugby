@@ -314,7 +314,8 @@ function reset_partido() {
 function save_partido(equipo_l, equipo_v, info, user_id) {
     
     if(isConeLost){
-        sync_datos();
+        if(checkConnection())
+            sync_datos();
     }
 
     if(!checkConnection()){
@@ -618,7 +619,8 @@ var evento_local = {};
 function save_evento () {
     
     if(isConeLost){
-        sync_datos();
+        if(checkConnection())
+            sync_datos();
     }
 
     $.mobile.loading("show");
