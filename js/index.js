@@ -25,6 +25,7 @@ var profile_pics = "http://thepastoapps.com/proyectos/myrugby/webservices/profil
 var evento_minuto;
 var m = 0;
 var user_id_filter = 0;
+var isConeLost = false;
 
 // ************************************* FUNCTIONS **************************************
 
@@ -35,8 +36,10 @@ function checkConnection() {
             //alert('connection? '+navigator.connection.type);
             //alert('connection name? '+Connection.NONE);
             if(navigator.connection.type!=Connection.NONE){
+                isConeLost = false;
                 return true;
             }else{
+                isConeLost = true;
                 return false;
             }
         }catch(e){ l( e ); }
@@ -309,6 +312,10 @@ function reset_partido() {
 
 // GUARDAR PARTIDO
 function save_partido(equipo_l, equipo_v, info, user_id) {
+    
+    if(isConeLost){
+        sync_datos();
+    }
 
     if(!checkConnection()){
 
@@ -536,19 +543,6 @@ function load_partido_eventos (partido_id, callback) {
 
                 $.mobile.loading( "hide" );
                 
-                setTimeout(function(){
-                    window.canvas2ImagePlugin.saveImageDataToLibrary(
-                        function(msg){
-                            console.log(msg);
-                        },
-                        function(err){
-                            console.log(err);
-                        },
-                        document.getElementById('canvas_share')
-                    );
-                }, 600);
-                
-                
                 if (callback) { callback(); }
 
             }, error:function(){ alert(data.result) }
@@ -622,6 +616,10 @@ function cronometro2 ( selector, minute, second) {
 // GUARDAR UN EVENTO DE UN PARTIDO
 var evento_local = {};
 function save_evento () {
+    
+    if(isConeLost){
+        sync_datos();
+    }
 
     $.mobile.loading("show");
     var equipo = $('#sel_team').val().trim();
@@ -862,6 +860,23 @@ function cambiar_tiempo (el) {
         el.text("Ver estadísticas");
         el.next().html("Finalizado");
         $('#eventos .eventos').addClass('no_add');
+        
+        //enviar dato para generar imagen para compartir
+        $.ajax({
+            url: service_url+"?action=create_share_img",
+            type: "post",
+            data: {
+                partido_id: partido.id
+            },
+            datatype: 'json',
+            success: function(data){
+            },
+            error:function(){
+                alert(data.result)
+            }   
+        });
+        
+        
     } else if( el.text()=="Ver estadísticas" ) {
         $.mobile.navigate( "#partidos", { transition : "slide" } );
         reset_partido();
