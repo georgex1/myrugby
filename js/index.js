@@ -24,10 +24,10 @@ var add_evento_penal = '';
 var service_url = "http://thepastoapps.com/proyectos/myrugby/webservices/servicios.php"
 var profile_pics = "http://thepastoapps.com/proyectos/myrugby/webservices/profiles/"
 
-if (!window.cordova) {
+/*if (!window.cordova) {
     service_url = "http://localhost/betterpixel/myrugby/response/webservices/servicios.php"
     profile_pics = "http://localhost/betterpixel/myrugby/response/webservices/profiles/"
-}
+}*/
 
 
 var evento_minuto;
@@ -1249,8 +1249,6 @@ function get_updates(type_){
                 }
             }, errorCB);
         }, errorCB);
-    }else{
-        isUpdated = true;
     }
 }
 
@@ -1270,11 +1268,12 @@ function get_last_updates(type_, serverupdate){
 
                         $.each(this, function() {
                             partidos_dbupd[j] = this;
-                            save_partidos_local();
                             j++;
                         });
 
                     });
+                    
+                    save_partidos_local();
                 }
             }
         });
@@ -1292,11 +1291,12 @@ function get_last_updates(type_, serverupdate){
 
                         $.each(this, function() {
                             eventos_dbupd[j] = this;
-                            save_eventos_local();
                             j++;
                         });
 
                     });
+                    
+                    save_eventos_local();
                 }
             }
         });
@@ -1315,11 +1315,12 @@ function get_last_updates(type_, serverupdate){
 
                         $.each(this, function() {
                             puntos_dbupd[j] = this;
-                            save_puntos_local();
                             j++;
                         });
 
                     });
+                    
+                    save_puntos_local();
                 }
             }
         });
@@ -1769,7 +1770,7 @@ function sp () {
 
 
 
-function errorCB(err) { alert("Error procesando SQL: "+err.code+" message: " + err.message); }
+function errorCB(err) { console.log("Error procesando SQL: "+err.code+" message: " + err.message); }
 
 function onDeviceReady_DB() {
     //alert('CREAR TABLAS')
@@ -1884,10 +1885,23 @@ function check_logged_Success(tx, results) {
 
 function save_partidos_local() {
     l("Obteniendo últimos partidos");
-    //var db = window.openDatabase("rugby", "1.0", "Rugby", 200000);
-    db.transaction(save_partidos_local_populate, errorCB, save_partidos_local_Success);
-}
+    
+    $.each(partidos_dbupd, function() {
+        console.log("insertar partido: " + this.id);
+        var query = 'INSERT OR REPLACE INTO partidos(id,equipo_l,equipo_v,resultado_l,resultado_v,info,inicio,user_id,user_name,serverupdate) '+
+                      'VALUES ('+this.id+', "'+this.equipo_l+'" , "'+this.equipo_v+'", "'+this.resultado_l+'", "'+this.resultado_v+'", "'+this.info+'", "'+this.inicio+'", "'+this.user_id+'", "'+this.user_name+'", "'+this.serverupdate+'")';
+        
+        db.transaction(function(tx){
+            tx.executeSql(query, [], function(tx, results){
+                return true;
 
+            }, errorCB);
+        }, errorCB);
+    });
+    //var db = window.openDatabase("rugby", "1.0", "Rugby", 200000);
+    //db.transaction(save_partidos_local_populate, errorCB, save_partidos_local_Success);
+}
+/*
 function save_partidos_local_populate(tx) {
     $.each(partidos_dbupd, function() {
         tx.executeSql('INSERT OR REPLACE INTO partidos(id,equipo_l,equipo_v,resultado_l,resultado_v,info,inicio,user_id,user_name,serverupdate)'+
@@ -1909,15 +1923,29 @@ function save_partidos_local_Success() {
     //l("Últimos partidos success");
     return true;
 }
-
+*/
 function save_eventos_local() {
-    l("Obteniendo últimos partidos");
+    l("Obteniendo últimos eventos");
+    
+    $.each(eventos_dbupd, function() {
+        console.log("insertar evento: " + this.id);
+        var query = 'INSERT OR REPLACE INTO eventos(id,evento,minuto,tiempo,user_id,partido_id,equipo,valor,serverupdate) '+
+                      'VALUES ('+this.id+', "'+this.evento+'" , "'+this.minuto+'", "'+this.tiempo+'", "'+this.user_id+'", "'+this.partido_id+'", "'+this.equipo+'", "'+this.valor+'", "'+this.serverupdate+'")';
+        
+        db.transaction(function(tx){
+            tx.executeSql(query, [], function(tx, results){
+                return true;
+
+            }, errorCB);
+        }, errorCB);
+    });
+    
     //var db = window.openDatabase("rugby", "1.0", "Rugby", 200000);
-    db.transaction(save_eventos_local_populate, errorCB, save_eventos_local_Success);
+    //db.transaction(save_eventos_local_populate, errorCB, save_eventos_local_Success);
 
 }
 
-function save_eventos_local_populate(tx) {
+/*function save_eventos_local_populate(tx) {
 
     $.each(eventos_dbupd, function() {
         tx.executeSql('INSERT OR REPLACE INTO eventos(id,evento,minuto,tiempo,user_id,partido_id,equipo,valor,serverupdate)'+
@@ -1937,15 +1965,30 @@ function save_eventos_local_populate(tx) {
 function save_eventos_local_Success() {
     //l("Últimos partidos success");
     return true;
-}
+}*/
 
 function save_puntos_local() {
-    l("Obteniendo últimos partidos");
+    l("Obteniendo últimos puntos");
+    
+    $.each(puntos_dbupd, function() {
+        console.log("insertar punto: " + this.id);
+        var query = 'INSERT OR REPLACE INTO puntos(id,user_id,user_id_from,partido_id,valor,serverupdate) '+
+                      'VALUES ('+this.id+', "'+this.user_id+'" , "'+this.user_id_from+'", "'+this.partido_id+'", "'+this.valor+'", "'+this.serverupdate+'")';
+        
+        db.transaction(function(tx){
+            tx.executeSql(query, [], function(tx, results){
+                return true;
+
+            }, errorCB);
+        }, errorCB);
+    });
+    
+    
     //var db = window.openDatabase("rugby", "1.0", "Rugby", 200000);
-    db.transaction(save_puntos_local_populate, errorCB, save_puntos_local_Success);
+    //db.transaction(save_puntos_local_populate, errorCB, save_puntos_local_Success);
 
 }
-
+/*
 function save_puntos_local_populate(tx) {
 
     $.each(puntos_dbupd, function() {
@@ -1963,7 +2006,7 @@ function save_puntos_local_populate(tx) {
 function save_puntos_local_Success() {
     //l("Últimos partidos success");
     return true;
-}
+}*/
 
 // CARGAR ÚLTIMOS PARTIDOS DE DB LOCAL
 
@@ -3026,7 +3069,8 @@ function ini() {
     }*/
     
     if(updateInterval == null){
-        updateInterval = setInterval(get_updates_sv, 5000);
+        updateInterval = setInterval(function(){ get_updates_sv(); }, 5000);
+        //get_updates_sv();
     }
     
 
