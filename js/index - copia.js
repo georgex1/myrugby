@@ -20,21 +20,12 @@ var partido = {
 var partidos = [];
 var add_evento = '';
 var add_evento_penal = '';
-
 var service_url = "http://thepastoapps.com/proyectos/myrugby/webservices/servicios.php"
 var profile_pics = "http://thepastoapps.com/proyectos/myrugby/webservices/profiles/"
-
-if (!window.cordova) {
-    service_url = "http://localhost/betterpixel/myrugby/response/webservices/servicios.php"
-    profile_pics = "http://localhost/betterpixel/myrugby/response/webservices/profiles/"
-}
-
-
 var evento_minuto;
 var m = 0;
 var user_id_filter = 0;
 var isConeLost = false;
-var db = null;
 
 // ************************************* FUNCTIONS **************************************
 
@@ -52,8 +43,6 @@ function checkConnection() {
                 return false;
             }
         }catch(e){ l( e ); }
-    }else{
-        return true;
     }
 }
 
@@ -184,78 +173,12 @@ function loginf(u_id, callback) {
 var login = function () {
 
     if (!window.cordova) {
-        
-        user_id = '10208098166282044';
-        user_pic = "https://graph.facebook.com/"+user_id+"/picture?width=150&height=150";
-
-        $(".panel").each(function(){ $(this).find(".img_perfil img").attr('src', user_pic); })
-        $("#wellcome_2 .img_perfil img").attr('src', user_pic);
-        
-        //CARGA EL RATING EN EL PANEL LATERAL 
-        get_load_my_rating (user_id);
-        
-        
-        user_name = 'Jorge Letvi';
-        $("#wellcome_2 h2").text(user_name);
-
-        //AGREGAR USUARIO SI SE LOGUEA
-        agregar_usuario(user_id, user_name);
-
-        //ESPERO 2 SEGUNDOS Y PASO A LA PANTALLA DE BIENVENIDA DE USUARIO
-        setTimeout(function(){ $.mobile.navigate( "#wellcome_2", { transition : "slide" }); }, 2000);
-        
-        
-        $.ajax({
-            url: service_url+"?action=save_user_profile",
-            type: "post", 
-            data: { user_id: user_id }, 
-            datatype: 'json',
-            success: function(data) {
-                var user_pic_temp = profile_pics + "profile_" + user_id + ".jpg";
-
-                //$("#wellcome_2 .img_perfil img").attr('src', user_pic_temp);
-                //$(".panel").each(function(){ $(this).find(".img_perfil img").attr('src', user_pic_temp); })
-
-
-                //l('cache_images();')
-
-                cache_images(); 
-
-                //use_online();
-
-            }
-        });
-
-        save_login();
-        
-        //var appId = prompt("Enter FB Application ID", "886077731441644");
-        //facebookConnectPlugin.browserInit(appId);
-        
-        /*(function () {
-            if (!window.FB) {
-                console.log("launching FB SDK");
-                var e = document.createElement('script');
-                e.src = document.location.protocol + '//connect.facebook.net/en_US/sdk.js';
-                e.async = true;
-                document.getElementById('fb-root').appendChild(e);
-                if (!window.FB) {
-                    // Probably not on server, use the sample sdk
-                    e.src = 'js/facebookConnectPlugin.js';
-                    document.getElementById('fb-root').appendChild(e);
-                    console.log("Attempt local load: ", e);
-                    
-                    facebookConnectPlugin.browserInit(appId);
-                }
-            }
-        }());*/
-        
-        
-        
-        
-    }else{
+        var appId = prompt("Enter FB Application ID", "886077731441644");
+        facebookConnectPlugin.browserInit(appId);
+    }
 
     facebookConnectPlugin.login( ["email"],
-    function (response) {
+                                function (response) { 
         if (response.authResponse) {
 
             user_id = response.authResponse.userID;
@@ -320,8 +243,8 @@ var login = function () {
 
         }
     },
-    function (response) { alert(JSON.stringify(response)) });
-    }
+                                function (response) { alert(JSON.stringify(response)) });
+
 }
 
 var showDialog = function() { facebookConnectPlugin.showDialog( { method: "feed" }, function (response) { alert(JSON.stringify(response)) }, function (response) { alert(JSON.stringify(response)) }); }
@@ -366,8 +289,8 @@ function n(n){ return n > 9 ? "" + n: "0" + n; }
 // RESETEAR PARTIDO
 function reset_partido() {
 
-    l('reset_partido()');
-    partido.id = generateId();
+    l('reset_partido()')
+    //partido.id = 0;
     partido.equipo_l = '';
     partido.equipo_v = '';
     partido.resultado_l = 0;
@@ -390,36 +313,6 @@ function reset_partido() {
 // GUARDAR PARTIDO
 function save_partido(equipo_l, equipo_v, info, user_id) {
     
-    var mdata = null;
-    mdata = {
-        partido_id: partido.id,
-        equipo_l: equipo_l,
-        equipo_v: equipo_v,
-        info: info,
-        user_id: user_id,
-        user_name: user_name,
-        fecha_entrada: getCurDate()
-    };
-    
-    partidos_db[0] = {
-        id: partido.id,
-        equipo_l: equipo_l,
-        equipo_v: equipo_v,
-        info: info,
-        user_id: user_id,
-        user_name: user_name,
-        serverupdate: getCurDate()
-    };
-    
-    //guardar en local..
-    save_partido_local();
-    
-    queueSync('save_partido', JSON.stringify(mdata));
-    
-    
-    
-    
-    /*
     if(isConeLost){
         if(checkConnection())
             sync_datos();
@@ -455,37 +348,13 @@ function save_partido(equipo_l, equipo_v, info, user_id) {
         });
 
     }
-*/
+
 }
 
 // GET PARTIDO
 function get_partido (partido_id, callback) {
     $.mobile.loading( "show" );
-    
-    partido.id = partido_id;
-    get_partido_local();
-
-    //l(partido)
-
-    setTimeout(function(){
-        /*if(partido.sincronizar==0) {
-
-            alert('Necesita conexión a internet para poder ver el detalle del partido');
-            $.mobile.loading( "hide" );
-            return false;
-
-        } else {*/
-
-            //l('ver partido')
-            if (callback) { callback(); }
-            $.mobile.loading( "hide" );
-
-        //}
-    }, 1000);
-    
-    
-    
-    /*if(!checkConnection()){
+    if(!checkConnection()){
 
         partido.id = partido_id;
         get_partido_local();
@@ -536,7 +405,7 @@ function get_partido (partido_id, callback) {
             }
         });
 
-    }*/
+    }
 
 }
 
@@ -598,15 +467,9 @@ function reset_partido_detalles () {
 // CARGAR EVENTOS DEL PARTIDO
 function load_partido_eventos (partido_id, callback) {
 
-    get_partido_local();
-    setTimeout(function(){
-        load_partido_eventos_local();
-    }, 600);
-
-
     //l('load_partido_eventos (partido_id, callback)')
 
-    /*if(checkConnection()) {
+    if(checkConnection()) {
 
         var tiemp = 1;
 
@@ -694,7 +557,7 @@ function load_partido_eventos (partido_id, callback) {
             load_partido_eventos_local();
         }, 600);
     }
-*/
+
 
 }
 
@@ -755,6 +618,11 @@ function cronometro2 ( selector, minute, second) {
 var evento_local = {};
 function save_evento () {
     
+    if(isConeLost){
+        if(checkConnection())
+            sync_datos();
+    }
+
     $.mobile.loading("show");
     var equipo = $('#sel_team').val().trim();
     var conversion = $('#conversion').val();
@@ -779,71 +647,8 @@ function save_evento () {
         minuto = minuto_seleccionado;
         m = minuto;
     }
-    
-    if(add_evento=="Penal"){
-        add_evento = "Infracción";
-    }
-    
-    var evento_id = generateId();
-    
-    var mdata = null;
-    mdata = {
-        id: evento_id,
-        evento: add_evento, 
-        minuto: minuto, 
-        tiempo: partido.tiempo, 
-        user_id: user_id, 
-        partido_id: partido.id,
-        equipo:equipo,
-        conversion: conversion,
-        fecha_entrada: getCurDate()
-    };
-    
-    evento_local = {
-        id: evento_id,
-        evento: add_evento, 
-        minuto: minuto, 
-        tiempo: partido.tiempo, 
-        user_id: user_id, 
-        partido_id: partido.id,
-        equipo:equipo,
-        conversion: conversion,
-        serverupdate: getCurDate()
-    }
-    
-    //guardar en local..
-    save_evento_local();
-    queueSync('save_evento', JSON.stringify(mdata));
 
-    
-    if(add_evento=="Infracción"){
-
-        if(add_evento_penal=="") { add_evento_penal = "Free Kick"; }
-                        add_evento=add_evento_penal;
-
-        evento_id = generateId();
-        mdata.id = evento_id;
-        mdata.evento = add_evento_penal;
-        
-        evento_local.evento = add_evento_penal;
-        evento_local.id = evento_id;
-
-        //guardar en local..
-        save_evento_local();
-        queueSync('save_evento', JSON.stringify(mdata));
-    }
-    
-    
-    var next = "#partido_eventos";
-    
-    setTimeout(function(){
-        get_partido(partido.id, function(){
-            $.mobile.navigate( next, { transition : "slide" });
-            $.mobile.loading("hide");
-        });
-    }, 500)
-
-    /*if(!checkConnection()) {
+    if(!checkConnection()) {
         evento_local = {
             evento: add_evento, 
             minuto: minuto, 
@@ -945,7 +750,7 @@ function save_evento () {
 
         
 
-    }*/
+    }
 
 }
 
@@ -954,65 +759,28 @@ function save_evento () {
 // GUARDAR RATING.. VOTOS 
 function save_rating (voto, user_id, user_id_from, partido_id, callback) {
     $.mobile.loading("show");
-    
-    var votoId = generateId();
-    
-    var mdata = null;
-    mdata = {
-        id: votoId, voto: voto, user_id: user_id , user_id_from: user_id_from , partido_id: partido_id,
-        fecha_entrada: getCurDate()
-    };
-    
-    puntos_db[0] = {id : votoId, user_id : user_id, user_id_from : user_id_from, partido_id : partido_id, serverupdate : getCurDate(), valor : voto};
-    
-    save_punto_local();
-    
-    queueSync('save_rating', JSON.stringify(mdata));
-    
-    $.mobile.loading("hide"); if (callback) { callback(); }
-    
-    /*$.ajax({
+    $.ajax({
         url: service_url+"?action=save_rating", type: "post",
         data: { voto: voto, user_id: user_id , user_id_from: user_id_from , partido_id: partido_id },
         datatype: 'json',
         success: function(data){ $.mobile.loading("hide"); if (callback) { callback(); }  },
         error:function(){ alert(data.result) }   
-    });*/
+    });
 }
 
 //GET AND LOAD RATING IN PANEL
 function get_load_my_rating (user_id) {
-    get_puntos (user_id, null, 1);
-    
-    /*$.ajax({
+    $.ajax({
         url: service_url+"?action=get_rating", type: "post", data: { user_id: user_id },
         datatype: 'json',
         success: function(data){
             $('.panel').each(function(){ $(this).find('.value:first').text(data.puntos); })
-        }, error:function(){ alert(data.result) }
-    });*/
+        }, error:function(){ alert(data.result) }   
+    });
 }
 
 //GET MI VOTO DEL PARTIDO
 function get_mi_voto (user_id_from, partido_id, callback) {
-    
-    var query = "select * from puntos where \
-                user_id_from = '" + user_id_from + "' \
-                and partido_id = '" + partido_id + "' limit 1";
-    mylog(query);
-    db.transaction(function(tx){
-        tx.executeSql(query, [], function(tx, results){
-            if(results.rows.length > 0){
-                callback( results.rows.item(0).valor );
-            }else{
-                callback(0);
-            }
-        }, errorCB);
-    }, errorCB);
-    
-    
-    /*
-    
     $.ajax({
         url: service_url+"?action=get_mi_voto", type: "post", data: { user_id_from: user_id_from, partido_id: partido_id },
         datatype: 'json',
@@ -1023,42 +791,10 @@ function get_mi_voto (user_id_from, partido_id, callback) {
                 if (callback) { callback(0); } 
             }
         }, error:function(){ alert(data.result) }   
-    });*/
+    });
 }
 
-function get_puntos (user_id, callback, myRating) {
-    
-    var puntosTotal = 0;
-    var puntosCantidad = 1;
-    
-    var query = "SELECT *  FROM `puntos` where user_id = '"+user_id+"' ";
-    mylog(query);
-    db.transaction(function(tx){
-        tx.executeSql(query, [], function(tx, results){
-            if(results.rows.length > 0){
-                var i = 0;
-                puntosCantidad = 0;
-                $('#empresas_listado').html('');
-                while(i < results.rows.length){
-                    puntosTotal = puntosTotal*1 + results.rows.item(i).valor*1;
-                    puntosCantidad++;
-                    i++;
-                }
-                
-            }
-        }, errorCB);
-    }, errorCB);
-    
-    var puntosCalc = puntosTotal/puntosCantidad;
-    
-    var rating = Math.round(parseFloat(puntosCalc));
-    if (callback) { callback(rating, puntosCalc); }
-    
-    if(myRating){
-        $('.panel').each(function(){ $(this).find('.value:first').text(puntosCalc); })
-    }
-    
-    /*
+function get_puntos (user_id, callback) {
     $.mobile.loading("show");
     $.ajax({
         url: service_url+"?action=get_rating", type: "post", data: { user_id: user_id }, datatype: 'json',
@@ -1068,7 +804,7 @@ function get_puntos (user_id, callback, myRating) {
             if (callback) { callback(rating, puntos); } 
             $.mobile.loading("hide");
         }, error:function(){ alert(data.result) }   
-    });*/
+    });
 }
 
 //GET AND LOAD RATING
@@ -1147,8 +883,6 @@ function cambiar_tiempo (el) {
         $.mobile.navigate( "#partidos", { transition : "slide" } );
         reset_partido();
 
-        get_partido( partido.id, function(){ $.mobile.navigate( "#partido_eventos", { transition : "slide" } ); } );
-        /*
         if(checkConnection()){
             get_partido( partido.id, function(){ $.mobile.navigate( "#partido_eventos", { transition : "slide" } ); } );
         } else {
@@ -1157,7 +891,7 @@ function cambiar_tiempo (el) {
             setTimeout(function(){
                 $.mobile.navigate( "#partido_eventos", { transition : "slide" } );
             }, 1000) 
-        }*/
+        }
 
     } else {
         alert('Finalizado!')
@@ -1166,18 +900,7 @@ function cambiar_tiempo (el) {
 
 // GET AND LOAD USER PARTIDOS EN PARTIDO DETALLE
 function get_load_user_partidos(user_id, callback) {
-    
-    var query = "SELECT COUNT(id) as count_ids FROM `partidos` where user_id = '"+user_id+"' limit 1";
-    mylog(query);
-    db.transaction(function(tx){
-        tx.executeSql(query, [], function(tx, results){
-            if(results.rows.length > 0){
-                $('.bottom_datos_perfil .datos_perfil .values .v:first').text(results.rows.item(0).count_ids);
-            }
-        }, errorCB);
-    }, errorCB);
-    
-    /*$.mobile.loading("show");
+    $.mobile.loading("show");
     $.ajax({
         url: service_url+"?action=get_user_partidos", type: "post", data: { user_id: user_id },
         datatype: 'json',
@@ -1187,25 +910,12 @@ function get_load_user_partidos(user_id, callback) {
 
             if (callback) { callback(); }
         }, error:function(){ alert(data.result) }   
-    });*/
+    });
 }
 
 
 //GET AND LOAD USUARIO PARA PARTIDO DETALLE
 function get_load_user_name (user_id, callback) {
-    
-    var query = "SELECT user_name FROM `partidos` where user_id = '"+user_id+"' limit 1";
-    mylog(query);
-    db.transaction(function(tx){
-        tx.executeSql(query, [], function(tx, results){
-            if(results.rows.length > 0){
-                $('.bottom_datos_perfil .datos_perfil .name p:first').text(results.rows.item(0).user_name);
-                //$('.bottom_datos_perfil .datos_perfil .values .v:first').text(results.rows.item(0).count_ids);
-            }
-        }, errorCB);
-    }, errorCB);
-    
-    /*
     $.mobile.loading("show");
     $.ajax({ url: service_url+"?action=get_usuario", type: "post", data: { user_id: user_id }, datatype: 'json',
             success: function(data){
@@ -1213,125 +923,17 @@ function get_load_user_name (user_id, callback) {
                 $.mobile.loading("hide");
                 if (callback) { callback(); }
             }, error:function(){ alert(data.result) }   
-           });*/
+           });
 }
 
 
 var cantidad_restante = 1;
 
 var partidos_db = [];
-var eventos_db = [];
-var puntos_db = [];
-
-var partidos_dbupd = [];
-var eventos_dbupd = [];
-var puntos_dbupd = [];
-
-function get_updates_sv(){
-    get_updates("partidos");
-    get_updates("eventos");
-    get_updates("puntos");
-}
-
-function get_updates(type_){
-    if(checkConnection()){
-        var query = "SELECT MAX(serverupdate) as max_serverupdate FROM `"+type_+"` limit 1";
-        mylog(query);
-        db.transaction(function(tx){
-            tx.executeSql(query, [], function(tx, results){
-                if(results.rows.length > 0){
-                    if(results.rows.item(0).max_serverupdate != null){
-                        get_last_updates(type_, results.rows.item(0).max_serverupdate);
-                    }else
-                        get_last_updates(type_, '2015-01-01 00:00:00');
-                }else{
-                    get_last_updates(type_, '2015-01-01 00:00:00');
-                }
-            }, errorCB);
-        }, errorCB);
-    }else{
-        isUpdated = true;
-    }
-}
-
-
-function get_last_updates(type_, serverupdate){
-    
-    if(type_ == "partidos"){
-        $.ajax({
-            url: service_url+"?action=get_partidos_all&serverupdate="+serverupdate, 
-            type: "post", 
-            data: {}, 
-            datatype: 'json',
-            success: function(data){
-                if(data.result=="true") {
-                    var j = 0;
-                    $.each(data.partidos, function() {
-
-                        $.each(this, function() {
-                            partidos_dbupd[j] = this;
-                            save_partidos_local();
-                            j++;
-                        });
-
-                    });
-                }
-            }
-        });
-    }
-    if(type_ == "eventos"){
-        $.ajax({
-            url: service_url+"?action=get_eventos_all&serverupdate="+serverupdate, 
-            type: "post", 
-            data: {}, 
-            datatype: 'json',
-            success: function(data){
-                if(data.result=="true") {
-                    var j = 0;
-                    $.each(data.eventos, function() {
-
-                        $.each(this, function() {
-                            eventos_dbupd[j] = this;
-                            save_eventos_local();
-                            j++;
-                        });
-
-                    });
-                }
-            }
-        });
-    }
-    
-    if(type_ == "puntos"){
-        $.ajax({
-            url: service_url+"?action=get_puntos_all&serverupdate="+serverupdate, 
-            type: "post", 
-            data: {}, 
-            datatype: 'json',
-            success: function(data){
-                if(data.result=="true") {
-                    var j = 0;
-                    $.each(data.puntos, function() {
-
-                        $.each(this, function() {
-                            puntos_dbupd[j] = this;
-                            save_puntos_local();
-                            j++;
-                        });
-
-                    });
-                }
-            }
-        });
-    }
-}
-
 
 function get_partidos (search_filter, comienzo,callback) {
 
-    load_partidos_from_local ();
-
-    /*if(checkConnection()){
+    if(checkConnection()){
         delete_partidos_local();
     }
 
@@ -1441,68 +1043,14 @@ function get_partidos (search_filter, comienzo,callback) {
         });
 
     } else { l('no hay mas') }
-*/
+
 }
 
 function get_users_of_partidos(valThis, callback) {
 
     $.mobile.loading( "show" );
 
-    var usuarios = [];
-        var usuarios_existe = [];
-        var noresult = 0;
-
-        $('#partidos_list .partidos_list_offline li').each(function(){
-            var text = $(this).data('user').toLowerCase();
-            var match = text.indexOf(valThis);
-            if (match >= 0) {
-                noresult = 1;
-                $('.no-results-found').remove();
-                if( in_array($(this).data('user_id'), usuarios_existe) ) {
-                    l('ya existe en el array')
-                } else {
-                    usuarios.push({user_id:$(this).data('user_id'), user_name:$(this).data('user'), })
-                    usuarios_existe.push($(this).data('user_id'))
-                }
-            }
-        })
-
-        if(usuarios.length>0) {
-
-            $('#partidos_list .list_usuarios_found').remove(); 
-            var html = '';
-            html += '<div class="list_box list_usuarios_found"> ' ;
-            html +=     '<ul>';
-            $.each(usuarios, function() {
-                var user_pic = "https://graph.facebook.com/"+this.user_id+"/picture?width=150&height=150";
-                html +=        '<li data-user="'+this.user_name+'">'+
-                    '<a href="#list_user_partidos" id="'+this.user_id+'">'+
-                    '<span class="img">'+
-                    '<span class="img_perfil"><img alt="" src="'+user_pic+'" /></span>'+
-                    '</span>'+
-                    '<span class="club_name"><p>'+this.user_name+'</p></span>'+
-                    '<span class="results"></span>'+
-                    '<span class="club_name"><p></p></span>'+
-                    '</a>'+
-                    '</li>';
-            })
-            html +=     '</ul>';
-            html += '</div>';
-            $('#partidos_list').prepend(html); 
-            $('.img_perfil img').each(function() {
-                //ImgCache.useCachedFile($(this));
-                //$(this).attr('src', "images/default_profile.jpg");
-            });
-
-        } else {
-            $('#partidos_list .list_usuarios_found').remove(); 
-        }
-
-        if (callback) { callback(noresult); }
-        $.mobile.loading( "hide" );
-
-
-    /*if(!checkConnection()) {
+    if(!checkConnection()) {
 
         var usuarios = [];
         var usuarios_existe = [];
@@ -1595,7 +1143,7 @@ function get_users_of_partidos(valThis, callback) {
             }
         })
 
-    }*/
+    }
 
 
 }
@@ -1606,53 +1154,8 @@ function get_users_of_partidos(valThis, callback) {
 function filter (input) {
 
     var valThis = input.val().toLowerCase();
-    
-    var noresult = 0;
 
-    if(valThis == ""){
-        $('#partidos_list ul > li').show().removeClass('inactivo');
-        noresult = 1;
-        $('.no-results-found').remove();
-        l('no hay valor');
-        $('#partidos_list .partidos_list_offline').show();
-        $('#partidos_list .list_usuarios_found').remove(); 
-    } else {
-
-        if($('#search').hasClass('byequipo')){
-            $('#partidos_list .partidos_list_offline').show();
-            $('#partidos_list ul > li').each(function(){
-                var text = $(this).find('.club_name p:first').text().toLowerCase() + ' ' + $(this).find('.club_name p:last').text().toLowerCase();
-                var match = text.indexOf(valThis);
-                if (match >= 0) {
-                    $(this).show().removeClass('inactivo');
-                    noresult = 1;
-                    $('.no-results-found').remove();
-                } else {
-                    $(this).hide().addClass('inactivo');
-                }
-            })
-        } else {
-            $('#partidos_list .partidos_list_offline').hide();
-            l('Buscar x usuario');
-            get_users_of_partidos(valThis, function(data){ noresult = data; })
-        }
-
-    };
-
-    if (noresult == 0) {
-        $('#no-results').remove();
-        $("#partidos_list").append('<div id="no-results"><h4 class="no-results-found">Sin resultados.</h4></div>');
-    }
-
-    $("#partidos_list .list_box").each(function(){
-        var activo = 0;
-        $(this).find('li').each(function(){
-            if($(this).hasClass('inactivo')) { } else { activo = 1; }
-        })
-        if(activo==0) { $(this).hide(); } else { $(this).show(); }
-    });
-
-    /*if(!checkConnection()) {
+    if(!checkConnection()) {
 
         var noresult = 0;
 
@@ -1713,7 +1216,7 @@ function filter (input) {
             get_partidos('all', 0);
         }
 
-    }*/
+    }
 
 }
 
@@ -1773,6 +1276,7 @@ function errorCB(err) { alert("Error procesando SQL: "+err.code+" message: " + e
 
 function onDeviceReady_DB() {
     //alert('CREAR TABLAS')
+    var db = window.openDatabase("rugby", "1.0", "Rugby", 200000);
     db.transaction(populateDB, errorCB, successCB);
 }
 
@@ -1789,7 +1293,6 @@ info TEXT NULL, \
 inicio TEXT NULL, \
 user_id VARCHAR(255) NULL, \
 user_name VARCHAR(255) NULL, \
-`serverupdate` TEXT NULL,\
 sincronizar INTEGER NOT NULL default '0' ) " );
 
     tx.executeSql( "CREATE TABLE IF NOT EXISTS usuarios ( \
@@ -1805,16 +1308,7 @@ tiempo INTEGER NOT NULL default '1', \
 user_id VARCHAR(255) default NULL, \
 partido_id INTEGER NOT NULL, \
 equipo VARCHAR(1) default NULL, \
-`serverupdate` TEXT NULL,\
 valor INTEGER NOT NULL default '0' ) " );
-    
-    tx.executeSql( "CREATE TABLE IF NOT EXISTS puntos ( \
-id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, \
-user_id VARCHAR(255) NOT NULL, \
-user_id_from VARCHAR(255) NOT NULL,\
-partido_id VARCHAR(255) NOT NULL,\
-`serverupdate` TEXT NULL,\
-valor VARCHAR(255) NOT NULL ) " );
 
     tx.executeSql( "CREATE TABLE IF NOT EXISTS syncs (\
         id INTEGER PRIMARY KEY AUTOINCREMENT,\
@@ -1835,7 +1329,7 @@ function successCB() {
 
 function save_login () {
     //alert("Save Login");
-    //var db = window.openDatabase("rugby", "1.0", "Rugby", 200000);
+    var db = window.openDatabase("rugby", "1.0", "Rugby", 200000);
     db.transaction(save_login_Populate, errorCB, save_login_Success);
 }
 
@@ -1850,7 +1344,7 @@ function save_login_Success() {
 }
 
 function check_logged() {
-    //var db = window.openDatabase("rugby", "1.0", "Rugby", 200000);
+    var db = window.openDatabase("rugby", "1.0", "Rugby", 200000);
     db.transaction(check_logged_populate, errorCB);
 }
 
@@ -1884,14 +1378,15 @@ function check_logged_Success(tx, results) {
 
 function save_partidos_local() {
     l("Obteniendo últimos partidos");
-    //var db = window.openDatabase("rugby", "1.0", "Rugby", 200000);
+    var db = window.openDatabase("rugby", "1.0", "Rugby", 200000);
     db.transaction(save_partidos_local_populate, errorCB, save_partidos_local_Success);
+
 }
 
 function save_partidos_local_populate(tx) {
-    $.each(partidos_dbupd, function() {
-        tx.executeSql('INSERT OR REPLACE INTO partidos(id,equipo_l,equipo_v,resultado_l,resultado_v,info,inicio,user_id,user_name,serverupdate)'+
-                      'VALUES (?,?,?,?,?,?,?,?,?,?)',
+    $.each(partidos_db, function() {
+        tx.executeSql('INSERT OR REPLACE INTO partidos(id,equipo_l,equipo_v,resultado_l,resultado_v,info,inicio,user_id,user_name)'+
+                      'VALUES (?,?,?,?,?,?,?,?,?)',
                       [this.id,
                        this.equipo_l,
                        this.equipo_v,
@@ -1900,8 +1395,7 @@ function save_partidos_local_populate(tx) {
                        this.info,
                        this.inicio,
                        this.user_id,
-                       this.user_name,
-                        this.serverupdate]);
+                       this.user_name]);
     })
 }
 
@@ -1910,60 +1404,7 @@ function save_partidos_local_Success() {
     return true;
 }
 
-function save_eventos_local() {
-    l("Obteniendo últimos partidos");
-    //var db = window.openDatabase("rugby", "1.0", "Rugby", 200000);
-    db.transaction(save_eventos_local_populate, errorCB, save_eventos_local_Success);
 
-}
-
-function save_eventos_local_populate(tx) {
-
-    $.each(eventos_dbupd, function() {
-        tx.executeSql('INSERT OR REPLACE INTO eventos(id,evento,minuto,tiempo,user_id,partido_id,equipo,valor,serverupdate)'+
-                      'VALUES (?,?,?,?,?,?,?,?,?)',
-                      [this.id,
-                       this.evento,
-                       this.minuto,
-                       this.tiempo,
-                       this.user_id,
-                       this.partido_id,
-                       this.equipo,
-                       this.valor,
-                        this.serverupdate]);
-    })
-}
-
-function save_eventos_local_Success() {
-    //l("Últimos partidos success");
-    return true;
-}
-
-function save_puntos_local() {
-    l("Obteniendo últimos partidos");
-    //var db = window.openDatabase("rugby", "1.0", "Rugby", 200000);
-    db.transaction(save_puntos_local_populate, errorCB, save_puntos_local_Success);
-
-}
-
-function save_puntos_local_populate(tx) {
-
-    $.each(puntos_dbupd, function() {
-        tx.executeSql('INSERT OR REPLACE INTO puntos(id,user_id,user_id_from,partido_id,valor,serverupdate)'+
-                      'VALUES (?,?,?,?,?,?)',
-                      [this.id,
-                       this.user_id,
-                       this.user_id_from,
-                       this.partido_id,
-                       this.valor,
-                        this.serverupdate]);
-    })
-}
-
-function save_puntos_local_Success() {
-    //l("Últimos partidos success");
-    return true;
-}
 
 // CARGAR ÚLTIMOS PARTIDOS DE DB LOCAL
 
@@ -1971,7 +1412,7 @@ var load_from_user = 0;
 
 function load_partidos_from_local () {
     //alert('load_partidos_from_local ()')
-    //var db = window.openDatabase("rugby", "1.0", "Rugby", 200000);
+    var db = window.openDatabase("rugby", "1.0", "Rugby", 200000);
     db.transaction(load_partidos_from_local_t, errorCB);
 }
 
@@ -2022,7 +1463,7 @@ function load_partidos_from_local_success(tx, results) {
 
         var html = '';
 
-        //html +=   '<div class="list_box"><h4>Sin conexión</h4></div>' ;
+        html +=   '<div class="list_box"><h4>Sin conexión</h4></div>' ;
 
         var today = new Date();
         var yesterday = new Date(new Date().setDate(new Date().getDate()-1));
@@ -2088,36 +1529,14 @@ function load_partidos_from_local_success(tx, results) {
 }
 
 
-//guardar puntos local
-function save_punto_local() {
-    //l("save_partido_local()");
-    //var db = window.openDatabase("rugby", "1.0", "Rugby", 200000);
-    db.transaction(save_punto_local_populate, errorCB, save_partido_local_Success);
 
-}
-
-function save_punto_local_populate(tx) {
-
-    tx.executeSql('INSERT INTO puntos(id, user_id,user_id_from,partido_id,serverupdate,valor)'+
-                  'VALUES (?,?,?,?,?,?)',
-                  [puntos_db[0].id,
-                   puntos_db[0].user_id,
-                   puntos_db[0].user_id_from,
-                   puntos_db[0].partido_id,
-                   puntos_db[0].serverupdate,
-                   puntos_db[0].valor],
-                  function(tx, results){
-        //alert('Returned ID: ' + results.insertId);
-    });
-
-}
 
 
 // GUARDAR PARTIDO A LOCAL
 
 function save_partido_local() {
     //l("save_partido_local()");
-    //var db = window.openDatabase("rugby", "1.0", "Rugby", 200000);
+    var db = window.openDatabase("rugby", "1.0", "Rugby", 200000);
     db.transaction(save_partido_local_populate, errorCB, save_partido_local_Success);
 
 }
@@ -2134,10 +1553,9 @@ function save_partido_local_populate(tx) {
     partido.fecha =  moment().format("dddd D [de] MMMM HH:mm");
 
 
-    tx.executeSql('INSERT INTO partidos(id, equipo_l,equipo_v,resultado_l,resultado_v,info,inicio,user_id,user_name,sincronizar)'+
-                  'VALUES (?,?,?,?,?,?,?,?,?,?)',
-                  [partido.id,
-                   partido.equipo_l,
+    tx.executeSql('INSERT INTO partidos(equipo_l,equipo_v,resultado_l,resultado_v,info,inicio,user_id,user_name,sincronizar)'+
+                  'VALUES (?,?,?,?,?,?,?,?,?)',
+                  [partido.equipo_l,
                    partido.equipo_v,
                    0,
                    0,
@@ -2168,7 +1586,7 @@ function save_partido_local_Success() {
 
 function get_partido_local() {
     //l('get_partido_local() ')
-    //var db = window.openDatabase("rugby", "1.0", "Rugby", 200000);
+    var db = window.openDatabase("rugby", "1.0", "Rugby", 200000);
     db.transaction(get_partido_local_t, errorCB);
 }
 
@@ -2208,7 +1626,7 @@ function get_partido_local_success(tx, results) {
 
 function load_partido_eventos_local() {
     //l('load_partido_eventos_local() ')
-    //var db = window.openDatabase("rugby", "1.0", "Rugby", 200000);
+    var db = window.openDatabase("rugby", "1.0", "Rugby", 200000);
     db.transaction(load_partido_eventos_local_t, errorCB);
 }
 
@@ -2368,24 +1786,23 @@ function load_partido_eventos_local_success(tx, results) {
 
 function save_evento_local() {
     //l("save_evento_local()");
-    //var db = window.openDatabase("rugby", "1.0", "Rugby", 200000);
+    var db = window.openDatabase("rugby", "1.0", "Rugby", 200000);
     db.transaction(save_evento_local_populate, errorCB, save_evento_local_Success);
 }
 
 var valor_local = 0 ;
 
-function save_evento_local_populate(tx) {
+function save_evento_local_populate(tx) {    
 
-    /*if(add_evento=="Penal"){
+    if(add_evento=="Penal"){
 
         add_evento = "Infracción";
 
         //if(add_evento_penal!="") {
 
-        tx.executeSql('INSERT INTO eventos (id, evento,minuto,tiempo,user_id,partido_id,equipo,valor)'+
+        tx.executeSql('INSERT INTO eventos (evento,minuto,tiempo,user_id,partido_id,equipo,valor)'+
                       'VALUES (?,?,?,?,?,?,?)',
-                      [evento_local.id,
-                       add_evento,
+                      [add_evento,
                        evento_local.minuto,
                        evento_local.tiempo,
                        evento_local.user_id,
@@ -2394,14 +1811,16 @@ function save_evento_local_populate(tx) {
                        valor_local ] );
 
         if(add_evento_penal=="") {
+
             add_evento_penal = "Free Kick";
+
         }
 
         add_evento=add_evento_penal;
 
         //}
 
-    }*/
+    }
 
     if(add_evento=='Try') {
         valor_local = (evento_local.conversion=='s') ? 7 : 5;
@@ -2413,18 +1832,19 @@ function save_evento_local_populate(tx) {
 
     //setTimeout(function(){
 
-    tx.executeSql('INSERT INTO eventos (id, evento,minuto,tiempo,user_id,partido_id,equipo,valor,serverupdate)'+
-                  'VALUES (?,?,?,?,?,?,?,?,?)',
-                  [evento_local.id, add_evento,
+    tx.executeSql('INSERT INTO eventos (evento,minuto,tiempo,user_id,partido_id,equipo,valor)'+
+                  'VALUES (?,?,?,?,?,?,?)',
+                  [add_evento,
                    evento_local.minuto,
                    evento_local.tiempo,
                    evento_local.user_id,
                    evento_local.partido_id,
                    evento_local.equipo,
-                   valor_local, 
-                   evento_local.serverupdate] );
+                   valor_local ] );
 
     //}, 200)
+
+
 
 }
 
@@ -2459,7 +1879,7 @@ function save_evento_local_Success() {
 
 function incrementar_resultado_local() {
     //l("incrementar_resultado_local()");
-    //var db = window.openDatabase("rugby", "1.0", "Rugby", 200000);
+    var db = window.openDatabase("rugby", "1.0", "Rugby", 200000);
     db.transaction(incrementar_resultado_local_populate, errorCB, incrementar_resultado_local_Success);
 
 }
@@ -2499,13 +1919,13 @@ function evento_local_agregado() {
 
 function sync_datos () {
     //l('paso 1: sync_datos')
-    //var db = window.openDatabase("rugby", "1.0", "Rugby", 200000);
+    var db = window.openDatabase("rugby", "1.0", "Rugby", 200000);
     db.transaction(sync_datos_populate, errorCB);
 }
 
-function sync_datos_populate(tx) {
+function sync_datos_populate(tx) { 
     //l('paso 2: sync_datos_populate(tx)')
-    tx.executeSql('SELECT * FROM partidos where sincronizar = 1 ORDER BY id ASC', [], sync_datos_success, errorCB); 
+    tx.executeSql('SELECT * FROM partidos where sincronizar=1 ORDER BY id ASC', [], sync_datos_success, errorCB); 
 }
 
 function sync_datos_success(tx, results) {
@@ -2558,7 +1978,7 @@ function sync_save_partido(equipo_l, equipo_v, resultado_l, resultado_v, info, i
 }
 
 function delete_partido_local(partido_id) {
-    //var db = window.openDatabase("rugby", "1.0", "Rugby", 200000);
+    var db = window.openDatabase("rugby", "1.0", "Rugby", 200000);
     db.transaction(function(tx){delete_partido_local_populate(tx, partido_id)}, errorCB);
 }
 
@@ -2570,7 +1990,7 @@ function delete_partido_local_populate(tx, partido_id) {
 
 function sync_datos_eventos (partido_id_from, partido_id_to) {
     //l('paso 5: sync_datos_eventos (partido_id_from, partido_id_to) => partido_id_from = ' + partido_id_from + ', partido_id_to = ' + partido_id_to )
-    //var db = window.openDatabase("rugby", "1.0", "Rugby", 200000);
+    var db = window.openDatabase("rugby", "1.0", "Rugby", 200000);
     db.transaction( function(tx){ sync_datos_eventos_populate(tx, partido_id_from, partido_id_to) }, errorCB);
 }
 
@@ -2622,7 +2042,7 @@ function sync_save_evento (evento_sync) {
 
 
 function delete_evento_local(evento_id) {
-    //var db = window.openDatabase("rugby", "1.0", "Rugby", 200000);
+    var db = window.openDatabase("rugby", "1.0", "Rugby", 200000);
     db.transaction(function(tx){delete_evento_local_populate(tx, evento_id)}, errorCB);
 }
 
@@ -2634,7 +2054,7 @@ function delete_evento_local_populate(tx, evento_id) {
 
 
 function delete_partidos_local(partido_id) {
-    //var db = window.openDatabase("rugby", "1.0", "Rugby", 200000);
+    var db = window.openDatabase("rugby", "1.0", "Rugby", 200000);
     db.transaction(delete_partidos_local_populate, errorCB);
 }
 
@@ -2648,7 +2068,7 @@ function delete_partidos_local_populate(tx, partido_id) {
 
 //borrar tablas
 function delete_tables() {
-    //var db = window.openDatabase("rugby", "1.0", "Rugby", 200000);
+    var db = window.openDatabase("rugby", "1.0", "Rugby", 200000);
     db.transaction(delete_tables_t, errorCB);
 }
 
@@ -2656,7 +2076,6 @@ function delete_tables_t(tx) {
     tx.executeSql('DROP table partidos');
     tx.executeSql('DROP table eventos');
     tx.executeSql('DROP table usuarios');
-    tx.executeSql('DROP table puntos');
 }
 
 
@@ -2728,21 +2147,19 @@ $(document).on("pageshow","#ini",function() {
 
 $(document).on("pageshow","#wellcome_2",function() {
 
-    if (window.cordova) {
-        if(!checkConnection()){
+    if(!checkConnection()){
 
-            $('img').each(function() {
-                //ImgCache.cacheFile($(this).attr('src'));
-            });
+        $('img').each(function() {
+            //ImgCache.cacheFile($(this).attr('src'));
+        });
 
-            $('.img_perfil img').each(function() {
-                //ImgCache.useCachedFile($(this));
-                //$(this).attr('src', "images/default_profile.jpg");
-            });
+        $('.img_perfil img').each(function() {
+            //ImgCache.useCachedFile($(this));
+            //$(this).attr('src', "images/default_profile.jpg");
+        });
 
-        } else {
-            admob.destroyBannerView();
-        }
+    } else {
+        admob.destroyBannerView();
     }
 
 })
@@ -2758,14 +2175,9 @@ $(document).on("pageshow","#partidos",function() {
     reset_partido_detalles ();
     $('#partido_eventos a.back').attr('href', '#partidos');
 
-    load_partidos_from_local ();
-    $('#loadmore').hide();
 
-    if(checkConnection()){
-        adMobBannerShow();
-    }
 
-    /*if(!checkConnection()){
+    if(!checkConnection()){
 
         load_partidos_from_local ();
         $('#loadmore').hide();
@@ -2776,7 +2188,7 @@ $(document).on("pageshow","#partidos",function() {
         
         adMobBannerShow();
 
-    }*/
+    }
 
 
 });
@@ -2785,13 +2197,11 @@ $(document).on("pageshow","#partidos",function() {
 
 $(document).on("pageshow","#eventos",function() {
 
-    load_partido_detalles ();
-
-    /*if(!checkConnection()){
+    if(!checkConnection()){
         load_partido_detalles ();
     }else{
         get_partido(partido.id);
-    }*/
+    }
 
     $('#partido_eventos a.back').attr('href', '#eventos');
 
@@ -2801,9 +2211,7 @@ $(document).on("pageshow","#eventos",function() {
 
 $(document).on("pageshow","#nuevo_partido",function() {
     
-    if (window.cordova) {
-        admob.destroyBannerView();
-    }
+    admob.destroyBannerView();
 
     setTimeout(function(){$("#nuevo_partido .ui-panel-wrapper").css('height', '100%')},20)
     setTimeout(function(){$("#nuevo_partido .ui-panel-wrapper").css('height', '100%')},50)
@@ -2876,9 +2284,7 @@ $(document).on("pageshow","#nuevo_partido",function() {
 
 $(document).on("pageshow","#agregar_evento",function() {
     
-    if (window.cordova) {
-        admob.destroyBannerView();
-    }
+    admob.destroyBannerView();
 
     if(checkConnection()){
         get_partido(partido.id);
@@ -2932,34 +2338,12 @@ $(document).on("pageshow","#agregar_evento",function() {
 $(document).on("pageshow","#partido_eventos",function() {
 
     //l("#partido_eventos")
+
     if(!checkConnection()){
-        l('Sin conexión.');
-        if (window.cordova) {
-            admob.destroyBannerView();
-        }
-    }
-
-
-    load_partido_eventos (partido.id);
-    setTimeout(function(){
-        load_partido_detalles ();
-    }, 600);
-    
-    get_load_user_partidos (partido.user_id);
-    get_load_user_name (partido.user_id) ;
-    get_load_rating(partido.user_id);
-    
-    if (window.cordova) {
-        adMobBannerShow();
-    }
-
-    /*if(!checkConnection()){
 
         l('Sin conexión.');
         
-        if (window.cordova) {
         admob.destroyBannerView();
-    }
 
         load_partido_eventos (partido.id);
         setTimeout(function(){
@@ -2980,7 +2364,7 @@ $(document).on("pageshow","#partido_eventos",function() {
 
     }
 
-*/
+
 
     $('.bottom_datos_perfil .datos_perfil img').attr('src', "https://graph.facebook.com/"+partido.user_id+"/picture?width=150&height=150");
 
@@ -3009,25 +2393,18 @@ $(document).on('backbutton', function(e, data){
 
 // ************************************* INI **************************************
 
-var updateInterval = null;
-
 function ini() {
 
     l('INI')
-
-    db = window.openDatabase("rugby", "1.0", "Rugby", 200000);
 
     onDeviceReady_DB();
 
     check_logged();
 
-    /*if(checkConnection()) {
+    if(checkConnection()) {
         sync_datos();
-    }*/
-    
-    if(updateInterval == null){
-        updateInterval = setInterval(get_updates_sv, 5000);
     }
+
     
 
     //LOGIN
@@ -3042,11 +2419,8 @@ function ini() {
         l("$('#get_partidos').click")
 
         reset_partido_detalles ();
-        
-        load_partidos_from_local ();
-        $('#loadmore').hide();
 
-        /*if(!checkConnection()){
+        if(!checkConnection()){
 
             load_partidos_from_local ();
             $('#loadmore').hide();
@@ -3056,7 +2430,7 @@ function ini() {
             cantidad_restante = 1;
             get_partidos('all',0);
 
-        }*/
+        }
 
         $( this ).parents('.panel').panel( "close" );
 
@@ -3088,15 +2462,12 @@ function ini() {
     //LISTADO DE MIS PARTIDOS
     $('#get_mis_partidos').click(function(e){
         reset_partido_detalles ();
-        /*if(checkConnection()){
+        if(checkConnection()){
             get_partidos({type:'byusuario',id:user_id},0)
         } else {
             load_from_user=1;
             load_partidos_from_local();
-        }*/
-        
-        load_from_user=1;
-        load_partidos_from_local();
+        }
 
         $( this ).parents('.panel').panel( "close" );
     })
@@ -3109,13 +2480,11 @@ function ini() {
             if( $(this).attr('href') == "#list_user_partidos" ) {
 
                 user_id_filter = $(this).attr('id');
-                
-                get_partidos_filter(user_id_filter);
-                /*if(!checkConnection()){
+                if(!checkConnection()){
                     get_partidos_filter(user_id_filter)
                 } else {
                     get_partidos({type:'byusuario',id:user_id_filter}, 0);
-                }*/
+                }
 
             } else {
 
@@ -3267,6 +2636,9 @@ function ini() {
 
 
 
+
+
+
 var admobid = {};
 
 
@@ -3275,9 +2647,7 @@ function initAdMob(){
 }
 
 function adMobBannerShow(){
-    if (window.cordova) {
-        admob.createBannerView();
-    }
+    admob.createBannerView();
 }
 
 var isAppForeground = true;
@@ -3330,9 +2700,7 @@ function registerAdEvents() {
 }
 
 function onDeviceReady() {
-    if (window.cordova) {
-        initAdMob();
-    }
+    initAdMob();
 }
 
 
@@ -3344,29 +2712,14 @@ function queueSync(func, data){
     serverSync();
 }
 
-function updateDB(sql_){
-    //console.log(sql_);
-    db.transaction(function(tx){
-        tx.executeSql(sql_);
-    }, errorCB);
-}
-
-function mylog(log_){
-    console.log(log_);
-}
-
-var uploadTimeout = null;
-var syncing       = false;
-var srvsyncing    = false;
-var srvintentos   = 0;
 
 function serverSync(){
     mylog('serverSync');
-    if(checkConnection() && !srvsyncing){
+    if(checkConnect() && checklogin() && !srvsyncing){
         syncing=true;
         srvsyncing=true;
         clearTimeout(uploadTimeout);
-        var query = "SELECT * FROM `syncs` WHERE  state_id <> 2 LIMIT 25";
+        var query = "SELECT * FROM `syncs` WHERE  state_id<>2 LIMIT 25";
         mylog(query);
         db.transaction(function(tx){
             tx.executeSql(query, [], function(tx, results){
@@ -3390,13 +2743,12 @@ function serverSync(){
                     }
                     mylog(forsync);
                     $.ajax({
-                        url: service_url+"?action=sync",
-                        /*url: responseUrl+'sync',*/
+                        url: responseUrl+'sync',
                         type: "POST", 
                         cache: false, 
-                        dataType: 'json',
-                        /*callback: 'callback',*/
-                        data: '&forsync='+JSON.stringify(forsync)+'&json=true&sync=true',
+                        dataType: 'jsonp',
+                        callback: 'callback',
+                        data: '&user_id='+user_id+'&hash='+hash+'&forsync='+JSON.stringify(forsync)+'&json=true&sync=true',
                         success: function(data){ 
                             mylog('success');
                             mylog(data.content);
@@ -3408,10 +2760,31 @@ function serverSync(){
                                     sw = true;
                                     oks+=','+data.content[i].id;
                                     switch(data.content[i].func){
-                                        /*case 'chatInsert':
+                                        case 'chatInsert':
                                             updateDB("UPDATE evento_foro SET server_id='"+data.content[i].server_id+"', server_update='"+data.content[i].server_update+"' WHERE id="+data.content[i].mobile_id);
                                             break;
-                                            */
+                                        case 'chatEquipoInsert':
+                                            updateDB("UPDATE equipo_foro SET server_id='"+data.content[i].server_id+"', server_update='"+data.content[i].server_update+"' WHERE id="+data.content[i].mobile_id);
+                                            break;
+                                        case 'foroLike':
+                                            if(data.content[i].usuarios_id == user_id && data.content[i].mobile_id *1>0){
+                                                mylog("DELETE FROM `evento_foro_likes` WHERE `evento_foro_id`="+cleanField(data.content[i].mobile_id)+" AND `usuarios_id`='"+user_id+"')");
+                                                updateDB("DELETE FROM `evento_foro_likes` WHERE `evento_foro_id`="+cleanField(data.content[i].mobile_id)+" AND `usuarios_id`='"+user_id+"')");
+                                                mylog("INSERT OR REPLACE INTO `evento_foro_likes` (`evento_foro_id`, `evento_foro_server_id`, `usuarios_id`, `fecha_entrada`, `islike`, `server_update`) VALUES ("+cleanField(data.content[i].mobile_id)+", "+cleanField(data.content[i].evento_foro_id)+", "+cleanField(data.content[i].usuarios_id)+", "+cleanField(data.content[i].fecha_entrada)+", "+cleanField(data.content[i].islike)+", "+cleanField(data.content[i].server_update)+")");
+                                                updateDB("INSERT OR REPLACE INTO `evento_foro_likes` (`evento_foro_id`, `evento_foro_server_id`, `usuarios_id`, `fecha_entrada`, `islike`, `server_update`) VALUES ("+cleanField(data.content[i].mobile_id)+", "+cleanField(data.content[i].evento_foro_id)+", "+cleanField(data.content[i].usuarios_id)+", "+cleanField(data.content[i].fecha_entrada)+", "+cleanField(data.content[i].islike)+", "+cleanField(data.content[i].server_update)+")");        
+                                                
+                                            }else{
+                                                mylog("INSERT OR REPLACE INTO `evento_foro_likes` (`evento_foro_id`, `evento_foro_server_id`, `usuarios_id`, `fecha_entrada`, `islike`, `server_update`) VALUES ("+cleanField(data.content[i].mobile_id)+", "+cleanField(data.content[i].evento_foro_id)+", "+cleanField(data.content[i].usuarios_id)+", "+cleanField(data.content[i].fecha_entrada)+", "+cleanField(data.content[i].islike)+", "+cleanField(data.content[i].server_update)+")");
+                                                updateDB("INSERT OR REPLACE INTO `evento_foro_likes` (`evento_foro_id`, `evento_foro_server_id`, `usuarios_id`, `fecha_entrada`, `islike`, `server_update`) VALUES ("+cleanField(data.content[i].mobile_id)+", "+cleanField(data.content[i].evento_foro_id)+", "+cleanField(data.content[i].usuarios_id)+", "+cleanField(data.content[i].fecha_entrada)+", "+cleanField(data.content[i].islike)+", "+cleanField(data.content[i].server_update)+")");        
+                                            }
+                                            break;
+                                        case 'resultado_sustituciones':
+                                            updateDB("UPDATE resultado_sustituciones SET server_id='"+data.content[i].server_id+"' WHERE id="+data.content[i].mobile_id);
+                                            break;
+                                        //case 'responderTarea':
+                                        //    break;
+                                        //case 'responderPresencia':
+                                        //    break;
                                     }
                                 }else{
                                     bads+=','+data.content[i].id;
@@ -3433,13 +2806,15 @@ function serverSync(){
                             mylog('complete');
                             syncing=false;
                             srvsyncing=false;
+                            serverPhotoSync();
                             //hideLoading();
                         },
                         error: function (obj, textStatus, errorThrown) {
                             syncing=false;
                             srvsyncing=false;
                             mylog("status=" + textStatus + ",error=" + errorThrown);
-                            //hideLoading();
+                            showErroresConexion();
+                            hideLoading();
                         }
                     });
                 }else{
@@ -3462,38 +2837,8 @@ function serverSync(){
     }
 }
 
-function getCurDate(){
-    var currentDate = new Date();
-    var year = currentDate.getFullYear();
-    var month = currentDate.getMonth() + 1;
-    if(month<10){
-        month = '0'+month;
-    }
-    var day = currentDate.getDate();
-    if(day<10){
-        day = '0'+day;
-    }
-    var hs = currentDate.getHours();
-    if(hs<10){
-        hs = '0'+hs;
-    }
-    var mn = currentDate.getMinutes();
-    if(mn<10){
-        mn = '0'+mn;
-    }
-    var sc = currentDate.getSeconds();
-    if(sc<10){
-        sc = '0'+sc;
-    }
-    return year+'-'+month+'-'+day+' '+hs + ":" + mn + ":" + sc;
-}
 
-function generateId(){
-    var rand_ = Math.floor((Math.random() * 100) + 1);
-    var unix = Math.round(+new Date()/1000);
-    
-    return unix+rand_;
-}
+
 
 if (typeof(cordova) !== 'undefined') {
 
