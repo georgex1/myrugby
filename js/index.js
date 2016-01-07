@@ -24,10 +24,10 @@ var add_evento_penal = '';
 var service_url = "http://thepastoapps.com/proyectos/myrugby/webservices/servicios.php"
 var profile_pics = "http://thepastoapps.com/proyectos/myrugby/webservices/profiles/"
 
-/*if (!window.cordova) {
+if (!window.cordova) {
     service_url = "http://localhost/betterpixel/myrugby/response/webservices/servicios.php"
     profile_pics = "http://localhost/betterpixel/myrugby/response/webservices/profiles/"
-}*/
+}
 
 
 var evento_minuto;
@@ -1144,10 +1144,13 @@ function cambiar_tiempo (el) {
         
         
     } else if( el.text()=="Ver estadísticas" ) {
-        $.mobile.navigate( "#partidos", { transition : "slide" } );
+        var partido_id_ = partido.id;
         reset_partido();
-
-        get_partido( partido.id, function(){ $.mobile.navigate( "#partido_eventos", { transition : "slide" } ); } );
+        get_partido( partido_id_, function(){ $.mobile.navigate( "#partido_eventos", { transition : "slide" } ); } );
+        
+        setTimeout(function(){
+            $.mobile.navigate( "#partidos", { transition : "slide" } );
+        }, 100);
         /*
         if(checkConnection()){
             get_partido( partido.id, function(){ $.mobile.navigate( "#partido_eventos", { transition : "slide" } ); } );
@@ -3025,7 +3028,7 @@ $(document).on("pageshow","#partido_eventos",function() {
 
 */
 
-    $('.bottom_datos_perfil .datos_perfil img').attr('src', "https://graph.facebook.com/"+partido.user_id+"/picture?width=150&height=150");
+    $('.bottom_datos_perfil .datos_perfil .img_perfil img').attr('src', "https://graph.facebook.com/"+partido.user_id+"/picture?width=150&height=150");
 
 
 
@@ -3537,6 +3540,18 @@ function generateId(){
     var unix = Math.round(+new Date()/1000);
     
     return unix+rand_;
+}
+
+var toShareFb = "http://thepastoapps.com/proyectos/myrugby/share.php";
+
+function open_fb_share(){
+    
+    toShareFb = toShareFb + "?partidos_id=" + partido.id;
+    if(checkConnection()){
+        window.open('http://m.facebook.com/sharer.php?u='+encodeURI(toShareFb), '_blank', 'location=yes');
+    }else{
+        alert('Necesitas estar conectado a internet para completar esta acción.');
+    }
 }
 
 if (typeof(cordova) !== 'undefined') {

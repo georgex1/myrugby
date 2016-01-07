@@ -1728,8 +1728,13 @@ html body div a.navicon:after {
     font-weight: 700;
 }
 
+#sharePartido{}
 
+#sharePartido a{}
 
+#sharePartido a img{
+    width: 30%;
+}
 
 
 
