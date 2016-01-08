@@ -545,13 +545,6 @@ function get_partido (partido_id, callback) {
 
 // CARGAR DETALLES DEL PARTIDO
 function load_partido_detalles () {
-    
-    
-    if(partido.finalizado == '0'){
-        $('#sharePartido').hide();
-    }else{
-        $('#sharePartido').show();
-    }
 
     $("#eventos .top_data .partido .club_name:first p").text(partido.equipo_l);
     $("#eventos .top_data .partido .results p").html(partido.resultado_l + ' &middot; ' + partido.resultado_v);
@@ -572,6 +565,17 @@ function load_partido_detalles () {
 
     $('.bottom_datos_perfil .title p').text(partido.info);
 
+}
+
+function hideFbShare(){
+    //if(partido.finalizado == '1'){
+    if(!isCurrentPartido){
+        //alert("MOSTRAR fb share " + partido.finalizado);
+        $('#sharePartido').show();
+    }else{
+        //alert("esconder fb share " + partido.finalizado);
+        $('#sharePartido').hide();
+    }
 }
 
 // RESET DETALLES DEL PARTIDO
@@ -2423,6 +2427,7 @@ function load_partido_eventos_local_success(tx, results) {
     });
     $('#estadisticas_list').html(html_est);
     
+    hideFbShare();
 
 }
 
