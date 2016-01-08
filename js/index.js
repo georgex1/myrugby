@@ -15,8 +15,10 @@ var partido = {
     tiempo:1,
     segundo:0,
     fecha:'',
-    sincronizar: 0
+    sincronizar: 0,
+    finalizado: 0
 };
+var isCurrentPartido = false;
 var partidos = [];
 var add_evento = '';
 var add_evento_penal = '';
@@ -381,6 +383,7 @@ function reset_partido() {
     partido.segundo = 0;
     partido.fecha = '';
     partido.sincronizar = 0;
+    partido.finalizado = 0;
     m = 0;
     $('#control_tiempo').show();
     $('#control_tiempo').text("Terminar 1T");
@@ -542,6 +545,13 @@ function get_partido (partido_id, callback) {
 
 // CARGAR DETALLES DEL PARTIDO
 function load_partido_detalles () {
+    
+    
+    if(partido.finalizado == '0'){
+        $('#sharePartido').hide();
+    }else{
+        $('#sharePartido').show();
+    }
 
     $("#eventos .top_data .partido .club_name:first p").text(partido.equipo_l);
     $("#eventos .top_data .partido .results p").html(partido.resultado_l + ' &middot; ' + partido.resultado_v);
@@ -1142,6 +1152,11 @@ function cambiar_tiempo (el) {
             }   
         });
         
+        //guardar como finzalido
+        partido.finalizado = 1;
+        isCurrentPartido = false;
+        
+        updateDB("UPDATE `partidos` set finalizado = 1 where id = "+partidos.id+" ");
         
     } else if( el.text()=="Ver estadísticas" ) {
         var partido_id_ = partido.id;
@@ -1794,7 +1809,8 @@ inicio TEXT NULL, \
 user_id VARCHAR(255) NULL, \
 user_name VARCHAR(255) NULL, \
 `serverupdate` TEXT NULL,\
-sincronizar INTEGER NOT NULL default '0' ) " );
+sincronizar INTEGER NOT NULL default '0' ,\
+finalizado INTEGER NOT NULL default '0' )" );
 
     tx.executeSql( "CREATE TABLE IF NOT EXISTS usuarios ( \
 id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, \
@@ -1891,8 +1907,8 @@ function save_partidos_local() {
     
     $.each(partidos_dbupd, function() {
         console.log("insertar partido: " + this.id);
-        var query = 'INSERT OR REPLACE INTO partidos(id,equipo_l,equipo_v,resultado_l,resultado_v,info,inicio,user_id,user_name,serverupdate) '+
-                      'VALUES ('+this.id+', "'+this.equipo_l+'" , "'+this.equipo_v+'", "'+this.resultado_l+'", "'+this.resultado_v+'", "'+this.info+'", "'+this.inicio+'", "'+this.user_id+'", "'+this.user_name+'", "'+this.serverupdate+'")';
+        var query = 'INSERT OR REPLACE INTO partidos(id,equipo_l,equipo_v,resultado_l,resultado_v,info,inicio,user_id,user_name,serverupdate,finalizado) '+
+                      'VALUES ('+this.id+', "'+this.equipo_l+'" , "'+this.equipo_v+'", "'+this.resultado_l+'", "'+this.resultado_v+'", "'+this.info+'", "'+this.inicio+'", "'+this.user_id+'", "'+this.user_name+'", "'+this.serverupdate+'", 1)';
         
         db.transaction(function(tx){
             tx.executeSql(query, [], function(tx, results){
@@ -2243,6 +2259,7 @@ function get_partido_local_success(tx, results) {
         partido.fecha =  moment(results.rows.item(i).inicio, null, 'es', true).format("dddd D [de] MMMM HH:mm");
 
         partido.sincronizar = results.rows.item(i).sincronizar;
+        partido.finalizado = results.rows.item(i).finalizado;
 
         //l(results.rows.item(i).equipo_l);
 
@@ -2405,6 +2422,7 @@ function load_partido_eventos_local_success(tx, results) {
 
     });
     $('#estadisticas_list').html(html_est);
+    
 
 }
 
@@ -3109,10 +3127,38 @@ function ini() {
 
         $('[data-role=header],[data-role=footer]').css('overflow-x', 'visible');
 
-    })
+    });
+    
+    //preguntar si se esta jugando un partido
+    $(document).on('pagebeforechange', function(e, data){
+        var to = data.toPage;
+        if (typeof to === 'string') {
+            var u = $.mobile.path.parseUrl(to);
+            to = u.hash || '#' + u.pathname.substring(1);
+            
+            if (to === '#partidos' || to === '#nuevo_partido') {
+                if(isCurrentPartido){
+                    
+                    if(window.cordova){
+                        navigator.notification.confirm( 'Tienes un partido en juego, Seguro deseas salir? El partido en juego quedará como finalizado.', function(buttonIndex){
+                            if (buttonIndex==1){
+                                e.preventDefault();
+                            }
+                        }, 'Salir', 'Cancelar,Si' );
+                    }else{
+                        if(!confirm("Tienes un partido en juego, Seguro deseas salir? El partido en juego quedará como finalizado.")){
+                            e.preventDefault();
+                        }
+                    }
+
+                }
+            }
+        }
+    });
 
     $('#partidos').on({
         click: function () {
+            
             if( $('#search').val()!="undefined" && $('#search').val()!="" ) {
 
                 if($('#search').hasClass('byequipo')){
@@ -3216,6 +3262,7 @@ function ini() {
         if( $('#equipo_l').val()!="" && $('#equipo_v').val()!=""  ) {
 
             save_partido( $('#equipo_l').val(), $('#equipo_v').val(), $('#info').val(), user_id );
+            isCurrentPartido = true;
         } else {
             alert("Ingrese los equipos")
             e.preventDefault();
@@ -3546,9 +3593,9 @@ var toShareFb = "http://thepastoapps.com/proyectos/myrugby/share.php";
 
 function open_fb_share(){
     
-    toShareFb = toShareFb + "?partidos_id=" + partido.id;
+    var toShareFbN = toShareFb + "?partidos_id=" + partido.id;
     if(checkConnection()){
-        window.open('http://m.facebook.com/sharer.php?u='+encodeURI(toShareFb), '_blank', 'location=yes');
+        window.open('http://m.facebook.com/sharer.php?u='+encodeURI(toShareFbN), '_blank', 'location=yes');
     }else{
         alert('Necesitas estar conectado a internet para completar esta acción.');
     }
