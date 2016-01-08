@@ -3139,18 +3139,19 @@ function ini() {
             if (to === '#partidos' || to === '#nuevo_partido') {
                 if(isCurrentPartido){
                     
-                    if(window.cordova){
-                        e.preventDefault();
-                        navigator.notification.confirm( 'Tienes un partido en juego, Seguro deseas salir? El partido en juego quedará como finalizado.', function(buttonIndex){
-                            if (buttonIndex==2){
-                                $.mobile.navigate( "#partidos", { transition : "slide" });
-                            }
-                        }, 'Salir', 'Cancelar,Si' );
-                    }else{
+                    /*if(window.cordova){
+                            e.preventDefault();
+                            navigator.notification.confirm( 'Tienes un partido en juego, Seguro deseas salir? El partido en juego quedará como finalizado.', function(buttonIndex){
+                                if (buttonIndex==2){
+                                    $.mobile.navigate( "#partidos", { transition : "slide" });
+                                }
+                            }, 'Salir', 'Cancelar,Si' );
+                        
+                    }else{*/
                         if(!confirm("Tienes un partido en juego, Seguro deseas salir? El partido en juego quedará como finalizado.")){
                             e.preventDefault();
                         }
-                    }
+                    //}
 
                 }
             }
