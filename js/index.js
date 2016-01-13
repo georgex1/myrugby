@@ -3619,9 +3619,9 @@ function open_fb_share(){
         description: 'Resultados del Partido ' + partido.equipo_l + ' VS '+ partido.equipo_v
     }, 
     function (response) {
-        navigator.notification.alert("Publicado Correctamente!", function(){}, "Facebook", "Aceptar")
+        navigator.notification.alert("Publicado Correctamente!", function(){}, "Facebook", "Aceptar");
         /*alert(JSON.stringify(response))*/ },
-    function (response) { /*alert(JSON.stringify(response)) }*/);
+    function (response) { /*alert(JSON.stringify(response)) }*/});
 }
 
 if (typeof(cordova) !== 'undefined') {
