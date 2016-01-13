@@ -3598,7 +3598,7 @@ function generateId(){
 
 var toShareFb = "http://thepastoapps.com/proyectos/myrugby/share.php";
 
-function open_fb_share(){
+/*function open_fb_share(){
     
     var toShareFbN = toShareFb + "?partidos_id=" + partido.id;
     if(checkConnection()){
@@ -3606,6 +3606,22 @@ function open_fb_share(){
     }else{
         alert('Necesitas estar conectado a internet para completar esta acción.');
     }
+}*/
+
+function open_fb_share(){
+    facebookConnectPlugin.showDialog( 
+    {
+        method: "feed",
+        picture:'http://thepastoapps.com/proyectos/myrugby/webservices/shares/share'+ partido.id +'.png',
+        name:'My Rugby!',
+        message:'Resultados del Partido',    
+        caption: 'Resultados del Partido ' + partido.equipo_l + ' VS '+ partido.equipo_v,
+        description: 'Resultados del Partido ' + partido.equipo_l + ' VS '+ partido.equipo_v
+    }, 
+    function (response) {
+        navigator.notification.alert("Publicado Correctamente!", function(){}, "Facebook", "Aceptar")
+        /*alert(JSON.stringify(response))*/ },
+    function (response) { /*alert(JSON.stringify(response)) }*/);
 }
 
 if (typeof(cordova) !== 'undefined') {
