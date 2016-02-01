@@ -3612,7 +3612,7 @@ function open_fb_share(){
     facebookConnectPlugin.showDialog( 
     {
         method: "feed",
-        redirect_uri: 'http://thepastoapps.com/proyectos/myrugby/xhtml_verimg/index.php?partidos_id=' + partido.id,
+        link: 'http://thepastoapps.com/proyectos/myrugby/xhtml_verimg/index.php?partidos_id=' + partido.id,
         picture:'http://thepastoapps.com/proyectos/myrugby/webservices/shares/share'+ partido.id +'.png',
         name:'My Rugby!',
         message:'Resultados del Partido',    
