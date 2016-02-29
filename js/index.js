@@ -23,8 +23,8 @@ var partidos = [];
 var add_evento = '';
 var add_evento_penal = '';
 
-var service_url = "http://thepastoapps.com/proyectos/myrugby/webservices/servicios.php"
-var profile_pics = "http://thepastoapps.com/proyectos/myrugby/webservices/profiles/"
+var service_url = "http://myrugby.com.ar/webservices/servicios.php"
+var profile_pics = "http://myrugby.com.ar/webservices/profiles/"
 
 if (!window.cordova) {
     service_url = "http://localhost/betterpixel/myrugby/response/webservices/servicios.php"
@@ -3387,12 +3387,12 @@ function initAds() {
     if (admob) {
         var adPublisherIds = {
             ios : {
-                banner: 'ca-app-pub-9046869699589240/8266061019',
-                interstitial: 'ca-app-pub-9046869699589240/9742794218'
+                banner: 'ca-app-pub-2183380957009421/3111531395',
+                interstitial: 'ca-app-pub-2183380957009421/8310663398'
             },
             android : {
-                banner: 'ca-app-pub-9046869699589240/8266061019',
-                interstitial: 'ca-app-pub-9046869699589240/9742794218'
+                banner: 'ca-app-pub-2183380957009421/3111531395',
+                interstitial: 'ca-app-pub-2183380957009421/8310663398'
             }
         };
 
@@ -3596,7 +3596,7 @@ function generateId(){
     return unix+rand_;
 }
 
-var toShareFb = "http://thepastoapps.com/proyectos/myrugby/share.php";
+var toShareFb = "http://myrugby.com.ar/share.php";
 
 /*function open_fb_share(){
     
@@ -3612,8 +3612,8 @@ function open_fb_share(){
     facebookConnectPlugin.showDialog( 
     {
         method: "feed",
-        link: 'http://thepastoapps.com/proyectos/myrugby/xhtml_verimg/index.php?partidos_id=' + partido.id,
-        picture:'http://thepastoapps.com/proyectos/myrugby/webservices/shares/share'+ partido.id +'.png',
+        link: 'http://myrugby.com.ar/xhtml_verimg/index.php?partidos_id=' + partido.id,
+        picture:'http://myrugby.com.ar/webservices/shares/share'+ partido.id +'.png',
         name:'My Rugby!',
         message:'Resultados del Partido',    
         caption: 'Resultados del Partido ' + partido.equipo_l + ' VS '+ partido.equipo_v,
