@@ -3614,10 +3614,10 @@ var toShareFb = "http://myrugby.com.ar/share.php";
 }*/
 
 function open_fb_share(){
-    facebookConnectPlugin.showDialog( 
+    facebookConnectPlugin.showDialog(
     {
         method: "feed",
-        link: 'http://myrugby.com.ar/xhtml_verimg/index.php?partidos_id=' + partido.id,
+        link: 'http://myrugby.com.ar/partido/index.php?partidos_id=' + partido.id,
         picture:'http://myrugby.com.ar/webservices/shares/share'+ partido.id +'.png',
         name:'My Rugby!',
         message:'Resultados del Partido',    
