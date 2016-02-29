@@ -3079,6 +3079,7 @@ $(document).on('backbutton', function(e, data){
 // ************************************* INI **************************************
 
 var updateInterval = null;
+var syncInterval = null;
 
 function ini() {
 
@@ -3097,6 +3098,10 @@ function ini() {
     if(updateInterval == null){
         updateInterval = setInterval(function(){ get_updates_sv(); }, 5000);
         //get_updates_sv();
+    }
+    
+    if(syncInterval == null){
+        syncInterval = setInterval(function(){serverSync()}, 2000);
     }
     
 
@@ -3442,7 +3447,7 @@ function onDeviceReady() {
 //sync
 function queueSync(func, data){
     updateDB("INSERT INTO `syncs`(`func`, `vals`) VALUES ('"+func+"','"+data+"')");
-    serverSync();
+    //serverSync();
 }
 
 function updateDB(sql_){
@@ -3456,7 +3461,7 @@ function mylog(log_){
     console.log(log_);
 }
 
-var uploadTimeout = null;
+//var uploadTimeout = null;
 var syncing       = false;
 var srvsyncing    = false;
 var srvintentos   = 0;
@@ -3466,7 +3471,7 @@ function serverSync(){
     if(checkConnection() && !srvsyncing){
         syncing=true;
         srvsyncing=true;
-        clearTimeout(uploadTimeout);
+        //clearTimeout(uploadTimeout);
         var query = "SELECT * FROM `syncs` WHERE  state_id <> 2 LIMIT 25";
         mylog(query);
         db.transaction(function(tx){
@@ -3558,8 +3563,8 @@ function serverSync(){
             syncing=false;
         }
         mylog('ocupado: '+srvsyncing);
-        clearTimeout(uploadTimeout);
-        uploadTimeout = window.setTimeout(function(){serverSync()}, 1769);
+        //clearTimeout(uploadTimeout);
+        
     }
 }
 
