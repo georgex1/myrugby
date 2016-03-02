@@ -2992,7 +2992,8 @@ $(document).on("pageshow","#agregar_evento",function() {
 
     }
 
-    $('#agregar_evento .evento_img').html('<img alt="" src="images/eventos/'+add_evento.toLowerCase().replace(' ', '_')+'.png" />')
+    $('#agregar_evento .evento_img').html('<img alt="" src="images/eventos/'+add_evento.toLowerCase().replace(' ', '_')+'.png" />');
+    $('#agregar_evento .evento .desc').text(add_evento);
 
 });
 
