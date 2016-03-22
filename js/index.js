@@ -204,7 +204,7 @@ var login = function () {
         agregar_usuario(user_id, user_name);
 
         //ESPERO 2 SEGUNDOS Y PASO A LA PANTALLA DE BIENVENIDA DE USUARIO
-        setTimeout(function(){ $.mobile.navigate( "#partidos", { transition : "slide" }); }, 2000);
+        setTimeout(function(){ $.mobile.navigate( "#wellcome_2", { transition : "slide" }); }, 2000);
         
         
         $.ajax({
@@ -280,7 +280,7 @@ var login = function () {
                 agregar_usuario(user_id, response.name);
 
                 //ESPERO 2 SEGUNDOS Y PASO A LA PANTALLA DE BIENVENIDA DE USUARIO
-                setTimeout(function(){ $.mobile.navigate( "#partidos", { transition : "slide" }); }, 2000);
+                setTimeout(function(){ $.mobile.navigate( "#wellcome_2", { transition : "slide" }); }, 2000);
 
             });
 
@@ -360,6 +360,11 @@ function agregar_usuario(user_id, user_name) {
 // SALIR DE LA APP
 function showConfirmSalir() { navigator.notification.confirm( '¿Seguro que quieres cerrar la aplicación?', exitFromApp, 'Salir', 'Cancelar,Si' );}
 function exitFromApp(buttonIndex) { if (buttonIndex==2){ navigator.app.exitApp();} }
+
+
+// CERRAR SESION y SALIR DE LA APP
+function showCSyConfirmSalir() { navigator.notification.confirm( '¿Seguro que quieres cerrar la sesión y salir la aplicación?', cS_exitFromApp, 'Salir', 'Cancelar,Si' );}
+function cS_exitFromApp(buttonIndex) { if (buttonIndex==2){ logout(); navigator.app.exitApp();} }
 
 
 // FORMATEAR NUMEROS CON 2 DIGITOS
@@ -1895,7 +1900,7 @@ function check_logged_Success(tx, results) {
     if(user_id!=0){
         //alert('is logged')
         loginf(user_id, function(){
-            $.mobile.navigate( "#wellcome_2", { transition : "slide" } );
+            $.mobile.navigate( "#partidos", { transition : "slide" } );
         });
     }else{
         //alert('is not logged yet')
