@@ -368,7 +368,7 @@ function showCSyConfirmSalir() { navigator.notification.confirm( '¿Seguro que q
 function cS_exitFromApp(buttonIndex) { 
     if (buttonIndex==2){ 
         
-        setTimeout(function(){
+        /*setTimeout(function(){
             facebookConnectPlugin.logout( 
                 function (response) { 
                     user_id = 0;
@@ -381,14 +381,14 @@ function cS_exitFromApp(buttonIndex) {
                     navigator.app.exitApp();
                 }
             )
-        }, 1000 );
+        }, 1000 );*/
         
         logout();
-        
+        delete_logged();
         
         setTimeout(function(){
             navigator.app.exitApp();
-        }, 2000 );
+        }, 100 );
     } 
 }
 
@@ -1931,6 +1931,39 @@ function check_logged_Success(tx, results) {
     }else{
         //alert('is not logged yet')
     }
+}
+
+
+
+function delete_logged() {
+    db.transaction(delete_logged_populate, errorCB);
+}
+
+function delete_logged_populate(tx) { 
+    tx.executeSql('delete * FROM usuarios ', [], delete_logged_Success, errorCB); 
+}
+
+function delete_logged_Success(tx, results) {
+    //alert('check_logged_Success(tx, results)')
+    //alert(results.rows.length)
+    //alert(results.rows.item(0).user_id)
+    /*var len = results.rows.length;
+    for (var i=0; i<len; i++){ 
+        //alert(results.rows.item(i).user_id)
+        user_id = results.rows.item(i).user_id;
+        user_name = results.rows.item(i).user_name;
+    }
+    if(user_id!=0){
+        //alert('is logged')
+        loginf(user_id, function(){
+            $.mobile.navigate( "#partidos", { transition : "slide" } );
+        });
+    }else{
+        //alert('is not logged yet')
+    }*/
+    
+    user_id = 0;
+    user_name = '';
 }
 
 
