@@ -363,8 +363,23 @@ function exitFromApp(buttonIndex) { if (buttonIndex==2){ navigator.app.exitApp()
 
 
 // CERRAR SESION y SALIR DE LA APP
-function showCSyConfirmSalir() { navigator.notification.confirm( '¿Seguro que quieres cerrar la sesión y salir la aplicación?', cS_exitFromApp, 'Salir', 'Cancelar,Si' );}
-function cS_exitFromApp(buttonIndex) { if (buttonIndex==2){ logout(); navigator.app.exitApp();} }
+function showCSyConfirmSalir() { navigator.notification.confirm( '¿Seguro que quieres cerrar la sesión y salir de la aplicación?', cS_exitFromApp, 'Salir', 'Cancelar,Si' );}
+
+function cS_exitFromApp(buttonIndex) { 
+    if (buttonIndex==2){ 
+        setTimeout(function(){
+            facebookConnectPlugin.logout( 
+                function (response) { 
+                    user_id = 0;
+                    user_pic = '';
+                    user_name = '';
+                    reset_partido();
+                    navigator.app.exitApp();
+                }
+            )
+        }, 1000 );
+    } 
+}
 
 
 // FORMATEAR NUMEROS CON 2 DIGITOS
