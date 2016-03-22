@@ -1961,7 +1961,7 @@ function delete_logged_Success(tx, results) {
     }else{
         //alert('is not logged yet')
     }*/
-    
+    alert('usuario borrado')
     user_id = 0;
     user_name = '';
 }
