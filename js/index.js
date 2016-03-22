@@ -204,7 +204,7 @@ var login = function () {
         agregar_usuario(user_id, user_name);
 
         //ESPERO 2 SEGUNDOS Y PASO A LA PANTALLA DE BIENVENIDA DE USUARIO
-        setTimeout(function(){ $.mobile.navigate( "#wellcome_2", { transition : "slide" }); }, 2000);
+        setTimeout(function(){ $.mobile.navigate( "#partidos", { transition : "slide" }); }, 2000);
         
         
         $.ajax({
@@ -280,7 +280,7 @@ var login = function () {
                 agregar_usuario(user_id, response.name);
 
                 //ESPERO 2 SEGUNDOS Y PASO A LA PANTALLA DE BIENVENIDA DE USUARIO
-                setTimeout(function(){ $.mobile.navigate( "#wellcome_2", { transition : "slide" }); }, 2000);
+                setTimeout(function(){ $.mobile.navigate( "#partidos", { transition : "slide" }); }, 2000);
 
             });
 
