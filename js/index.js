@@ -1935,35 +1935,14 @@ function check_logged_Success(tx, results) {
 
 
 
+
+
 function delete_logged() {
     db.transaction(delete_logged_populate, errorCB);
 }
 
-function delete_logged_populate(tx) { 
-    tx.executeSql('delete * FROM usuarios ', [], delete_logged_Success, errorCB); 
-}
-
-function delete_logged_Success(tx, results) {
-    //alert('check_logged_Success(tx, results)')
-    //alert(results.rows.length)
-    //alert(results.rows.item(0).user_id)
-    /*var len = results.rows.length;
-    for (var i=0; i<len; i++){ 
-        //alert(results.rows.item(i).user_id)
-        user_id = results.rows.item(i).user_id;
-        user_name = results.rows.item(i).user_name;
-    }
-    if(user_id!=0){
-        //alert('is logged')
-        loginf(user_id, function(){
-            $.mobile.navigate( "#partidos", { transition : "slide" } );
-        });
-    }else{
-        //alert('is not logged yet')
-    }*/
-    alert('usuario borrado')
-    user_id = 0;
-    user_name = '';
+function delete_logged_populate(tx) {
+    tx.executeSql('delete from usuarios');
 }
 
 
