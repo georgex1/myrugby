@@ -367,6 +367,7 @@ function showCSyConfirmSalir() { navigator.notification.confirm( '¿Seguro que q
 
 function cS_exitFromApp(buttonIndex) { 
     if (buttonIndex==2){ 
+        
         setTimeout(function(){
             facebookConnectPlugin.logout( 
                 function (response) { 
@@ -374,10 +375,20 @@ function cS_exitFromApp(buttonIndex) {
                     user_pic = '';
                     user_name = '';
                     reset_partido();
+                    
+                    alert('fb salir')
+                    
                     navigator.app.exitApp();
                 }
             )
         }, 1000 );
+        
+        logout();
+        
+        
+        setTimeout(function(){
+            navigator.app.exitApp();
+        }, 2000 );
     } 
 }
 
