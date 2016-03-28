@@ -574,6 +574,41 @@ function get_partido (partido_id, callback) {
 
 }
 
+
+
+function delete_partido(partido_id) {
+    
+    var mdata = null;
+    mdata = {
+        partido_id: partido_id
+        /*partido_id: partido.id,
+        equipo_l: equipo_l,
+        equipo_v: equipo_v,
+        info: info,
+        user_id: user_id,
+        user_name: user_name,
+        fecha_entrada: getCurDate()*/
+    };
+    
+    partidos_db[0] = {
+        id: partido_id
+        /*equipo_l: equipo_l,
+        equipo_v: equipo_v,
+        info: info,
+        user_id: user_id,
+        user_name: user_name,
+        serverupdate: getCurDate()*/
+    };
+    
+    //guardar en local..
+    delete_partido_local(partido_id);
+    
+    queueSync('delete_partido', JSON.stringify(mdata));
+    
+}
+
+
+
 // CARGAR DETALLES DEL PARTIDO
 function load_partido_detalles () {
 
@@ -1534,7 +1569,7 @@ function get_users_of_partidos(valThis, callback) {
                     '<span class="img">'+
                     '<span class="img_perfil"><img alt="" src="'+user_pic+'" /></span>'+
                     '</span>'+
-                    '<span class="club_name"><p>'+this.user_name+'</p></span>'+
+                    '<span class="club_name">+<p>'+this.user_name+'</p></span>'+
                     '<span class="results"></span>'+
                     '<span class="club_name"><p></p></span>'+
                     '</a>'+
@@ -2166,7 +2201,7 @@ function load_partidos_from_local_success(tx, results) {
                     '<span class="img">'+
                     '<span class="img_perfil"><img alt="" src="'+user_pic+'" /></span>'+
                     '</span>'+
-                    '<span class="club_name"><p>'+this.equipo_l+'</p></span>'+
+                    '<span class="club_name">-<p>'+this.equipo_l+'</p></span>'+
                     '<span class="results">'+this.resultado_l+' &middot; '+this.resultado_v+'</span>'+
                     '<span class="club_name"><p>'+this.equipo_v+'</p></span>'+
                     '</a>'+
