@@ -1569,7 +1569,7 @@ function get_users_of_partidos(valThis, callback) {
                     '<span class="img">'+
                     '<span class="img_perfil"><img alt="" src="'+user_pic+'" /></span>'+
                     '</span>'+
-                    '<span class="club_name">+<p>'+this.user_name+'</p></span>'+
+                    '<span class="club_name"><p>'+this.user_name+'</p></span>'+
                     '<span class="results"></span>'+
                     '<span class="club_name"><p></p></span>'+
                     '</a>'+
@@ -2194,14 +2194,20 @@ function load_partidos_from_local_success(tx, results) {
             html +=     '<ul>';
 
             $.each(this, function() {
+                
+                if(this.user_id==user_id) {
+                    var del_link = '<a href="#partido_eventos" id="'+this.id+'">Eliminar</a>';
+                } else {
+                    var del_link = '';
+                }
 
                 var user_pic = "https://graph.facebook.com/"+this.user_id+"/picture?width=150&height=150";
                 html +=        '<li data-sinc="'+this.sincronizar+'" data-user="'+this.user_name+'" data-user_id="'+this.user_id+'">'+
                     '<a href="#partido_eventos" id="'+this.id+'">'+
                     '<span class="img">'+
-                    '<span class="img_perfil"><img alt="" src="'+user_pic+'" /></span>'+
+                    '<span class="img_perfil"><img alt="" src="'+user_pic+'" />'+del_link+'</span>'+
                     '</span>'+
-                    '<span class="club_name">-<p>'+this.equipo_l+'</p></span>'+
+                    '<span class="club_name"><p>'+this.equipo_l+'</p></span>'+
                     '<span class="results">'+this.resultado_l+' &middot; '+this.resultado_v+'</span>'+
                     '<span class="club_name"><p>'+this.equipo_v+'</p></span>'+
                     '</a>'+
