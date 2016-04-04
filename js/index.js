@@ -8,6 +8,7 @@ var partido = {
     resultado_l: 0, 
     resultado_v: 0, 
     info:'', 
+    nivel:0, 
     user_id:0 , 
     user_name:'' , 
     inicio:'', 
@@ -23,12 +24,22 @@ var partidos = [];
 var add_evento = '';
 var add_evento_penal = '';
 
-var service_url = "http://myrugby.com.ar/webservices/servicios.php"
-var profile_pics = "http://myrugby.com.ar/webservices/profiles/"
+var service_url = "http://myrugby.com.ar/webservices/servicios.php";
+var profile_pics = "http://myrugby.com.ar/webservices/profiles/";
+
+/*
+var service_url = "http://thepastoapps.com/proyectos/myrugby/webservices/servicios.php";
+var profile_pics = "http://thepastoapps.com/proyectos/myrugby/webservices/profiles/";
+*/
+
+/*if (!window.cordova) {
+    service_url = "http://localhost/betterpixel/myrugby/response/webservices/servicios.php";
+    profile_pics = "http://localhost/betterpixel/myrugby/response/webservices/profiles/";
+}*/
 
 if (!window.cordova) {
-    service_url = "http://localhost/betterpixel/myrugby/response/webservices/servicios.php"
-    profile_pics = "http://localhost/betterpixel/myrugby/response/webservices/profiles/"
+    service_url = "http://myrugby.com.ar/webservices/servicios.php";
+    profile_pics = "http://myrugby.com.ar/webservices/profiles/";
 }
 
 
@@ -406,6 +417,7 @@ function reset_partido() {
     partido.resultado_l = 0;
     partido.resultado_v = 0;
     partido.info = '';
+    partido.nivel = 0;
     partido.user_id = 0;
     partido.user_name = '';
     partido.inicio = '';
@@ -422,7 +434,7 @@ function reset_partido() {
 }
 
 // GUARDAR PARTIDO
-function save_partido(equipo_l, equipo_v, info, user_id) {
+function save_partido(equipo_l, equipo_v, info, nivel, user_id) {
     
     var mdata = null;
     mdata = {
@@ -430,6 +442,7 @@ function save_partido(equipo_l, equipo_v, info, user_id) {
         equipo_l: equipo_l,
         equipo_v: equipo_v,
         info: info,
+        nivel: nivel,
         user_id: user_id,
         user_name: user_name,
         fecha_entrada: getCurDate()
@@ -440,6 +453,7 @@ function save_partido(equipo_l, equipo_v, info, user_id) {
         equipo_l: equipo_l,
         equipo_v: equipo_v,
         info: info,
+        nivel: nivel,
         user_id: user_id,
         user_name: user_name,
         serverupdate: getCurDate()
@@ -581,29 +595,17 @@ function delete_partido(partido_id) {
     var mdata = null;
     mdata = {
         partido_id: partido_id
-        /*partido_id: partido.id,
-        equipo_l: equipo_l,
-        equipo_v: equipo_v,
-        info: info,
-        user_id: user_id,
-        user_name: user_name,
-        fecha_entrada: getCurDate()*/
     };
     
     partidos_db[0] = {
         id: partido_id
-        /*equipo_l: equipo_l,
-        equipo_v: equipo_v,
-        info: info,
-        user_id: user_id,
-        user_name: user_name,
-        serverupdate: getCurDate()*/
     };
     
-    //guardar en local..
-    delete_partido_local(partido_id);
-    
     queueSync('delete_partido', JSON.stringify(mdata));
+    delete_partido_l(partido_id);
+    partido.finalizado = 1;
+    isCurrentPartido = false;
+    updateDB("UPDATE `partidos` set finalizado = 1 where id = "+partido_id+" ");
     
 }
 
@@ -611,6 +613,15 @@ function delete_partido(partido_id) {
 
 // CARGAR DETALLES DEL PARTIDO
 function load_partido_detalles () {
+    
+    $('.timeline_2 .fin .btn_del').remove();
+    
+    if(partido.user_id==user_id  ) {
+        var del_link = '<p class="btn_del"><a href="#" class="del" data-partido_id="'+partido.id+'" >Eliminar</a></p>';
+        $(".timeline_2 .fin .btn_back ").after(del_link);
+    } else {
+        var del_link = '';
+    }
 
     $("#eventos .top_data .partido .club_name:first p").text(partido.equipo_l);
     $("#eventos .top_data .partido .results p").html(partido.resultado_l + ' &middot; ' + partido.resultado_v);
@@ -648,6 +659,8 @@ function hideFbShare(){
 function reset_partido_detalles () {
 
     l('reset_partido_detalles () ')
+    
+    $('#partido_eventos .top_data a.del').remove();
 
     $('input#search').val('')
 
@@ -1324,7 +1337,7 @@ function get_updates_sv(){
 function get_updates(type_){
     if(checkConnection()){
         var query = "SELECT MAX(serverupdate) as max_serverupdate FROM `"+type_+"` limit 1";
-        mylog(query);
+        //mylog(query);
         db.transaction(function(tx){
             tx.executeSql(query, [], function(tx, results){
                 if(results.rows.length > 0){
@@ -1875,6 +1888,7 @@ equipo_v VARCHAR(255) NOT NULL, \
 resultado_l INTEGER NOT NULL default '0', \
 resultado_v INTEGER NOT NULL default '0', \
 info TEXT NULL, \
+nivel INTEGER NOT NULL, \
 inicio TEXT NULL, \
 user_id VARCHAR(255) NULL, \
 user_name VARCHAR(255) NULL, \
@@ -1989,8 +2003,8 @@ function save_partidos_local() {
     
     $.each(partidos_dbupd, function() {
         console.log("insertar partido: " + this.id);
-        var query = 'INSERT OR REPLACE INTO partidos(id,equipo_l,equipo_v,resultado_l,resultado_v,info,inicio,user_id,user_name,serverupdate,finalizado) '+
-                      'VALUES ('+this.id+', "'+this.equipo_l+'" , "'+this.equipo_v+'", "'+this.resultado_l+'", "'+this.resultado_v+'", "'+this.info+'", "'+this.inicio+'", "'+this.user_id+'", "'+this.user_name+'", "'+this.serverupdate+'", 1)';
+        var query = 'INSERT OR REPLACE INTO partidos(id,equipo_l,equipo_v,resultado_l,resultado_v,info,nivel,inicio,user_id,user_name,serverupdate,finalizado) '+
+                      'VALUES ('+this.id+', "'+this.equipo_l+'" , "'+this.equipo_v+'", "'+this.resultado_l+'", "'+this.resultado_v+'", "'+this.info+'", "'+this.nivel+'", "'+this.inicio+'", "'+this.user_id+'", "'+this.user_name+'", "'+this.serverupdate+'", 1)';
         
         db.transaction(function(tx){
             tx.executeSql(query, [], function(tx, results){
@@ -2176,6 +2190,8 @@ function load_partidos_from_local_success(tx, results) {
         var j = 0;
 
         html += '<div class="partidos_list_offline">';
+        
+        var niveles = [];
 
         $.each(partidos_temporal, function() {
 
@@ -2196,21 +2212,27 @@ function load_partidos_from_local_success(tx, results) {
             $.each(this, function() {
                 
                 if(this.user_id==user_id) {
-                    var del_link = '<a href="#partido_eventos" id="'+this.id+'">Eliminar</a>';
+                    var del_link = '<span class="del" data-partido_id="'+this.id+'" >[-]</span>';
                 } else {
                     var del_link = '';
                 }
+                
+                niveles[1] = 'Básico';
+                niveles[2] = 'Intermedio';
+                niveles[3] = 'Completo';
 
                 var user_pic = "https://graph.facebook.com/"+this.user_id+"/picture?width=150&height=150";
                 html +=        '<li data-sinc="'+this.sincronizar+'" data-user="'+this.user_name+'" data-user_id="'+this.user_id+'">'+
+                    del_link +
                     '<a href="#partido_eventos" id="'+this.id+'">'+
                     '<span class="img">'+
-                    '<span class="img_perfil"><img alt="" src="'+user_pic+'" />'+del_link+'</span>'+
+                    '<span class="img_perfil"><img alt="" src="'+user_pic+'" /></span>'+
                     '</span>'+
                     '<span class="club_name"><p>'+this.equipo_l+'</p></span>'+
                     '<span class="results">'+this.resultado_l+' &middot; '+this.resultado_v+'</span>'+
                     '<span class="club_name"><p>'+this.equipo_v+'</p></span>'+
                     '</a>'+
+                    '<div class="nivel">' + niveles[this.nivel] + '</div>' +
                     '</li>';
             });
 
@@ -2277,6 +2299,7 @@ function save_partido_local_populate(tx) {
     partido.equipo_l = partidos_db[0].equipo_l;
     partido.equipo_v = partidos_db[0].equipo_v;
     partido.info = partidos_db[0].info;
+    partido.nivel = partidos_db[0].nivel;
     partido.user_id = partidos_db[0].user_id;
     partido.user_name = partidos_db[0].user_name;
 
@@ -2284,14 +2307,17 @@ function save_partido_local_populate(tx) {
     partido.fecha =  moment().format("dddd D [de] MMMM HH:mm");
 
 
-    tx.executeSql('INSERT INTO partidos(id, equipo_l,equipo_v,resultado_l,resultado_v,info,inicio,user_id,user_name,sincronizar)'+
-                  'VALUES (?,?,?,?,?,?,?,?,?,?)',
+    l('tratando guardar')
+    
+    tx.executeSql('INSERT INTO partidos(id, equipo_l,equipo_v,resultado_l,resultado_v,info,nivel,inicio,user_id,user_name,sincronizar)'+
+                  'VALUES (?,?,?,?,?,?,?,?,?,?,?)',
                   [partido.id,
                    partido.equipo_l,
                    partido.equipo_v,
                    0,
                    0,
                    partido.info,
+                   partido.nivel,
                    partido.inicio,
                    partido.user_id,
                    partido.user_name,
@@ -2309,7 +2335,7 @@ function save_partido_local_populate(tx) {
 }
 
 function save_partido_local_Success() {
-    //l("save_partido_local_Success()");
+    l("save_partido_local_Success()");
     return true;
 }
 
@@ -2341,6 +2367,7 @@ function get_partido_local_success(tx, results) {
         partido.resultado_l = results.rows.item(i).resultado_l;
         partido.resultado_v = results.rows.item(i).resultado_v;
         partido.info = results.rows.item(i).info;
+        partido.nivel = results.rows.item(i).nivel;
         partido.user_id = results.rows.item(i).user_id;
         partido.user_name = results.rows.item(i).user_name;
         partido.inicio = results.rows.item(i).inicio;
@@ -2672,6 +2699,7 @@ function sync_datos_success(tx, results) {
             results.rows.item(i).resultado_l, 
             results.rows.item(i).resultado_v, 
             results.rows.item(i).info, 
+            results.rows.item(i).nivel, 
             results.rows.item(i).inicio, 
             results.rows.item(i).user_id, 
             results.rows.item(i).id, 
@@ -2686,7 +2714,7 @@ function sync_datos_success(tx, results) {
 }
 
 
-function sync_save_partido(equipo_l, equipo_v, resultado_l, resultado_v, info, inicio, user_id, partido_id_from, callback) {
+function sync_save_partido(equipo_l, equipo_v, resultado_l, resultado_v, info, nivel, inicio, user_id, partido_id_from, callback) {
     $.ajax({
         url: service_url+"?action=importar_partido",
         type: "post",
@@ -2696,6 +2724,7 @@ function sync_save_partido(equipo_l, equipo_v, resultado_l, resultado_v, info, i
             resultado_l: resultado_l, 
             resultado_v: resultado_v, 
             info: info, 
+            nivel: nivel, 
             inicio: inicio, 
             user_id: user_id 
         },
@@ -2717,6 +2746,16 @@ function delete_partido_local(partido_id) {
 
 function delete_partido_local_populate(tx, partido_id) {
     tx.executeSql('delete from partidos where sincronizar=1 and id='+partido_id);
+    //l('partido' + partido_id + ' borrado.')
+}
+
+function delete_partido_l(partido_id) {
+    //var db = window.openDatabase("rugby", "1.0", "Rugby", 200000);
+    db.transaction(function(tx){delete_partido_l_populate(tx, partido_id)}, errorCB);
+}
+
+function delete_partido_l_populate(tx, partido_id) {
+    tx.executeSql('delete from partidos where id='+partido_id);
     //l('partido' + partido_id + ' borrado.')
 }
 
@@ -2945,7 +2984,53 @@ $(document).on("pageshow","#eventos",function() {
     }else{
         get_partido(partido.id);
     }*/
-
+    
+    if(partido.nivel==1) {
+        
+        $('#eventos .eventos').html('<div class="ui-grid-b">\
+                    <a href="#agregar_evento" class="ui-block-a">\
+                        <span class="ico-evento ico-evento-try"></span>\
+                        <span class="desc">Try</span>\
+                    </a>\
+                    <a href="#agregar_evento" class="ui-block-b">\
+                        <span class="ico-evento ico-evento-drop"></span>\
+                        <span class="desc">Drop</span>\
+                    </a>\
+                    <a href="#agregar_evento" class="ui-block-c">\
+                        <span class="ico-evento ico-evento-penal"></span>\
+                        <span class="desc">Penal</span>\
+                    </a>\
+                </div><!-- /grid-b -->')
+        
+    }else if(partido.nivel==2) {
+        
+        $('#eventos .eventos').html('<div class="ui-grid-b">\
+                    <a href="#agregar_evento" class="ui-block-a">\
+                        <span class="ico-evento ico-evento-try"></span>\
+                        <span class="desc">Try</span>\
+                    </a>\
+                    <a href="#agregar_evento" class="ui-block-b">\
+                        <span class="ico-evento ico-evento-drop"></span>\
+                        <span class="desc">Drop</span>\
+                    </a>\
+                    <a href="#agregar_evento" class="ui-block-c">\
+                        <span class="ico-evento ico-evento-penal"></span>\
+                        <span class="desc">Penal</span>\
+                    </a>\
+                </div><!-- /grid-b -->\
+                <div class="ui-grid-b">\
+                    <a href="#agregar_evento" class="ui-block-a">\
+                        <span class="ico-evento ico-evento-scrum"></span>\
+                        <span class="desc">Scrum</span>\
+                    </a>\
+                    <a href="#agregar_evento" class="ui-block-b">\
+                        <span class="ico-evento ico-evento-line"></span>\
+                        <span class="desc">Line</span>\
+                    </a>\
+                </div><!-- /grid-b -->')
+        
+    }
+    
     $('#partido_eventos a.back').attr('href', '#eventos');
 
 });
@@ -3066,9 +3151,19 @@ $(document).on("pageshow","#agregar_evento",function() {
     } else if (  add_evento=="Penal"  ) {
 
         //$("#agregar_evento .conversion .titulo").text('¿Convertido?')
+        
+        
 
         $("#agregar_evento .penal_eventos").show();
         $("#agregar_evento .conversion").hide();
+        
+        if(partido.nivel==1) {
+            setTimeout(function(){
+                $("#agregar_evento .penal_eventos a:first").trigger('click');
+            }, 200)
+            //
+        }
+        
 
     } else {
 
@@ -3188,6 +3283,24 @@ function ini() {
     if(syncInterval == null){
         syncInterval = setInterval(function(){serverSync()}, 2000);
     }
+    
+    
+    $('.timeline_2 .fin, #partidos_list ').on( {
+        
+        click: function(e){
+            var part_id = $(this).data('partido_id');
+            //alert(part_id);
+            if(confirm('Está seguro que quiere borrar el partido?')){
+                delete_partido(part_id);
+                //alert('borrar')
+                load_partidos_from_local();
+                $.mobile.navigate( "#partidos", { transition : "slide" });
+            }
+
+            e.preventDefault()
+        }
+        
+    }, '.del')
     
 
     //LOGIN
@@ -3354,14 +3467,22 @@ function ini() {
     });
 
     // SAVE PARTIDO
+    
+    $('#nuevo_partido .s_niveles .nivel a').click(function(e){
+        $('#nuevo_partido .s_niveles .nivel').removeClass('activo');
+        $(this).parent().addClass('activo');
+        $('#nuevo_partido .s_niveles input').val($(this).data('nivel'));
+        e.preventDefault();
+    })
+    
     $('#nuevo_partido a#save_partido').click(function(e){
 
-        if( $('#equipo_l').val()!="" && $('#equipo_v').val()!=""  ) {
+        if( $('#equipo_l').val()!="" && $('#equipo_v').val()!="" &&  $('#nivel').val()!="" ) {
 
-            save_partido( $('#equipo_l').val(), $('#equipo_v').val(), $('#info').val(), user_id );
+            save_partido( $('#equipo_l').val(), $('#equipo_v').val(), $('#info').val(), $('input#nivel').val(), user_id );
             isCurrentPartido = true;
         } else {
-            alert("Ingrese los equipos")
+            alert("Ingrese los equipos y elija un nivel.")
             e.preventDefault();
         }
     });
@@ -3375,13 +3496,24 @@ function ini() {
     });
 
     // EVENTOS
+    /*
     $('#eventos .eventos a').click(function(e){
         if($(this).parents('.eventos').hasClass('no_add')){
             e.preventDefault()
         } else {
             add_evento = $(this).find('.desc').text();
         }
-    })
+    })*/
+    
+    $('#eventos .eventos ').on({
+        click: function(e){
+            if($(this).parents('.eventos').hasClass('no_add')){
+                e.preventDefault()
+            } else {
+                add_evento = $(this).find('.desc').text();
+            }
+        }
+    }, 'a');
 
     // EVENTOS PENAL
     $('#agregar_evento .penal_eventos a').click(function(e){
@@ -3552,13 +3684,13 @@ var srvsyncing    = false;
 var srvintentos   = 0;
 
 function serverSync(){
-    mylog('serverSync');
+    //mylog('serverSync');
     if(checkConnection() && !srvsyncing){
         syncing=true;
         srvsyncing=true;
         //clearTimeout(uploadTimeout);
         var query = "SELECT * FROM `syncs` WHERE  state_id <> 2 LIMIT 25";
-        mylog(query);
+        //mylog(query);
         db.transaction(function(tx){
             tx.executeSql(query, [], function(tx, results){
                 if(results.rows.length > 0){
@@ -3566,7 +3698,7 @@ function serverSync(){
                     i = 0;
                     var forsync= new Array();
                     while(i < results.rows.length){
-                        console.log(results.rows.item(i).func+' -> '+results.rows.item(i).vals);
+                        //console.log(results.rows.item(i).func+' -> '+results.rows.item(i).vals);
                         try{
                             var myvals = JSON.parse(results.rows.item(i).vals);
                             forsync[i] = {
@@ -3574,12 +3706,12 @@ function serverSync(){
                                 func: results.rows.item(i).func, 
                                 vals: myvals};
                         }catch(e){
-                            console.log('update syncs set state_id=2 where id='+results.rows.item(i).id);
+                            //console.log('update syncs set state_id=2 where id='+results.rows.item(i).id);
                             updateDB('update syncs set state_id=2 where id='+results.rows.item(i).id);
                         }
                         i++;
                     }
-                    mylog(forsync);
+                    //mylog(forsync);
                     $.ajax({
                         url: service_url+"?action=sync",
                         /*url: responseUrl+'sync',*/
@@ -3589,8 +3721,8 @@ function serverSync(){
                         /*callback: 'callback',*/
                         data: '&forsync='+JSON.stringify(forsync)+'&json=true&sync=true',
                         success: function(data){ 
-                            mylog('success');
-                            mylog(data.content);
+                            //mylog('success');
+                            //mylog(data.content);
                             var oks = '';
                             var bads = '';
                             var sw  = false;
@@ -3610,18 +3742,18 @@ function serverSync(){
                             }
                             if(sw){
                                 updateDB("DELETE FROM `syncs` WHERE id IN (0"+oks+")");
-                                mylog("DELETE FROM `syncs` WHERE id IN (0"+oks+")");
+                                //mylog("DELETE FROM `syncs` WHERE id IN (0"+oks+")");
                             }
                             if(bads !== ''){
                                 updateDB("UPDATE `syncs` SET state_id=2 WHERE id IN (0"+bads+")");
-                                mylog("UPDATE `syncs` SET state_id=2 WHERE id IN (0"+bads+")");
+                                //mylog("UPDATE `syncs` SET state_id=2 WHERE id IN (0"+bads+")");
                             }
                         },beforeSend: function() {
-                            mylog('beforeSend');
+                            //mylog('beforeSend');
                             //showLoading();
                         }, //Show spinner
                         complete: function() {
-                            mylog('complete');
+                            //mylog('complete');
                             syncing=false;
                             srvsyncing=false;
                             //hideLoading();
@@ -3629,12 +3761,12 @@ function serverSync(){
                         error: function (obj, textStatus, errorThrown) {
                             syncing=false;
                             srvsyncing=false;
-                            mylog("status=" + textStatus + ",error=" + errorThrown);
+                            //mylog("status=" + textStatus + ",error=" + errorThrown);
                             //hideLoading();
                         }
                     });
                 }else{
-                    mylog('Nada que sincronizar. '+srvsyncing);
+                    //mylog('Nada que sincronizar. '+srvsyncing);
                     syncing=false;
                     srvsyncing = false;
                 }
@@ -3647,7 +3779,7 @@ function serverSync(){
             srvsyncing=false;
             syncing=false;
         }
-        mylog('ocupado: '+srvsyncing);
+        //mylog('ocupado: '+srvsyncing);
         //clearTimeout(uploadTimeout);
         
     }
