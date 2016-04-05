@@ -3,8 +3,8 @@
         xmlns:gap   = "http://phonegap.com/ns/1.0"
         xmlns:android   = "http://schemas.android.com/apk/res/android"
         id        = "com.pasto.myrugby"
-        versionCode="3"
-        version   = "1.0.3">
+        versionCode="4"
+        version   = "1.0.4">
 
 
 
@@ -61,6 +61,8 @@
                 
                 
                 
+        <!--<gap:plugin name="cordova-plugin-app-version" source="npm" /> 
+        <gap:plugin name="cordova-plugin-appversion" source="npm" />--> 
         <gap:plugin name="cordova-plugin-whitelist" source="npm" /> 
         <gap:plugin name="cordova-plugin-camera" source="npm" version="1.2.0" />
         <gap:plugin name="cordova-plugin-console" source="npm" version="1.0.1" />

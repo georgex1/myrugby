@@ -1888,7 +1888,7 @@ equipo_v VARCHAR(255) NOT NULL, \
 resultado_l INTEGER NOT NULL default '0', \
 resultado_v INTEGER NOT NULL default '0', \
 info TEXT NULL, \
-nivel INTEGER NOT NULL, \
+nivel INTEGER NOT NULL default '3', \
 inicio TEXT NULL, \
 user_id VARCHAR(255) NULL, \
 user_name VARCHAR(255) NULL, \
@@ -3264,8 +3264,48 @@ var syncInterval = null;
 function ini() {
 
     l('INI')
-
-    db = window.openDatabase("rugby", "1.0", "Rugby", 200000);
+    
+    /*cordova.getAppVersion(function (version) {
+        alert('v:' + version);
+    });
+    
+    alert('ver:' +AppVersion.version); // e.g. "1.2.3" 
+    alert('build:' +AppVersion.build); // e.g. 1234 
+    
+    getAppVersion(function(version) {
+        alert('Native App Version: ' + version);
+    });*/
+    
+    //db = window.openDatabase("rugby", "1.0", "Rugby", 200000);
+    
+    db = window.openDatabase("rugby", "", "Rugby", 200000);
+    
+    l(db.version);
+    
+    
+    if(db.version == "1.0") {
+        //alert('old db');	
+        db.changeVersion("1.0", "1.1", 
+            function(tx) {
+                //do initial setup
+                //tx.executeSql("ALTER TABLE partidos ADD COLUMN nivel INTEGER NOT NULL DEFAULT 3;");
+                tx.executeSql('DROP table partidos');
+                tx.executeSql('DROP table eventos');
+                tx.executeSql('DROP table usuarios');
+                tx.executeSql('DROP table puntos');
+            }, 
+            //used for error
+            function(e) {
+                l('error in changeV for v2');
+                l(JSON.stringify(e));
+            },
+            //used for success
+            function() {
+                l('i ran once');
+                l(db.version);
+            }
+        );			
+    }
 
     onDeviceReady_DB();
 
