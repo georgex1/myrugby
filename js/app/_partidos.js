@@ -348,6 +348,8 @@ function load_partidos_from_local_success(tx, results) {
                 niveles[1] = 'Básico';
                 niveles[2] = 'Intermedio';
                 niveles[3] = 'Completo';
+                
+                nivel_id = (this.nivel) ? this.nivel : 3 ;
 
                 var user_pic = "https://graph.facebook.com/"+this.user_id+"/picture?width=150&height=150";
                 html +=        '<li data-sinc="'+this.sincronizar+'" data-user="'+this.user_name+'" data-user_id="'+this.user_id+'">'+
@@ -360,7 +362,7 @@ function load_partidos_from_local_success(tx, results) {
                     '<span class="results">'+this.resultado_l+' &middot; '+this.resultado_v+'</span>'+
                     '<span class="club_name"><p>'+this.equipo_v+'</p></span>'+
                     '</a>'+
-                    '<div class="nivel">' + niveles[this.nivel] + '</div>' +
+                    '<div class="nivel">' + niveles[nivel_id] + '</div>' +
                     '</li>';
             });
 
