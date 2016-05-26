@@ -927,12 +927,15 @@ function save_evento () {
     }
     
     
-    var next = "#partido_eventos";
+    //var next = "#partido_eventos";
+    var next = "#eventos";
     
     setTimeout(function(){
+        
         get_partido(partido.id, function(){
             $.mobile.navigate( next, { transition : "slide" });
             $.mobile.loading("hide");
+            l(next)
         });
     }, 500)
 
@@ -2894,8 +2897,8 @@ $(document).on("pagebeforechange", function(e, ob) {
 
     // SECCIÓN LISTADO DE EVENTOS A DETALLE DE PARTIDO (CON EL BACK DEL CELU... SALIENDO)
     if (ob.options.fromPage && ob.options.fromPage[0].id === "eventos" && ob.toPage[0].id === "partido_eventos" ) {
-        e.preventDefault();
-        $.mobile.navigate( "#nuevo_partido", { transition : "slide" });
+        //e.preventDefault();
+        //$.mobile.navigate( "#nuevo_partido", { transition : "slide" });
     }
 
     // PREVENIR IR A LA PAGINA WELLCOME 1 SI YA ESTÁ LOGUEADO
@@ -2985,7 +2988,7 @@ $(document).on("pageshow","#eventos",function() {
         get_partido(partido.id);
     }*/
     
-    if(partido.nivel==1) {
+    if(parseInt(partido.nivel)==1) {
         
         $('#eventos .eventos').html('<div class="ui-grid-b">\
                     <a href="#agregar_evento" class="ui-block-a">\
@@ -3002,7 +3005,7 @@ $(document).on("pageshow","#eventos",function() {
                     </a>\
                 </div><!-- /grid-b -->')
         
-    }else if(partido.nivel==2) {
+    }else if(parseInt(partido.nivel)==2) {
         
         $('#eventos .eventos').html('<div class="ui-grid-b">\
                     <a href="#agregar_evento" class="ui-block-a">\
@@ -3029,6 +3032,51 @@ $(document).on("pageshow","#eventos",function() {
                     </a>\
                 </div><!-- /grid-b -->')
         
+    } else {
+        
+        $('#eventos .eventos').html('<div class="ui-grid-b">\
+                <a href="#agregar_evento" class="ui-block-a">\
+                    <span class="ico-evento ico-evento-try"></span>\
+                    <span class="desc">Try</span>\
+                </a>\
+                <a href="#agregar_evento" class="ui-block-b">\
+                    <span class="ico-evento ico-evento-drop"></span>\
+                    <span class="desc">Drop</span>\
+                </a>\
+                <a href="#agregar_evento" class="ui-block-c">\
+                    <span class="ico-evento ico-evento-cambio"></span>\
+                    <span class="desc">Cambio</span>\
+                </a>\
+            </div><!-- /grid-b -->\
+            <div class="ui-grid-b">\
+                <a href="#agregar_evento" class="ui-block-a">\
+                    <span class="ico-evento ico-evento-scrum"></span>\
+                    <span class="desc">Scrum</span>\
+                </a>\
+                <a href="#agregar_evento" class="ui-block-b">\
+                    <span class="ico-evento ico-evento-line"></span>\
+                    <span class="desc">Line</span>\
+                </a>\
+                <a href="#agregar_evento" class="ui-block-c">\
+                    <span class="ico-evento ico-evento-pass_fw"></span>\
+                    <span class="desc">Pass Fw</span>\
+                </a>\
+            </div><!-- /grid-b -->\
+            <div class="ui-grid-b">\
+                <a href="#agregar_evento" class="ui-block-a">\
+                    <span class="ico-evento ico-evento-penal"></span>\
+                    <span class="desc">Penal</span>\
+                </a>\
+                <a href="#agregar_evento" class="ui-block-b">\
+                    <span class="ico-evento ico-evento-knock_on"></span>\
+                    <span class="desc">Knock On</span>\
+                </a>\
+                <a href="#agregar_evento" class="ui-block-c">\
+                    <span class="ico-evento ico-evento-tarjeta"></span>\
+                    <span class="desc">Tarjeta</span>\
+                </a>\
+            </div><!-- /grid-b -->');
+            
     }
     
     $('#partido_eventos a.back').attr('href', '#eventos');
@@ -3062,6 +3110,8 @@ $(document).on("pageshow","#nuevo_partido",function() {
 
     reset_partido();
     reset_partido_detalles();
+    
+    $('#eventos .eventos').html('');
 
     $("#nuevo_partido .ui-content input#equipo_l").val('');
     $("#nuevo_partido .ui-content input#equipo_v").val('');
@@ -3240,13 +3290,18 @@ $(document).on("pageshow","#partido_eventos",function() {
 
 
 $(document).on('backbutton', function(e, data){
+    
+    l(data)
 
     e.preventDefault();
 
     var activePage = $.mobile.activePage[0].id;
+    
+    l(activePage)
 
     if(activePage=="partidos") {
-        $.mobile.navigate( "#wellcome_2", { transition : "slide" });
+        //$.mobile.navigate( "#wellcome_2", { transition : "slide" });
+        showConfirmSalir();
     }
 
 });
@@ -3521,19 +3576,23 @@ function ini() {
 
             save_partido( $('#equipo_l').val(), $('#equipo_v').val(), $('#info').val(), $('input#nivel').val(), user_id );
             isCurrentPartido = true;
+            
+            $('input#nivel').val('');
+            $('.niveles .nivel').removeClass('activo');
+            
         } else {
             alert("Ingrese los equipos y elija un nivel.")
             e.preventDefault();
         }
     });
 
-    $('#nuevo_partido input').on( "focus", function(){
+    /*$('#nuevo_partido input').on( "focus", function(){
         $('#nuevo_partido .bottom_btn').css('position', 'relative');
     });
 
     $('#nuevo_partido input').on( "blur", function(){
         $('#nuevo_partido .bottom_btn').css('position', 'fixed');
-    });
+    });*/
 
     // EVENTOS
     /*
@@ -3599,6 +3658,10 @@ function ini() {
 
     // GUARDAR EVENTO
     $("#agregar_evento #marcar").click(function(e){
+        
+        $('#agregar_evento .ui-content .evento img').attr('src', 'images/eventos/default.png');
+        $('#agregar_evento .ui-content .evento .desc').html('');
+        
         save_evento ();
         e.preventDefault();
     });
