@@ -78,7 +78,7 @@ function ini() {
             to = u.hash || '#' + u.pathname.substring(1);
             
             if (to === '#partidos' || to === '#nuevo_partido') {
-                alert(isCurrentPartido)
+                //alert(isCurrentPartido)
                 if(isCurrentPartido===true){
                     
                     if(confirm("Tienes un partido en juego, Seguro deseas salir? El partido en juego quedará como finalizado.")){
