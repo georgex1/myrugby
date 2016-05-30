@@ -90,7 +90,11 @@ $(document).on("pageshow","#partidos",function() {
 
 $(document).on("pageshow","#eventos",function() {
 
-    load_partido_detalles ();
+    setTimeout(function(){ load_partido_detalles () }, 100);
+    setTimeout(function(){ load_partido_detalles () }, 300);
+    setTimeout(function(){ load_partido_detalles () }, 600);
+    setTimeout(function(){ load_partido_detalles () }, 800);
+    setTimeout(function(){ load_partido_detalles () }, 1200);
 
     if(parseInt(partido.nivel)==1) {
         
@@ -184,6 +188,12 @@ $(document).on("pageshow","#eventos",function() {
     }
     
     $('#partido_eventos a.back').attr('href', '#eventos');
+    
+    console.log('poner imagen x defecto');
+    $('#agregar_evento .ui-content .evento img').attr('src', 'images/eventos/default.png');
+
+    console.log('borrar texto de evento');
+    $('#agregar_evento .ui-content .evento .desc').html(" &nbsp; ");
 
 });
 
@@ -264,15 +274,16 @@ $(document).on("pageshow","#nuevo_partido",function() {
 //AGREGAR EVENTO 
 
 $(document).on("pageshow","#agregar_evento",function() {
-    
+
     if (window.cordova) {
         admob.destroyBannerView();
     }
 
     if(checkConnection()){
         get_partido(partido.id);
+        load_partido_detalles();
     } else {
-        load_partido_detalles ();
+        load_partido_detalles();
     }
 
     add_evento_penal = "";

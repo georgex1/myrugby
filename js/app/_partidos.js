@@ -85,6 +85,19 @@ function delete_partido(partido_id) {
     
 }
 
+function terminar_partido (partido_id) {
+    l('terminar partido: '+partido_id)
+    clearInterval(tiempo_corriendo);
+    clearInterval(entretiempo_corriendo);
+    partido.minuto = 0;
+    //guardar como finzalido
+    partido.finalizado = 1;
+    isCurrentPartido = false;
+    updateDB("UPDATE `partidos` set finalizado = 1 where id = "+partido_id+" ");
+    //reset_partido();
+    reset_partido_detalles();
+}
+
 // CARGAR DETALLES DEL PARTIDO
 function load_partido_detalles () {
     
@@ -349,7 +362,7 @@ function load_partidos_from_local_success(tx, results) {
                 niveles[2] = 'Intermedio';
                 niveles[3] = 'Completo';
                 
-                nivel_id = (this.nivel) ? this.nivel : 3 ;
+                var nivel_id = (this.nivel) ? this.nivel : 3 ;
 
                 var user_pic = "https://graph.facebook.com/"+this.user_id+"/picture?width=150&height=150";
                 html +=        '<li data-sinc="'+this.sincronizar+'" data-user="'+this.user_name+'" data-user_id="'+this.user_id+'">'+
@@ -627,19 +640,43 @@ function load_partido_eventos_local_success(tx, results) {
     $('#eventos_list_1').html(html);
     $('#eventos_list_2').html(html2);
 
-    //l(estadisticas)
-
     //ESTADISTICAS
+    
     var html_est = '';
     $.each(estadisticas, function(key, value) {
-
-        if( key=='try' || key=='conversiones' || key=='cambio' || key=='pass_fw' || key=='knock_on' || key=='penales' || key=='tarjeta_amarilla' || key=='tarjeta_roja' ) {
-            html_est += '<li><span>'+this.l.cantidad+'</span><span class="est">'+key.replace('_', ' ')+'</span><span>'+this.v.cantidad+'</span></li>';
-        } else if(key=='drop' || key=='penal' || key=='line' || key=='scrum' || key=='palos') {
-            html_est += '<li><span>'+this.l.valor+'/'+this.l.cantidad+'</span><span class="est">'+key.replace('_', ' ')+'</span><span>'+this.v.valor+'/'+this.v.cantidad+'</span></li>';
+        
+        if(partido.nivel==1) {
+            if(key=='try' || key=='drop' || key=='penal' || key=='penales' || key=='palos' ) {
+                
+                if( key=='try' || key=='conversiones' || key=='cambio' || key=='pass_fw' || key=='knock_on' || key=='penales' || key=='tarjeta_amarilla' || key=='tarjeta_roja' ) {
+                    html_est += '<li><span>'+this.l.cantidad+'</span><span class="est">'+key.replace('_', ' ')+'</span><span>'+this.v.cantidad+'</span></li>';
+                } else if(key=='drop' || key=='penal' || key=='line' || key=='scrum' || key=='palos') {
+                    html_est += '<li><span>'+this.l.valor+'/'+this.l.cantidad+'</span><span class="est">'+key.replace('_', ' ')+'</span><span>'+this.v.valor+'/'+this.v.cantidad+'</span></li>';
+                }
+                
+            }
+        } else if(partido.nivel==2) {
+            if(key=='try' || key=='drop' || key=='penal' || key=='penales'  || key=='line' || key=='scrum' || key=='palos' ) {
+                
+                if( key=='try' || key=='conversiones' || key=='cambio' || key=='pass_fw' || key=='knock_on' || key=='penales' || key=='tarjeta_amarilla' || key=='tarjeta_roja' ) {
+                    html_est += '<li><span>'+this.l.cantidad+'</span><span class="est">'+key.replace('_', ' ')+'</span><span>'+this.v.cantidad+'</span></li>';
+                } else if(key=='drop' || key=='penal' || key=='line' || key=='scrum' || key=='palos') {
+                    html_est += '<li><span>'+this.l.valor+'/'+this.l.cantidad+'</span><span class="est">'+key.replace('_', ' ')+'</span><span>'+this.v.valor+'/'+this.v.cantidad+'</span></li>';
+                }
+                
+            }
+        } else if(partido.nivel==3)  {
+            if( key=='try' || key=='conversiones' || key=='cambio' || key=='pass_fw' || key=='knock_on' || key=='penales' || key=='tarjeta_amarilla' || key=='tarjeta_roja' ) {
+                html_est += '<li><span>'+this.l.cantidad+'</span><span class="est">'+key.replace('_', ' ')+'</span><span>'+this.v.cantidad+'</span></li>';
+            } else if(key=='drop' || key=='penal' || key=='line' || key=='scrum' || key=='palos') {
+                html_est += '<li><span>'+this.l.valor+'/'+this.l.cantidad+'</span><span class="est">'+key.replace('_', ' ')+'</span><span>'+this.v.valor+'/'+this.v.cantidad+'</span></li>';
+            }
         }
 
+        
+
     });
+    
     $('#estadisticas_list').html(html_est);
     
     hideFbShare();

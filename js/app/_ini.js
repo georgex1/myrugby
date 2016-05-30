@@ -78,9 +78,11 @@ function ini() {
             to = u.hash || '#' + u.pathname.substring(1);
             
             if (to === '#partidos' || to === '#nuevo_partido') {
-                if(isCurrentPartido){
+                if(isCurrentPartido===true){
                     
-                    if(!confirm("Tienes un partido en juego, Seguro deseas salir? El partido en juego quedará como finalizado.")){
+                    if(confirm("Tienes un partido en juego, Seguro deseas salir? El partido en juego quedará como finalizado.")){
+                        terminar_partido (partido.id);
+                    } else {
                         e.preventDefault();
                     }
 
@@ -249,10 +251,6 @@ function ini() {
 
     // GUARDAR EVENTO
     $("#agregar_evento #marcar").click(function(e){
-        
-        $('#agregar_evento .ui-content .evento img').attr('src', 'images/eventos/default.png');
-        $('#agregar_evento .ui-content .evento .desc').html('');
-        
         save_evento ();
         e.preventDefault();
     });

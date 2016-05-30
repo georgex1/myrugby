@@ -40,6 +40,10 @@ var isConeLost = false;
 var db = null;
 
 
+var tiempo_corriendo = null;
+var tiempo_cumplido = 0;
+var entretiempo_corriendo = null;
+
 function sp () {
     var datos = { m : m, partido_minuto : partido.minuto, match : partido, add_evento : add_evento, evento_minuto : evento_minuto } 
     l(datos);

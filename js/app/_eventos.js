@@ -124,33 +124,6 @@ var valor_local = 0 ;
 
 function save_evento_local_populate(tx) {
 
-    /*if(add_evento=="Penal"){
-
-        add_evento = "Infracción";
-
-        //if(add_evento_penal!="") {
-
-        tx.executeSql('INSERT INTO eventos (id, evento,minuto,tiempo,user_id,partido_id,equipo,valor)'+
-                      'VALUES (?,?,?,?,?,?,?)',
-                      [evento_local.id,
-                       add_evento,
-                       evento_local.minuto,
-                       evento_local.tiempo,
-                       evento_local.user_id,
-                       evento_local.partido_id,
-                       evento_local.equipo,
-                       valor_local ] );
-
-        if(add_evento_penal=="") {
-            add_evento_penal = "Free Kick";
-        }
-
-        add_evento=add_evento_penal;
-
-        //}
-
-    }*/
-
     if(add_evento=='Try') {
         valor_local = (evento_local.conversion=='s') ? 7 : 5;
     } else if (add_evento=='Drop' || add_evento=='Palos') {
@@ -158,8 +131,6 @@ function save_evento_local_populate(tx) {
     } else if (add_evento=='Line' || add_evento=='Scrum' || add_evento=='Tarjeta') {
         valor_local = (evento_local.conversion=='s') ? 1 : 0;
     }
-
-    //setTimeout(function(){
 
     tx.executeSql('INSERT INTO eventos (id, evento,minuto,tiempo,user_id,partido_id,equipo,valor,serverupdate)'+
                   'VALUES (?,?,?,?,?,?,?,?,?)',
@@ -172,16 +143,11 @@ function save_evento_local_populate(tx) {
                    valor_local, 
                    evento_local.serverupdate] );
 
-    //}, 200)
-
 }
 
 var incremento_valor_local = {}
 
 function save_evento_local_Success() {
-
-    //l("save_evento_local_Success()");
-
 
     if(add_evento=='Try' || add_evento=='Drop' || add_evento=='Palos' ) {
 
@@ -196,13 +162,11 @@ function save_evento_local_Success() {
     } else {
         evento_local_agregado();
     }
-
-
     return true;
 }
 
 function evento_local_agregado() {
-    var next = "#partido_eventos";
+    var next = "#eventos";
 
     if(add_evento=="Infracción"){ 
         if(add_evento_penal=="") { 

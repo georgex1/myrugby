@@ -1,9 +1,5 @@
 //CRONOMETRO
-var tiempo_corriendo = null;
 
-var tiempo_cumplido = 0;
-
-var entretiempo_corriendo = null;
 
 //var et = 1;
 
