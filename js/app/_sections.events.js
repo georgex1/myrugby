@@ -90,15 +90,11 @@ $(document).on("pageshow","#partidos",function() {
 
 $(document).on("pageshow","#eventos",function() {
 
-    setTimeout(function(){ load_partido_detalles () }, 100);
-    setTimeout(function(){ load_partido_detalles () }, 300);
-    setTimeout(function(){ load_partido_detalles () }, 600);
-    setTimeout(function(){ load_partido_detalles () }, 800);
-    setTimeout(function(){ load_partido_detalles () }, 1200);
-    setTimeout(function(){ 
+    setTimeout(function(){
+        load_partido_detalles () 
         $('#agregar_evento .evento img').attr('src', 'images/eventos/default.png');
         $('#agregar_evento .evento .desc').html(" &nbsp; ");
-    }, 1400);
+    }, 100);
 
     if(parseInt(partido.nivel)==1) {
         
@@ -278,10 +274,21 @@ $(document).on("pageshow","#agregar_evento",function() {
     }
 
     if(checkConnection()){
+        
         get_partido(partido.id);
-        load_partido_detalles();
+        
+        if(partido.nivel==1 && add_evento=="Penal") {
+        
+        } else {
+            load_partido_detalles();
+        }
+        
     } else {
-        load_partido_detalles();
+        if(partido.nivel==1 && add_evento=="Penal") {
+        
+        } else {
+            load_partido_detalles();
+        }
     }
 
     add_evento_penal = "";
@@ -323,8 +330,13 @@ $(document).on("pageshow","#agregar_evento",function() {
         $("#agregar_evento .conversion").hide();
     }
 
-    $('#agregar_evento .evento_img').html('<img alt="" src="images/eventos/'+add_evento.toLowerCase().replace(' ', '_')+'.png" />');
-    $('#agregar_evento .evento .desc').text(add_evento);
+    if(partido.nivel==1 && add_evento=="Penal") {
+        
+    } else {
+        $('#agregar_evento .evento_img').html('<img alt="" src="images/eventos/'+add_evento.toLowerCase().replace(' ', '_')+'.png" />');
+        $('#agregar_evento .evento .desc').text(add_evento);
+    }
+    
 
 });
 
