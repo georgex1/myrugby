@@ -3,12 +3,13 @@ var evento_local = {};
 function save_evento () {
     
     $.mobile.loading("show");
+    
     var equipo = $('#sel_team').val().trim();
     var conversion = $('#conversion').val();
     var minuto = parseInt(partido.minuto);
     var minuto_seleccionado_temp = $('.minuto .result').text().split("'");
     var minuto_seleccionado = parseInt(minuto_seleccionado_temp[0]);
-
+    
     if( minuto_seleccionado > minuto ) {
         minuto = minuto_seleccionado;
         clearInterval(tiempo_corriendo);
@@ -27,9 +28,13 @@ function save_evento () {
         m = minuto;
     }
     
+    //l(add_evento);
+    
     if(add_evento=="Penal"){
         add_evento = "Infracción";
     }
+    
+    //l(add_evento);
     
     var evento_id = generateId();
     
@@ -59,14 +64,29 @@ function save_evento () {
     }
     
     //guardar en local..
-    save_evento_local();
-    queueSync('save_evento', JSON.stringify(mdata));
-
+    //alert(partido.nivel)
+    
+    if(partido.nivel==1) {
+        if(add_evento!="Infracción") {
+            //alert('save evento local ' + add_evento)
+            save_evento_local();
+            queueSync('save_evento', JSON.stringify(mdata));
+        }
+    } else {
+        //alert('save evento local ' + add_evento)
+        save_evento_local();
+        queueSync('save_evento', JSON.stringify(mdata));
+    }
+    
+    
+    
+    
     
     if(add_evento=="Infracción"){
 
         if(add_evento_penal=="") { add_evento_penal = "Free Kick"; }
-                        add_evento=add_evento_penal;
+        
+        add_evento=add_evento_penal;
 
         evento_id = generateId();
         mdata.id = evento_id;
@@ -77,9 +97,12 @@ function save_evento () {
 
         //guardar en local..
         save_evento_local();
+        //alert('save evento local ' + add_evento)
         queueSync('save_evento', JSON.stringify(mdata));
+        
+        //l('es un evento infracción')
+        //l(add_evento);
     }
-    
     
     //var next = "#partido_eventos";
     var next = "#eventos";

@@ -95,6 +95,10 @@ $(document).on("pageshow","#eventos",function() {
     setTimeout(function(){ load_partido_detalles () }, 600);
     setTimeout(function(){ load_partido_detalles () }, 800);
     setTimeout(function(){ load_partido_detalles () }, 1200);
+    setTimeout(function(){ 
+        $('#agregar_evento .evento img').attr('src', 'images/eventos/default.png');
+        $('#agregar_evento .evento .desc').html(" &nbsp; ");
+    }, 1400);
 
     if(parseInt(partido.nivel)==1) {
         
@@ -188,12 +192,6 @@ $(document).on("pageshow","#eventos",function() {
     }
     
     $('#partido_eventos a.back').attr('href', '#eventos');
-    
-    console.log('poner imagen x defecto');
-    $('#agregar_evento .ui-content .evento img').attr('src', 'images/eventos/default.png');
-
-    console.log('borrar texto de evento');
-    $('#agregar_evento .ui-content .evento .desc').html(" &nbsp; ");
 
 });
 
@@ -359,11 +357,14 @@ $(document).on("pageshow","#partido_eventos",function() {
 });
 
 $(document).on('backbutton', function(e, data){
-    e.preventDefault();
+    
     var activePage = $.mobile.activePage[0].id;
+    
     if(activePage=="partidos") {
         showConfirmSalir();
+    } else {
+        e.preventDefault();
     }
-
+    
 });
 

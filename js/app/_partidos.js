@@ -551,6 +551,8 @@ function load_partido_eventos_local_success(tx, results) {
             //l(results.rows.item(i))
 
             var evento_name =  results.rows.item(i).evento.toLowerCase().replace(' ', '_');
+            
+            l(evento_name)
 
             if(evento_name=='infracción') { 
 
@@ -646,7 +648,7 @@ function load_partido_eventos_local_success(tx, results) {
     $.each(estadisticas, function(key, value) {
         
         if(partido.nivel==1) {
-            if(key=='try' || key=='drop' || key=='penal' || key=='penales' || key=='palos' ) {
+            if(key=='try' || key=='drop' || key=='palos' ) {
                 
                 if( key=='try' || key=='conversiones' || key=='cambio' || key=='pass_fw' || key=='knock_on' || key=='penales' || key=='tarjeta_amarilla' || key=='tarjeta_roja' ) {
                     html_est += '<li><span>'+this.l.cantidad+'</span><span class="est">'+key.replace('_', ' ')+'</span><span>'+this.v.cantidad+'</span></li>';

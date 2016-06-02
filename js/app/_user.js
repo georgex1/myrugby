@@ -48,9 +48,14 @@ var login = function () {
 
         //AGREGAR USUARIO SI SE LOGUEA
         agregar_usuario(user_id, user_name);
+        
+        $.mobile.loading("show");
 
         //ESPERO 2 SEGUNDOS Y PASO A LA PANTALLA DE BIENVENIDA DE USUARIO
-        setTimeout(function(){ $.mobile.navigate( "#wellcome_2", { transition : "slide" }); }, 2000);
+        setTimeout(function(){ 
+            $.mobile.loading("hide");
+            $.mobile.navigate( "#wellcome_2", { transition : "slide" }); 
+        }, 2000);
 
         $.ajax({
             url: service_url+"?action=save_user_profile",
@@ -84,6 +89,7 @@ var login = function () {
 
                 //OBTENER MI NOMBRE DE USUARIO Y GUARDARLO
                 facebookConnectPlugin.api('/me', null, function(response) {
+                    $.mobile.loading("show");
                     user_name = response.name;
                     $("#wellcome_2 h2").text(user_name);
 
@@ -91,7 +97,10 @@ var login = function () {
                     agregar_usuario(user_id, response.name);
 
                     //ESPERO 2 SEGUNDOS Y PASO A LA PANTALLA DE BIENVENIDA DE USUARIO
-                    setTimeout(function(){ $.mobile.navigate( "#wellcome_2", { transition : "slide" }); }, 2000);
+                    setTimeout(function(){ 
+                        $.mobile.loading("hide");
+                        $.mobile.navigate( "#wellcome_2", { transition : "slide" }); 
+                    }, 2000);
 
                 });
 
